@@ -1,0 +1,3 @@
+[submodule "Assets/WalletConnect for Unity/Scripts/WalletConnectSharp"]
+	path = Assets/WalletConnect for Unity/Scripts/WalletConnectSharp
+	url = git@github.com:WalletConnect/WalletConnectSharp.git
