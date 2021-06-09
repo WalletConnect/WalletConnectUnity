@@ -25,14 +25,14 @@ public class WalletConnectQRImage : BindableMonoBehavior
             return;
         }
 
-        if (walletConnect.Provider == null)
+        if (walletConnect.Protocol == null)
         {
             Debug.LogError("WalletConnectQRImage: WalletConnect object " + walletConnect.gameObject.name + " has null reference, is the object active?");
             enabled = false;
             return;
         }
 
-        var url = walletConnect.Provider.URI;
+        var url = walletConnect.Protocol.URI;
         
         Debug.Log(url);
         

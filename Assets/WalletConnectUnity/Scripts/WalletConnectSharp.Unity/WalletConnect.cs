@@ -37,7 +37,7 @@ namespace WalletConnectSharp.Unity
         {
             get
             {
-                return Provider.URI;
+                return Protocol.URI;
             }
         }
 
@@ -49,7 +49,7 @@ namespace WalletConnectSharp.Unity
 
         public ConnectedEventWithSession ConnectedEventSession;
 
-        public WalletConnectProtocol Provider { get; private set; }
+        public WalletConnectProtocol Protocol { get; private set; }
 
         [SerializeField]
         public ClientMeta AppData;
@@ -71,7 +71,7 @@ namespace WalletConnectSharp.Unity
             
             base.Awake();
             
-            Provider = new WalletConnectProtocol(AppData, _transport);
+            Protocol = new WalletConnectProtocol(AppData, _transport);
 
             if (waitForWalletOnStart)
             {
@@ -101,7 +101,7 @@ namespace WalletConnectSharp.Unity
         {
             Debug.Log("Waiting for Wallet connection");
 
-            var connectTask = Task.Run(() => Provider.Connect());
+            var connectTask = Task.Run(() => Protocol.Connect());
 
             var coroutineInstruction = new WaitForTaskResult<WCSessionData>(connectTask);
             yield return coroutineInstruction;
