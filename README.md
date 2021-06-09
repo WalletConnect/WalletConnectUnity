@@ -1,6 +1,8 @@
 # WalletConnectUnity
 This project is an extension of WalletConnectSharp that brings WalletConnect to Unity. This project has been built using Unity 2019.4.28f1 (LTS), and has been tested using 2020.1.14f1. 
 
+#### :warning: **This is beta software**: This software is currently in beta and under development. Please proceed with caution, and open a new issue if you encounter a bug :warning:
+
 ## Usage
 
 To use WalletConnect in your Unity project, simply create an empty GameObject in your Scene and attach the `WalletConnect` component to your GameObject. Attaching this script will automatically attach any required components as well
