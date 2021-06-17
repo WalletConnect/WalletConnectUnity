@@ -1358,7 +1358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1582169109}
   m_Layer: 5
-  m_Name: '## Car Screen'
+  m_Name: '## NFT Screen'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
