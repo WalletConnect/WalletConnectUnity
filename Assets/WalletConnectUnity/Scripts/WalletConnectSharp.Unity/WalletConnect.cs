@@ -51,10 +51,18 @@ namespace WalletConnectSharp.Unity
 
         public WalletConnectProtocol Protocol { get; private set; }
 
+        public bool Connected
+        {
+            get
+            {
+                return Protocol.Connected;
+            }
+        }
+
         [SerializeField]
         public ClientMeta AppData;
 
-        public override void Awake()
+        protected override void Awake()
         {
             if (persistThroughScenes)
             {

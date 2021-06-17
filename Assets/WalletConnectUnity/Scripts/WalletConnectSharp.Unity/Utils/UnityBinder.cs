@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace WalletConnectSharp.Unity.Utils
@@ -34,6 +35,20 @@ namespace WalletConnectSharp.Unity.Utils
 					foreach (var inject in injections)
 					{
 						inject.InjectInto(obj, field);
+					}
+				}
+			}
+
+			var methods = obj.GetType().GetMethods(bindingFlags);
+			foreach (var method in methods)
+			{
+				var injections = (BindOnClick[]) method.GetCustomAttributes(typeof(BindOnClick), true);
+
+				if (injections.Length > 0)
+				{
+					foreach (var inject in injections)
+					{
+						inject.InjectInto(obj, method);
 					}
 				}
 			}
@@ -96,6 +111,68 @@ namespace WalletConnectSharp.Unity.Utils
 	public abstract class Binder : Attribute
 	{
 		public abstract void InjectInto(Object obj, FieldInfo field);
+	}
+
+	/// <summary>
+	/// Bind a method to an OnClick event that is triggered by a Button.
+	/// 
+	/// By default, the Button is searched on the gameObject attached to the script being bound
+	/// You may specify a GameObject to search in by supplying the Editor path in the constructor
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Method)]
+	public class BindOnClick : Attribute
+	{
+		private string buttonPath;
+
+		public BindOnClick(string buttonPath = "")
+		{
+			this.buttonPath = buttonPath;
+		}
+
+		public void InjectInto(Object obj, MethodInfo method)
+		{
+			GameObject fromObj;
+			if (string.IsNullOrEmpty(buttonPath))
+			{
+				var component = obj as Component;
+				if (component != null)
+				{
+					fromObj = component.gameObject;
+				}
+				else
+				{
+					Debug.LogError("fromObject empty for field " + method.Name +
+					               ", and no default gameObject could be found!");
+					return;
+				}
+			}
+			else
+			{
+				fromObj = GameObject.Find(buttonPath);
+
+				if (fromObj == null)
+				{
+					fromObj = UnityBinder.FindInActiveObjectByName(buttonPath);
+
+					if (fromObj == null)
+					{
+						Debug.LogError(
+							"Could not find GameObject with name " + buttonPath + " for field " + method.Name);
+
+						return;
+					}
+				}
+			}
+
+			var button = fromObj.GetComponent<Button>();
+			if (button == null)
+			{
+				Debug.LogError("No Button Component found on GameObject @ " + buttonPath);
+				return;
+			}
+
+			button.onClick.AddListener(delegate { method.Invoke(obj, new object[0]); });
+		}
 	}
 
 	/// <summary>
@@ -195,6 +272,66 @@ namespace WalletConnectSharp.Unity.Utils
 	}
 
 	/// <summary>
+	/// Attribute that lets a field be injected from FindObjectOfType at runtime
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Field)]
+	public class Inject : Binder
+	{
+
+		public int index = 0;
+
+		public Inject(int index = 0)
+		{
+			this.index = index;
+		}
+
+		public override void InjectInto(Object obj, FieldInfo field)
+		{
+			var injectType = field.FieldType;
+
+			var unityCall = typeof(Object).GetMethod("FindObjectsOfType", new Type[0]);
+			if (unityCall == null)
+			{
+				Debug.LogError("Could not find method GetComponents !!");
+				return;
+			}
+
+
+			var genericMethod = unityCall.MakeGenericMethod(injectType);
+			var rawResult = genericMethod.Invoke(null, null);
+
+			if (rawResult == null)
+			{
+				Debug.LogError("Could not find object of type " + injectType + " for field " + field.Name);
+			}
+			else if (rawResult is object[])
+			{
+				var result = rawResult as object[];
+
+				if (result.Length > 0)
+				{
+					if (index >= result.Length)
+					{
+						Debug.LogError("Could not find object of type " + injectType + " for field " + field.Name +
+						               " at index " + index);
+					}
+					else
+					{
+						var found = result[index];
+
+						field.SetValue(obj, found);
+					}
+				}
+				else
+				{
+					Debug.LogError("Could not find object of type " + injectType + " for field " + field.Name + " in " +
+					               obj.name);
+				}
+			}
+		}
+	}
+
+	/// <summary>
 	/// Attribute to Bind a field to a component at runtime
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field)]
@@ -203,8 +340,115 @@ namespace WalletConnectSharp.Unity.Utils
 
 		public int index = 0;
 		public string fromObject = "";
+		public bool errorWhenFail = true;
 
-		public BindComponent(int index = 0, string fromObject = "")
+		public BindComponent(int index = 0, string fromObject = "", bool errorWhenFailed = true)
+		{
+			this.index = index;
+			this.fromObject = fromObject;
+			this.errorWhenFail = errorWhenFailed;
+		}
+
+		public override void InjectInto(Object obj, FieldInfo field)
+		{
+			var injectType = field.FieldType;
+
+			var unityCall = typeof(GameObject).GetMethod("GetComponents", new Type[0]);
+			if (unityCall == null)
+			{
+				Debug.LogError("Could not find method GetComponents !!");
+				return;
+			}
+
+			GameObject fromObj;
+			if (string.IsNullOrEmpty(fromObject))
+			{
+				var component = obj as Component;
+				if (component != null)
+				{
+					fromObj = component.gameObject;
+				}
+				else
+				{
+					if (errorWhenFail)
+						Debug.LogError("fromObject empty for field " + field.Name +
+						               ", and no default gameObject could be found!");
+					return;
+				}
+			}
+			else
+			{
+				fromObj = GameObject.Find(fromObject);
+
+				if (fromObj == null)
+				{
+					fromObj = UnityBinder.FindInActiveObjectByName(fromObject);
+
+					if (fromObj == null)
+					{
+						if (errorWhenFail)
+							Debug.LogError("Could not find GameObject with name " + fromObject + " for field " +
+							               field.Name);
+
+						return;
+					}
+				}
+			}
+
+			if (injectType == typeof(GameObject) && !string.IsNullOrEmpty(fromObject))
+			{
+				field.SetValue(obj, fromObj);
+				return;
+			}
+
+
+			var genericMethod = unityCall.MakeGenericMethod(injectType);
+			var rawResult = genericMethod.Invoke(fromObj, null);
+
+			if (rawResult == null)
+			{
+				if (errorWhenFail)
+					Debug.LogError("Could not find component of type " + injectType + " for field " + field.Name);
+			}
+			else if (rawResult is object[])
+			{
+				var result = rawResult as object[];
+
+				if (result.Length > 0)
+				{
+					if (index >= result.Length)
+					{
+						if (errorWhenFail)
+							Debug.LogError("Could not find component of type " + injectType + " for field " +
+							               field.Name + " at index " + index);
+					}
+					else
+					{
+						var found = result[index];
+
+						field.SetValue(obj, found);
+					}
+				}
+				else
+				{
+					if (errorWhenFail)
+						Debug.LogError("Could not find component of type " + injectType + " for field " + field.Name);
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Attribute to Bind a field to a component at runtime
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Field)]
+	public class BindComponentInChildren : Binder
+	{
+
+		public int index = 0;
+		public string fromObject = "";
+
+		public BindComponentInChildren(int index = 0, string fromObject = "")
 		{
 			this.index = index;
 			this.fromObject = fromObject;
@@ -214,7 +458,7 @@ namespace WalletConnectSharp.Unity.Utils
 		{
 			var injectType = field.FieldType;
 
-			var unityCall = typeof(GameObject).GetMethod("GetComponents", new Type[0]);
+			var unityCall = typeof(GameObject).GetMethod("GetComponentsInChildren", new Type[0]);
 			if (unityCall == null)
 			{
 				Debug.LogError("Could not find method GetComponents !!");
@@ -293,6 +537,107 @@ namespace WalletConnectSharp.Unity.Utils
 			}
 		}
 	}
+
+	/// <summary>
+	/// Attribute to Bind a field to a component at runtime
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Field)]
+	public class BindComponentInParent : Binder
+	{
+
+		public int index = 0;
+		public string fromObject = "";
+
+		public BindComponentInParent(int index = 0, string fromObject = "")
+		{
+			this.index = index;
+			this.fromObject = fromObject;
+		}
+
+		public override void InjectInto(Object obj, FieldInfo field)
+		{
+			var injectType = field.FieldType;
+
+			var unityCall = typeof(GameObject).GetMethod("GetComponentsInParent", new Type[0]);
+			if (unityCall == null)
+			{
+				Debug.LogError("Could not find method GetComponentInParent !!");
+				return;
+			}
+
+			GameObject fromObj;
+			if (string.IsNullOrEmpty(fromObject))
+			{
+				var component = obj as Component;
+				if (component != null)
+				{
+					fromObj = component.gameObject;
+				}
+				else
+				{
+					Debug.LogError("fromObject empty for field " + field.Name +
+					               ", and no default gameObject could be found!");
+					return;
+				}
+			}
+			else
+			{
+				fromObj = GameObject.Find(fromObject);
+
+				if (fromObj == null)
+				{
+					fromObj = UnityBinder.FindInActiveObjectByName(fromObject);
+
+					if (fromObj == null)
+					{
+						Debug.LogError("Could not find GameObject with name " + fromObject + " for field " +
+						               field.Name);
+
+						return;
+					}
+				}
+			}
+
+			if (injectType == typeof(GameObject) && !string.IsNullOrEmpty(fromObject))
+			{
+				field.SetValue(obj, fromObj);
+				return;
+			}
+
+
+			var genericMethod = unityCall.MakeGenericMethod(injectType);
+			var rawResult = genericMethod.Invoke(fromObj, null);
+
+			if (rawResult == null)
+			{
+				Debug.LogError("Could not find component of type " + injectType + " for field " + field.Name);
+			}
+			else if (rawResult is object[])
+			{
+				var result = rawResult as object[];
+
+				if (result.Length > 0)
+				{
+					if (index >= result.Length)
+					{
+						Debug.LogError("Could not find component of type " + injectType + " for field " + field.Name +
+						               " at index " + index);
+					}
+					else
+					{
+						var found = result[index];
+
+						field.SetValue(obj, found);
+					}
+				}
+				else
+				{
+					Debug.LogError("Could not find component of type " + injectType + " for field " + field.Name);
+				}
+			}
+		}
+	}
+
 
 	[AttributeUsage(AttributeTargets.Field)]
 	public class BindComponentsInChildren : Binder
@@ -427,7 +772,7 @@ namespace WalletConnectSharp.Unity.Utils
 		/// 
 		/// If you override this Awake() function, be sure to call base.Awake()
 		/// </summary>
-		public virtual void Awake()
+		protected virtual void Awake()
 		{
 			UnityBinder.Inject(this);
 		}
