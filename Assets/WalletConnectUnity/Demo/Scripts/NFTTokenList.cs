@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using DefaultNamespace;
 using ERC721ContractLibrary.Contracts.ERC721PresetMinterPauserAutoId.ContractDefinition;
+using NativeWebSocket;
 using Nethereum.Web3;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -13,19 +15,10 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using WalletConnectSharp.NEthereum;
 using WalletConnectSharp.Unity;
-using Vector2 = UnityEngine.Vector2;
+using WalletConnectSharp.Unity.Models;
 
 public class NFTTokenList : MonoBehaviour
 {
-    public class BasicTokenData
-    {
-        public string name;
-        public string image;
-        public string description;
-
-        public Sprite imageSprite;
-    }
-    
     public WalletConnect walletConnect;
     public string[] nftTokenAddresses = new string[0];
 
@@ -46,7 +39,7 @@ public class NFTTokenList : MonoBehaviour
     {
         var dataTask = Task.Run(AsyncRebuildTokenList);
         
-        var coroutineInstruction = new WaitForTaskResult<List<BasicTokenData>>(dataTask);
+        var coroutineInstruction = new WaitForTaskResult<List<NFTTokenData>>(dataTask);
         yield return coroutineInstruction;
 
         var task = coroutineInstruction.Source;
@@ -63,6 +56,8 @@ public class NFTTokenList : MonoBehaviour
             var imageUI = tokenObj.GetComponentInChildren<Image>();
             var textUI = tokenObj.GetComponentInChildren<Text>();
 
+            yield return token.DownloadImageSprite();
+
             imageUI.sprite = token.imageSprite;
             textUI.text = token.name;
         }
@@ -72,7 +67,7 @@ public class NFTTokenList : MonoBehaviour
     {
         UnityWebRequest uwr = UnityWebRequest.Get(url);
 
-        yield return uwr;
+        yield return uwr.SendWebRequest();
 
         if (uwr.isNetworkError)
         {
@@ -92,57 +87,26 @@ public class NFTTokenList : MonoBehaviour
     {
         TaskCompletionSource<T> dataSource = new TaskCompletionSource<T>(TaskCreationOptions.None);
 
-        StartCoroutine(CoroutineWebRequest(url, dataSource));
+        MainThreadUtil.Run(delegate
+        {
+            StartCoroutine(CoroutineWebRequest(url, dataSource));
+        });
 
         await dataSource.Task;
 
         return dataSource.Task.Result;
     }
 
-    private IEnumerator CoroutineImageDownloadRequest(string url, TaskCompletionSource<Sprite> task)
-    {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
-
-        yield return www;
-
-        if (www.isNetworkError)
-        {
-            task.SetException(new IOException(www.error));
-        }
-        else
-        {
-            Texture2D imageTexture = DownloadHandlerTexture.GetContent(www);
-
-            Rect rect = new Rect(0, 0, imageTexture.width, imageTexture.height);
-            Sprite imageSprite = Sprite.Create(imageTexture, rect, new Vector2(0.5f, 0.5f), 100);
-
-            task.SetResult(imageSprite);
-        }
-    }
-
-    private async Task<BasicTokenData> AsyncDownloadImage(BasicTokenData data)
-    {
-        TaskCompletionSource<Sprite> imageSource = new TaskCompletionSource<Sprite>(TaskCreationOptions.None);
-
-        StartCoroutine(CoroutineImageDownloadRequest(data.image, imageSource));
-
-        await imageSource.Task;
-
-        data.imageSprite = imageSource.Task.Result;
-
-        return data;
-    }
-
-    public async Task<List<BasicTokenData>> AsyncRebuildTokenList()
+    public async Task<List<NFTTokenData>> AsyncRebuildTokenList()
     {
         if (!walletConnect.Connected)
-            return new List<BasicTokenData>();
+            return new List<NFTTokenData>();
 
         var provider = walletConnect.Protocol.CreateProviderWithInfura(infuraId);
         var web3 = new Web3(provider);
         var owner = walletConnect.Protocol.Accounts[0];
-        List<Task<BasicTokenData>> tokenTasks = new List<Task<BasicTokenData>>();
-        
+        List<Task<NFTTokenData>> tokenTasks = new List<Task<NFTTokenData>>();
+
         foreach (var nftToken in nftTokenAddresses)
         {
             var tokenCountCall = new BalanceOfFunction()
@@ -169,8 +133,7 @@ public class NFTTokenList : MonoBehaviour
                             new TokenURIFunction()
                             {
                                 TokenId = tokenIdTask.Result
-                            })).Unwrap().ContinueWith(tokenUri => AsyncWebRequest<BasicTokenData>(tokenUri.Result)).Unwrap().ContinueWith(
-                        task1 => AsyncDownloadImage(task1.Result)).Unwrap();
+                            })).Unwrap().ContinueWith(tokenUri => AsyncWebRequest<NFTTokenData>(tokenUri.Result)).Unwrap();
                 
                 tokenTasks.Add(task);
 

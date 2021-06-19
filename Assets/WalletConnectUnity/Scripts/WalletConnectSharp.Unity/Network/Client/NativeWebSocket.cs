@@ -18,6 +18,7 @@ namespace NativeWebSocket
 {
     public class MainThreadUtil : MonoBehaviour
     {
+        private long mainThreadId;
         public static MainThreadUtil Instance { get; private set; }
         public static SynchronizationContext synchronizationContext { get; private set; }
 
@@ -39,7 +40,10 @@ namespace NativeWebSocket
 
         public static void Run(UnityAction action)
         {
-            Instance.actions.Enqueue(action);
+            if (Thread.CurrentThread.ManagedThreadId == Instance.mainThreadId)
+                action(); //If we trying to run this in the main thread, then we can just run it now
+            else
+                Instance.actions.Enqueue(action);
         }
 
         void Update()
@@ -59,6 +63,7 @@ namespace NativeWebSocket
         {
             gameObject.hideFlags = HideFlags.HideAndDontSave;
             DontDestroyOnLoad(gameObject);
+            mainThreadId = Thread.CurrentThread.ManagedThreadId;
         }
     }
 
