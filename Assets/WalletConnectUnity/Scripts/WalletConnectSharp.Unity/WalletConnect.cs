@@ -123,5 +123,29 @@ namespace WalletConnectSharp.Unity
             
             onConnected.Invoke(task.Result);
         }
+
+        public void OpenMobileWallet()
+        {
+#if UNITY_ANDROID
+            var signingURL = ConnectURL.Split('@')[0];
+
+            Application.OpenURL(signingURL);
+#elif UNITY_IOS
+            //TODO Implement IOS Deep Linking
+#else
+            return;
+#endif
+        }
+
+        public void OpenDeepLink()
+        {
+#if UNITY_ANDROID
+            Application.OpenURL(ConnectURL);
+#elif UNITY_IOS
+            //TODO Implement IOS Deep Linking
+#else
+            return;
+#endif
+        }
     }
 }
