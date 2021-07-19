@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/WalletConnectUnity/Demo/Scenes/SampleScene.unity
+    guid: 424df8a514da7e34ab000969350e40e6
   m_configObjects: {}

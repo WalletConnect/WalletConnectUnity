@@ -642,13 +642,10 @@ namespace WalletConnectSharp.Unity.Utils
 	[AttributeUsage(AttributeTargets.Field)]
 	public class BindComponentsInChildren : Binder
 	{
-
-		public int index = 0;
 		public string fromObject = "";
 
 		public BindComponentsInChildren(string fromObject = "")
 		{
-			this.index = index;
 			this.fromObject = fromObject;
 		}
 

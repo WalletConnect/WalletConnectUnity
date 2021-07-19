@@ -18,6 +18,14 @@ namespace WalletConnectSharp.Unity.Network
         private UnityAsyncWebSocket client;
         private EventDelegator _eventDelegator;
 
+        public bool Opened
+        {
+            get
+            {
+                return opened;
+            }
+        }
+
         public void AttachEventDelegator(EventDelegator eventDelegator)
         {
             this._eventDelegator = eventDelegator;
@@ -100,6 +108,8 @@ namespace WalletConnectSharp.Unity.Network
         public async Task Close()
         {
             await client.Close();
+
+            this.opened = false;
         }
 
         public async Task SendMessage(NetworkMessage message)
