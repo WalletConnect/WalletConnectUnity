@@ -2,7 +2,12 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Common.Logging;
-using Nethereum.JsonRpc.Client;
+#if UNITY_ANDROID || UNITY_IOS || UNITY_WEBGL
+using RpcClientNS = WalletConnectSharp.NEthereum.Client.Shims;
+#else
+using RpcClientNS = Nethereum.JsonRpc.Client;
+#endif
+using NSClient = Nethereum.JsonRpc.Client;
 using Newtonsoft.Json;
 using WalletConnectSharp.Core;
 using WalletConnectSharp.NEthereum.Client;
@@ -26,7 +31,7 @@ namespace WalletConnectSharp.NEthereum
         /// A new NEtehereum IClient instance that uses Infura as the read client and the WalletConnectProtocol
         /// for write client. The returned IClient instance can be used as a Provider in an NEthereum Web3 instance
         /// </returns>
-        public static IClient CreateProviderWithInfura(this WalletConnectProtocol protocol, string infruaId, string network = "mainnet", ILog log = null, AuthenticationHeaderValue authenticationHeader = null)
+        public static NSClient.IClient CreateProviderWithInfura(this WalletConnectProtocol protocol, string infruaId, string network = "mainnet", ILog log = null, AuthenticationHeaderValue authenticationHeader = null)
         {
             string url = "https://" + network + ".infura.io/v3/" + infruaId;
 
@@ -48,12 +53,14 @@ namespace WalletConnectSharp.NEthereum
         /// WalletConnectProtocol for write client. The returned IClient instance can be used as a
         /// Provider in an NEthereum Web3 instance
         /// </returns>
-        public static IClient CreateProvider(this WalletConnectProtocol protocol, Uri url, ILog log = null,
+        public static NSClient.IClient CreateProvider(this WalletConnectProtocol protocol, Uri url, ILog log = null,
             AuthenticationHeaderValue authenticationHeader = null, JsonSerializerSettings serializerSettings = null,
             HttpClientHandler clientHandler = null)
         {
+            
+            
             return CreateProvider(protocol,
-                new RpcClient(url, authenticationHeader, serializerSettings,
+                new RpcClientNS.RpcClient(url, authenticationHeader, serializerSettings,
                     clientHandler, log)
             );
         }
@@ -71,7 +78,7 @@ namespace WalletConnectSharp.NEthereum
         /// WalletConnectProtocol for write client. The returned IClient instance can be used as a
         /// Provider in an NEthereum Web3 instance
         /// </returns>
-        public static IClient CreateProvider(this WalletConnectProtocol protocol, IClient readClient)
+        public static NSClient.IClient CreateProvider(this WalletConnectProtocol protocol, NSClient.IClient readClient)
         {
             if (!protocol.Connected)
             {
