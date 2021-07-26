@@ -2,11 +2,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Common.Logging;
-#if UNITY_ANDROID || UNITY_IOS || UNITY_WEBGL
 using RpcClientNS = WalletConnectSharp.NEthereum.Client.Shims;
-#else
-using RpcClientNS = Nethereum.JsonRpc.Client;
-#endif
 using NSClient = Nethereum.JsonRpc.Client;
 using Newtonsoft.Json;
 using WalletConnectSharp.Core;
