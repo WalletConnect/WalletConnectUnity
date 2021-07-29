@@ -107,6 +107,11 @@ namespace WalletConnectSharp.Unity
             }
             
             Session = new WalletConnectSession(AppData, customBridgeUrl, _transport);
+            
+            #if UNITY_ANDROID || UNITY_IOS
+            //Whenever we send a request to the Wallet, we want to open the Wallet app
+            Session.OnSend += (sender, session) => OpenMobileWallet();
+            #endif
 
             if (waitForWalletOnStart)
             {
