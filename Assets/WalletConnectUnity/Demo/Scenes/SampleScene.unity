@@ -309,6 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   persistThroughScenes: 1
   waitForWalletOnStart: 1
+  customBridgeUrl: 
   ConnectedEvent:
     m_PersistentCalls:
       m_Calls:

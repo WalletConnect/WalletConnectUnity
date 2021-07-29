@@ -44,6 +44,8 @@ namespace WalletConnectSharp.Unity
         public bool persistThroughScenes = true;
 
         public bool waitForWalletOnStart = true;
+        
+        public string customBridgeUrl;
 
         public ConnectedEventNoSession ConnectedEvent;
 
@@ -91,8 +93,13 @@ namespace WalletConnectSharp.Unity
             _instance = this;
             
             base.Awake();
+
+            if (string.IsNullOrWhiteSpace(customBridgeUrl))
+            {
+                customBridgeUrl = null;
+            }
             
-            Session = new WalletConnectSession(AppData, transport: _transport);
+            Session = new WalletConnectSession(AppData, customBridgeUrl, _transport);
 
             if (waitForWalletOnStart)
             {
@@ -122,7 +129,7 @@ namespace WalletConnectSharp.Unity
         {
             Debug.Log("Waiting for Wallet connection");
 
-            var connectTask = Task.Run(() => Protocol.ConnectSession());
+            var connectTask = Task.Run(() => Session.ConnectSession());
 
             var coroutineInstruction = new WaitForTaskResult<WCSessionData>(connectTask);
             yield return coroutineInstruction;
