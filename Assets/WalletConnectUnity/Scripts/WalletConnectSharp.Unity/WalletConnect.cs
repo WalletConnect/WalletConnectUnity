@@ -49,7 +49,20 @@ namespace WalletConnectSharp.Unity
 
         public ConnectedEventWithSession ConnectedEventSession;
 
-        public WalletConnectSession Protocol { get; private set; }
+        public WalletConnectSession Session
+        {
+            get;
+            private set;
+        }
+
+        [Obsolete("Use Session instead of Protocol")]
+        public WalletConnectSession Protocol {
+            get { return Session; }
+            private set
+            {
+                Session = value;
+            }
+        }
 
         public bool Connected
         {
@@ -79,7 +92,7 @@ namespace WalletConnectSharp.Unity
             
             base.Awake();
             
-            Protocol = new WalletConnectSession(AppData, transport: _transport);
+            Session = new WalletConnectSession(AppData, transport: _transport);
 
             if (waitForWalletOnStart)
             {

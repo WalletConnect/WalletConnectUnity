@@ -103,6 +103,10 @@ public class NFTTokenList : MonoBehaviour
             return new List<NFTTokenData>();
 
         var provider = walletConnect.Protocol.CreateProviderWithInfura(infuraId);
+
+        var address = walletConnect.Protocol.Accounts[0];
+        var response = await WalletConnect.Instance.Protocol.EthSignTypedData(address, "This is a test message");
+        
         var web3 = new Web3(provider);
         var owner = walletConnect.Protocol.Accounts[0];
         List<Task<NFTTokenData>> tokenTasks = new List<Task<NFTTokenData>>();
