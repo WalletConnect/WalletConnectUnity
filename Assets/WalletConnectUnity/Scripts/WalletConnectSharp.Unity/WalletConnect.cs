@@ -14,7 +14,6 @@ namespace WalletConnectSharp.Unity
     [RequireComponent(typeof(NativeWebSocketTransport))]
     public class WalletConnect : BindableMonoBehavior
     {
-
         [Serializable]
         public class ConnectedEventNoSession : UnityEvent { }
         [Serializable]
@@ -30,6 +29,14 @@ namespace WalletConnectSharp.Unity
             get
             {
                 return _instance;
+            }
+        }
+        
+        public static WalletConnectSession ActiveSession
+        {
+            get
+            {
+                return _instance.Session;
             }
         }
 
