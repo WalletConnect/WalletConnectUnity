@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using WalletConnectSharp.Core.Models.Ethereum;
+using WalletConnectSharp.Core.Models.Ethereum.Types;
 using WalletConnectSharp.Unity;
+using WalletConnectUnity.Demo.Scripts;
 
 public class DemoActions : MonoBehaviour
 {
     public Text resultText;
     public Text accountText;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +56,7 @@ public class DemoActions : MonoBehaviour
     {
         var address = WalletConnect.ActiveSession.Accounts[0];
 
-        var results = await WalletConnect.ActiveSession.EthPersonalSign(address, "This is a test!");
+        var results = await WalletConnect.ActiveSession.EthSignTypedData(address, DemoSignTypedData.ExampleData, DemoSignTypedData.Eip712Domain);
 
         resultText.text = results;
         resultText.gameObject.SetActive(true);
