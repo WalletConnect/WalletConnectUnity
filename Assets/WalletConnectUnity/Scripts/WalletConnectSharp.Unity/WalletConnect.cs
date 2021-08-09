@@ -14,7 +14,6 @@ namespace WalletConnectSharp.Unity
     [RequireComponent(typeof(NativeWebSocketTransport))]
     public class WalletConnect : BindableMonoBehavior
     {
-
         [Serializable]
         public class ConnectedEventNoSession : UnityEvent { }
         [Serializable]
@@ -32,6 +31,14 @@ namespace WalletConnectSharp.Unity
                 return _instance;
             }
         }
+        
+        public static WalletConnectSession ActiveSession
+        {
+            get
+            {
+                return _instance.Session;
+            }
+        }
 
         public string ConnectURL
         {
@@ -44,12 +51,27 @@ namespace WalletConnectSharp.Unity
         public bool persistThroughScenes = true;
 
         public bool waitForWalletOnStart = true;
+        
+        public string customBridgeUrl;
 
         public ConnectedEventNoSession ConnectedEvent;
 
         public ConnectedEventWithSession ConnectedEventSession;
 
-        public WalletConnectProtocol Protocol { get; private set; }
+        public WalletConnectSession Session
+        {
+            get;
+            private set;
+        }
+
+        [Obsolete("Use Session instead of Protocol")]
+        public WalletConnectSession Protocol {
+            get { return Session; }
+            private set
+            {
+                Session = value;
+            }
+        }
 
         public bool Connected
         {
@@ -78,8 +100,18 @@ namespace WalletConnectSharp.Unity
             _instance = this;
             
             base.Awake();
+
+            if (string.IsNullOrWhiteSpace(customBridgeUrl))
+            {
+                customBridgeUrl = null;
+            }
             
-            Protocol = new WalletConnectProtocol(AppData, _transport);
+            Session = new WalletConnectSession(AppData, customBridgeUrl, _transport);
+            
+            #if UNITY_ANDROID || UNITY_IOS
+            //Whenever we send a request to the Wallet, we want to open the Wallet app
+            Session.OnSend += (sender, session) => OpenMobileWallet();
+            #endif
 
             if (waitForWalletOnStart)
             {
@@ -109,7 +141,7 @@ namespace WalletConnectSharp.Unity
         {
             Debug.Log("Waiting for Wallet connection");
 
-            var connectTask = Task.Run(() => Protocol.Connect());
+            var connectTask = Task.Run(() => Session.ConnectSession());
 
             var coroutineInstruction = new WaitForTaskResult<WCSessionData>(connectTask);
             yield return coroutineInstruction;
