@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "98241FFBA007DP",
         "name": "com.DefaultCompany.WalletConnectUnity",
-        "processId": 16360,
+        "processId": 3199,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -24,6 +24,12 @@
             "deviceId": "98241FFBA007DP",
             "name": "com.DefaultCompany.WalletConnectUnity",
             "processId": 16360,
+            "exited": false
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 3199,
             "exited": false
         }
     ],

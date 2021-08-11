@@ -53,6 +53,8 @@ namespace WalletConnectSharp.Unity
         public bool waitForWalletOnStart = true;
         
         public string customBridgeUrl;
+        
+        public int chainId = 1;
 
         public ConnectedEventNoSession ConnectedEvent;
 
@@ -106,7 +108,7 @@ namespace WalletConnectSharp.Unity
                 customBridgeUrl = null;
             }
             
-            Session = new WalletConnectSession(AppData, customBridgeUrl, _transport);
+            Session = new WalletConnectSession(AppData, customBridgeUrl, _transport, null, chainId);
             
             #if UNITY_ANDROID || UNITY_IOS
             //Whenever we send a request to the Wallet, we want to open the Wallet app

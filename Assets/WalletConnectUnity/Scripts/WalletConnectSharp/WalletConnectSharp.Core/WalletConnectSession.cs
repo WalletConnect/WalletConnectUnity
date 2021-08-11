@@ -25,11 +25,11 @@ namespace WalletConnectSharp.Core
         public event EventHandler<WalletConnectSession> OnSessionConnect;
         public event EventHandler<WalletConnectSession> OnSend;
 
-        public int? NetworkId { get; private set; }
+        public int NetworkId { get; private set; }
         
         public string[] Accounts { get; private set; }
 
-        public int? ChainId { get; private set; }
+        public int ChainId { get; private set; }
 
         public ClientMeta ClientMetadata { get; set; }
         
@@ -60,7 +60,7 @@ namespace WalletConnectSharp.Core
             this.NetworkId = savedSession.NetworkID;
         }
 
-        public WalletConnectSession(ClientMeta clientMeta, string bridgeUrl = null, ITransport transport = null, ICipher cipher = null, int? chainId = 1, EventDelegator eventDelegator = null) : base(transport, cipher, eventDelegator)
+        public WalletConnectSession(ClientMeta clientMeta, string bridgeUrl = null, ITransport transport = null, ICipher cipher = null, int chainId = 1, EventDelegator eventDelegator = null) : base(transport, cipher, eventDelegator)
         {
             if (clientMeta == null)
             {
@@ -154,9 +154,9 @@ namespace WalletConnectSharp.Core
             var request = new WCSessionUpdate(new WCSessionData()
             {
                 approved = false,
-                chainId = null,
+                chainId = 0,
                 accounts = null,
-                networkId = null
+                networkId = 0
             });
 
             await SendRequest(request);
@@ -317,6 +317,8 @@ namespace WalletConnectSharp.Core
                 Connected = true;
 
                 ChainId = response.chainId;
+
+                NetworkId = response.networkId;
 
                 Accounts = response.accounts;
 
