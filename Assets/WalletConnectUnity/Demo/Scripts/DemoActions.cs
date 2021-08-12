@@ -52,6 +52,24 @@ public class DemoActions : MonoBehaviour
         resultText.gameObject.SetActive(true);
     }
     
+    public async void SignTransaction()
+    {
+        var address = WalletConnect.ActiveSession.Accounts[0];
+        var transaction = new TransactionData()
+        {
+            data = "0x",
+            from = address,
+            to = address,
+            gas = "21000",
+            value = "0",
+        };
+
+        var results = await WalletConnect.ActiveSession.EthSignTransaction(transaction);
+
+        resultText.text = results;
+        resultText.gameObject.SetActive(true);
+    }
+    
     public async void SignTypedData()
     {
         var address = WalletConnect.ActiveSession.Accounts[0];
