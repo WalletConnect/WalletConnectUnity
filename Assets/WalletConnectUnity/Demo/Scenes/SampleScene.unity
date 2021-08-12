@@ -1008,7 +1008,7 @@ GameObject:
   - component: {fileID: 874900345}
   - component: {fileID: 874900344}
   m_Layer: 5
-  m_Name: eth_sendRawTransaction
+  m_Name: eth_signTransaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2017,7 +2017,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: eth_sendRawTransaction
+  m_Text: eth_signTransaction
 --- !u!222 &1590846441
 CanvasRenderer:
   m_ObjectHideFlags: 0

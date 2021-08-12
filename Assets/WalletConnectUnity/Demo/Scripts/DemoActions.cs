@@ -44,6 +44,7 @@ public class DemoActions : MonoBehaviour
             to = address,
             gas = "21000",
             value = "0",
+            chainId = 2,
         };
 
         var results = await WalletConnect.ActiveSession.EthSendTransaction(transaction);
@@ -62,6 +63,9 @@ public class DemoActions : MonoBehaviour
             to = address,
             gas = "21000",
             value = "0",
+            chainId = 2,
+            nonce = "0",
+            gasPrice = "50000000000"
         };
 
         var results = await WalletConnect.ActiveSession.EthSignTransaction(transaction);
