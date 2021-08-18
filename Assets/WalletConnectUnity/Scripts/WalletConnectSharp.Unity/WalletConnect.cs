@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DefaultNamespace;
@@ -26,6 +27,8 @@ namespace WalletConnectSharp.Unity
         }
         
         public AppEntry SelectedWallet { get; set; }
+
+        public Wallets DefaultWallet;
 
         [Serializable]
         public class ConnectedEventNoSession : UnityEvent { }
@@ -122,6 +125,11 @@ namespace WalletConnectSharp.Unity
             }
             
             Session = new WalletConnectSession(AppData, customBridgeUrl, _transport, null, chainId);
+
+            if (DefaultWallet != Wallets.None)
+            {
+                StartCoroutine(SetupDefaultWallet());
+            }
             
             #if UNITY_ANDROID || UNITY_IOS
             //Whenever we send a request to the Wallet, we want to open the Wallet app
@@ -131,6 +139,20 @@ namespace WalletConnectSharp.Unity
             if (waitForWalletOnStart)
             {
                 StartConnect();
+            }
+        }
+
+        private IEnumerator SetupDefaultWallet()
+        {
+            yield return FetchWalletList(false);
+
+            var wallet = SupportedWallets.Values.FirstOrDefault(a => a.name.ToLower() == DefaultWallet.ToString().ToLower());
+
+            if (wallet != null)
+            {
+                yield return DownloadImagesFor(wallet.id);
+                SelectedWallet = wallet;
+                Debug.Log("Setup default wallet " + wallet.name);
             }
         }
 
@@ -171,7 +193,52 @@ namespace WalletConnectSharp.Unity
             onConnected.Invoke(task.Result);
         }
 
-        public IEnumerator FetchWalletList()
+        private IEnumerator DownloadImagesFor(string id, string[] sizes = null)
+        {
+            if (sizes == null)
+            {
+                sizes = new string[] {"sm", "md", "lg"};
+            }
+            
+            var data = SupportedWallets[id];
+
+            foreach (var size in sizes)
+            {
+                var url = "https://registry.walletconnect.org/logo/" + size + "/" + id + ".jpeg";
+
+                using (UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture(url))
+                {
+                    yield return imageRequest.SendWebRequest();
+
+                    if (imageRequest.isNetworkError)
+                    {
+                        Debug.Log("Error Getting Wallet Icon: " + imageRequest.error);
+                    }
+                    else
+                    {
+                        var texture = ((DownloadHandlerTexture) imageRequest.downloadHandler).texture;
+                        var sprite = Sprite.Create(texture,
+                            new Rect(0.0f, 0.0f, texture.width, texture.height),
+                            new Vector2(0.5f, 0.5f), 100.0f);
+
+                        if (size == "sm")
+                        {
+                            data.smallIcon = sprite;
+                        }
+                        else if (size == "md")
+                        {
+                            data.medimumIcon = sprite;
+                        }
+                        else if (size == "lg")
+                        {
+                            data.largeIcon = sprite;
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerator FetchWalletList(bool downloadImages = true)
         {
             using (UnityWebRequest webRequest = UnityWebRequest.Get("https://registry.walletconnect.org/data/wallets.json"))
             {
@@ -188,45 +255,12 @@ namespace WalletConnectSharp.Unity
 
                     SupportedWallets = JsonConvert.DeserializeObject<Dictionary<string, AppEntry>>(json);
 
-                    string[] sizes = new string[] {"sm", "md", "lg"};
-                    foreach (var id in SupportedWallets.Keys)
+                    if (downloadImages)
                     {
-                        var data = SupportedWallets[id];
-
-                        foreach (var size in sizes)
+                        foreach (var id in SupportedWallets.Keys)
                         {
-                            var url = "https://registry.walletconnect.org/logo/" + size + "/" + id + ".jpeg";
-
-                            using (UnityWebRequest imageRequest = UnityWebRequestTexture.GetTexture(url))
-                            {
-                                yield return imageRequest.SendWebRequest();
-
-                                if (imageRequest.isNetworkError)
-                                {
-                                    Debug.Log("Error Getting Wallet Icon: " + imageRequest.error);
-                                }
-                                else
-                                {
-                                    var texture = ((DownloadHandlerTexture) imageRequest.downloadHandler).texture;
-                                    var sprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height),
-                                        new Vector2(0.5f, 0.5f), 100.0f);
-                                    
-                                    if (size == "sm")
-                                    {
-                                        data.smallIcon = sprite;
-                                    } 
-                                    else if (size == "md")
-                                    {
-                                        data.medimumIcon = sprite;
-                                    } 
-                                    else if (size == "lg")
-                                    {
-                                        data.largeIcon = sprite;
-                                    }
-                                }
-                            }
+                            yield return DownloadImagesFor(id);
                         }
-                        
                     }
                 }
             }
