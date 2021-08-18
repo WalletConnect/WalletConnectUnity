@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using DefaultNamespace;
 using NativeWebSocket;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -17,6 +20,9 @@ namespace WalletConnectSharp.Unity.Network
 
         private UnityAsyncWebSocket client;
         private EventDelegator _eventDelegator;
+        private bool wasPaused;
+        private string currentUrl;
+        private List<string> subscribedTopics = new List<string>();
 
         public bool Opened
         {
@@ -49,6 +55,8 @@ namespace WalletConnectSharp.Unity.Network
                 url = url.Replace("https", "wss");
             else if (url.StartsWith("http"))
                 url = url.Replace("http", "ws");
+
+            currentUrl = url;
             
             TaskCompletionSource<object> openEventCompleted = new TaskCompletionSource<object>(TaskCreationOptions.None);
             TaskCompletionSource<object> createdObjectCompleted = new TaskCompletionSource<object>(TaskCreationOptions.None);
@@ -108,6 +116,8 @@ namespace WalletConnectSharp.Unity.Network
         public async Task Close()
         {
             await client.Close();
+            
+            Destroy(client);
 
             this.opened = false;
         }
@@ -129,8 +139,12 @@ namespace WalletConnectSharp.Unity.Network
                 Topic = topic
             });
 
-            opened = true;
+            if (!subscribedTopics.Contains(topic))
+            {
+                subscribedTopics.Add(topic);
+            }
 
+            opened = true;
         }
 
         public async Task Subscribe<T>(string topic, EventHandler<JsonRpcResponseEvent<T>> callback) where T : JsonRpcResponse
@@ -146,5 +160,35 @@ namespace WalletConnectSharp.Unity.Network
 
             _eventDelegator.ListenFor(topic, callback);
         }
+
+        #if UNITY_IOS
+        private IEnumerator OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+            {
+                Debug.Log("IOS Pausing");
+                wasPaused = true;
+                
+                //We need to close the Websocket Properly
+                var closeTask = Task.Run(Close);
+                var coroutineInstruction = new WaitForTask(closeTask);
+                yield return coroutineInstruction;
+            }
+            else if (wasPaused)
+            {
+                Debug.Log("IOS Resuming");
+                var openTask = Task.Run(() => Open(currentUrl));
+                var coroutineInstruction = new WaitForTask(openTask);
+                yield return coroutineInstruction;
+
+                foreach (var topic in subscribedTopics)
+                {
+                    var subTask = Task.Run(() => Subscribe(topic));
+                    var coroutineSubInstruction = new WaitForTask(subTask);
+                    yield return coroutineSubInstruction;
+                }
+            }
+        }
+        #endif
     }
 }
