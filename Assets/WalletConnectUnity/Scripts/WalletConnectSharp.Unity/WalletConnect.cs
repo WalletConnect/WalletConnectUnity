@@ -266,6 +266,22 @@ namespace WalletConnectSharp.Unity
             }
         }
 
+        private async void OnDestroy()
+        {
+            if (!Session.Connected) 
+                return;
+            
+            await Session.Disconnect();
+        }
+
+        public async void Disconnect()
+        {
+            if (!Session.Connected)
+                return;
+            
+            await Session.Disconnect();
+        }
+
         public void OpenMobileWallet(AppEntry selectedWallet)
         {
             SelectedWallet = selectedWallet;
@@ -286,7 +302,7 @@ namespace WalletConnectSharp.Unity
             var signingURL = ConnectURL.Split('@')[0];
 
             Application.OpenURL(signingURL);
-#elif UNITY_IOS
+#elif UNITY_IOS || UNITY_WEBGL
             if (SelectedWallet == null)
             {
                 throw new NotImplementedException(

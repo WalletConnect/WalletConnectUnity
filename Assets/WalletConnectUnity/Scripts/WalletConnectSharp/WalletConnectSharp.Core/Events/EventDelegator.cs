@@ -81,6 +81,11 @@ namespace WalletConnectSharp.Core.Events
 
         public void Dispose()
         {
+            Clear();
+        }
+
+        public void Clear()
+        {
             Listeners.Clear();
         }
     }

@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Models.Ethereum;
-using WalletConnectSharp.Core.Models.Ethereum.Types;
 using WalletConnectSharp.Unity;
 using WalletConnectUnity.Demo.Scripts;
 
@@ -13,9 +12,18 @@ public class DemoActions : MonoBehaviour
     public Text accountText;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        
+        WalletConnect.ActiveSession.OnSessionDisconnect += ActiveSessionOnDisconnect;
+    }
+
+    private void ActiveSessionOnDisconnect(object sender, EventArgs e)
+    {
+        gameObject.SetActive(false);
+        foreach (var platformToggle in transform.parent.GetComponentsInChildren<PlatformToggle>(true))
+        {
+            platformToggle.MakeActive();
+        }
     }
 
     // Update is called once per frame
@@ -82,5 +90,12 @@ public class DemoActions : MonoBehaviour
 
         resultText.text = results;
         resultText.gameObject.SetActive(true);
+    }
+
+    public async void DisconnectAndConnect()
+    {
+        await WalletConnect.ActiveSession.Disconnect();
+
+        WalletConnect.Instance.StartConnect();
     }
 }
