@@ -76,14 +76,14 @@ namespace WalletConnectSharp.Unity
 
         public ConnectedEventWithSession ConnectedEventSession;
 
-        public WalletConnectSession Session
+        public WalletConnectUnitySession Session
         {
             get;
             private set;
         }
 
         [Obsolete("Use Session instead of Protocol")]
-        public WalletConnectSession Protocol {
+        public WalletConnectUnitySession Protocol {
             get { return Session; }
             private set
             {
@@ -124,7 +124,7 @@ namespace WalletConnectSharp.Unity
                 customBridgeUrl = null;
             }
             
-            Session = new WalletConnectSession(AppData, customBridgeUrl, _transport, null, chainId);
+            Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, null, chainId);
 
             if (DefaultWallet != Wallets.None)
             {
@@ -178,7 +178,7 @@ namespace WalletConnectSharp.Unity
         {
             Debug.Log("Waiting for Wallet connection");
 
-            var connectTask = Task.Run(() => Session.ConnectSession());
+            var connectTask = Task.Run(() => Session.SourceConnectSession());
 
             var coroutineInstruction = new WaitForTaskResult<WCSessionData>(connectTask);
             yield return coroutineInstruction;

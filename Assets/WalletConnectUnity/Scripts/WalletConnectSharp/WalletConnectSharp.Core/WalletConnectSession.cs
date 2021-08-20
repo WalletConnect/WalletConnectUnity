@@ -134,7 +134,7 @@ namespace WalletConnectSharp.Core
             this._key = this._keyRaw.ToHex().ToLower();
         }
 
-        public async Task<WCSessionData> ConnectSession()
+        public virtual async Task<WCSessionData> ConnectSession()
         {
             if (!base.TransportConnected)
             {

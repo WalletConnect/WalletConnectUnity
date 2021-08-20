@@ -96,6 +96,6 @@ public class DemoActions : MonoBehaviour
     {
         await WalletConnect.ActiveSession.Disconnect();
 
-        WalletConnect.Instance.StartConnect();
+        await WalletConnect.ActiveSession.Connect();
     }
 }
