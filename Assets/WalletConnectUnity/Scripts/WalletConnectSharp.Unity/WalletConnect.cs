@@ -49,7 +49,7 @@ namespace WalletConnectSharp.Unity
             }
         }
         
-        public static WalletConnectSession ActiveSession
+        public static WalletConnectUnitySession ActiveSession
         {
             get
             {
