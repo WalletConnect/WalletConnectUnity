@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -140,6 +141,37 @@ namespace WalletConnectSharp.Unity
             {
                 StartConnect();
             }
+        }
+
+        public SavedSession SaveSession()
+        {
+            return Session.SaveSession();
+        }
+
+        public void SaveSession(Stream stream, bool leaveStreamOpen = true)
+        {
+            Session.SaveSession(stream, leaveStreamOpen);
+        }
+
+        public void ResumeSession(SavedSession data)
+        {
+            Session = new WalletConnectUnitySession(data, this, _transport);
+            chainId = Session.ChainId;
+            
+            #if UNITY_ANDROID || UNITY_IOS
+            //Whenever we send a request to the Wallet, we want to open the Wallet app
+            Session.OnSend += (sender, session) => OpenMobileWallet();
+            #endif
+
+            if (waitForWalletOnStart)
+            {
+                StartConnect();
+            }
+        }
+
+        public void ResumeSession(Stream stream, bool leaveStreamOpen = true)
+        {
+            ResumeSession(WalletConnectSession.ReadSession(stream, leaveStreamOpen));
         }
 
         private IEnumerator SetupDefaultWallet()

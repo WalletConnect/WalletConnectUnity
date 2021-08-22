@@ -1,3 +1,4 @@
+using System.IO;
 using System.Threading.Tasks;
 using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Events;
@@ -43,6 +44,16 @@ namespace WalletConnectSharp.Unity
             unityObjectSource.StartConnect();
 
             return await eventCompleted.Task;
+        }
+
+        public void ResumeSession(SavedSession session)
+        {
+            unityObjectSource.ResumeSession(session);
+        }
+
+        public void ResumeSession(Stream stream, bool leaveStreamOpen = true)
+        {
+            unityObjectSource.ResumeSession(stream, leaveStreamOpen);
         }
     }
 }
