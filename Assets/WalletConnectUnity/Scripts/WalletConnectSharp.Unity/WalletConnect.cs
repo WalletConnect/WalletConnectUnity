@@ -334,7 +334,7 @@ namespace WalletConnectSharp.Unity
             var signingURL = ConnectURL.Split('@')[0];
 
             Application.OpenURL(signingURL);
-#elif UNITY_IOS || UNITY_WEBGL
+#elif UNITY_IOS
             if (SelectedWallet == null)
             {
                 throw new NotImplementedException(
@@ -360,6 +360,7 @@ namespace WalletConnectSharp.Unity
                 Application.OpenURL(signingUrl);
             }
 #else
+            Debug.Log("Platform does not support deep linking");
             return;
 #endif
         }
@@ -392,6 +393,7 @@ namespace WalletConnectSharp.Unity
                 Application.OpenURL(url);
             }
 #else
+            Debug.Log("Platform does not support deep linking");
             return;
 #endif
         }

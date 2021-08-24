@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using WalletConnectSharp.Core;
+using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Core.Models.Ethereum;
 using WalletConnectSharp.Unity;
 using WalletConnectUnity.Demo.Scripts;
