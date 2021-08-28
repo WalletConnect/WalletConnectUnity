@@ -109,7 +109,7 @@ namespace WalletConnectSharp.Core
 
         public void CreateNewSession(bool force = false)
         {
-            if (Connected && !force)
+            if (SessionConnected && !force)
             {
                 throw new IOException("You must disconnect the current session before you can create a new one");
             }
@@ -119,9 +119,8 @@ namespace WalletConnectSharp.Core
             _handshakeTopic = topicGuid.ToString();
 
             clientId = Guid.NewGuid().ToString();
-            
+
             GenerateKey();
-            
         }
         
         private void GenerateKey()
@@ -376,10 +375,10 @@ namespace WalletConnectSharp.Core
         {
             if (data == null) return;
 
-            bool wasConnected = Connected;
+            bool wasConnected = SessionConnected;
 
             //We are connected if we are approved
-            Connected = data.approved;
+            SessionConnected = data.approved;
 
             ChainId = data.chainId;
 
@@ -406,7 +405,7 @@ namespace WalletConnectSharp.Core
 
         private void HandleSessionDisconnect(string msg, string topic = "disconnect", bool createNewSession = true)
         {
-            Connected = false;
+            SessionConnected = false;
 
             Events.Trigger(topic, new ErrorResponse(msg));
 
@@ -433,7 +432,7 @@ namespace WalletConnectSharp.Core
         /// <returns></returns>
         public SavedSession SaveSession()
         {
-            if (!Connected)
+            if (!SessionConnected)
             {
                 return null;
             }

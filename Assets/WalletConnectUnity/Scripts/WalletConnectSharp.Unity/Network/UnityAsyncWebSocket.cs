@@ -11,6 +11,14 @@ public class UnityAsyncWebSocket : MonoBehaviour
     [HideInInspector]
     public ITransport source;
     private WebSocket client;
+
+    public bool Connected
+    {
+        get
+        {
+            return client.State == WebSocketState.Open;
+        }
+    }
     
     [HideInInspector]
     public string url;

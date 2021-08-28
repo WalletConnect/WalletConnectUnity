@@ -24,6 +24,14 @@ namespace WalletConnectSharp.Unity.Network
         private string currentUrl;
         private List<string> subscribedTopics = new List<string>();
 
+        public bool Connected
+        {
+            get
+            {
+                return client != null && client.Connected && opened;
+            }
+        }
+
         public bool Opened
         {
             get

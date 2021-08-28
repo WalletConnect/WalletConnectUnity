@@ -155,6 +155,23 @@ namespace WalletConnectSharp.Unity
 
         public void ResumeSession(SavedSession data)
         {
+            if (Session != null && Session.Connected)
+            {
+                //First check to see if these sessions match
+                var currentSession = Session.SaveSession();
+
+                if (currentSession != data)
+                {
+                    var oldSession = Session;
+                    oldSession.Disconnect().ContinueWith(_ => oldSession.Dispose());
+                }
+                else
+                {
+                    //If its the same session and were already connected then we're good
+                    return; 
+                }
+            }
+            
             Session = new WalletConnectUnitySession(data, this, _transport);
             chainId = Session.ChainId;
             
