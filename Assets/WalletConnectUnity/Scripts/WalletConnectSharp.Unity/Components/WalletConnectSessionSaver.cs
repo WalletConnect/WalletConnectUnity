@@ -63,6 +63,22 @@ public class WalletConnectSessionSaver : BindableMonoBehavior
         }
     }
 
+    public void CLearSession()
+    {
+        if (PlayerPrefs.HasKey(SESSION_KEY))
+        {
+            PlayerPrefs.DeleteKey(SESSION_KEY);
+            
+            PlayerPrefs.Save();
+
+            Debug.Log("[WalletConnect] Session cleared");
+        }
+        else
+        {
+            Debug.Log("[WalletConnect] No session to clear");
+        }
+    }
+
     private void Start()
     {
         if (resumeOnStart) 
