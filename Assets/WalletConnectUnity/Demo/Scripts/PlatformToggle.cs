@@ -14,7 +14,7 @@ public class PlatformToggle : MonoBehaviour
     public void MakeActive()
     {
 #if UNITY_ANDROID
-        gameObject.SetActive(activeOnMobile);
+        gameObject.SetActive(activeOnAndroid);
 #elif UNITY_IOS
         gameObject.SetActive(activeOniOS);
 #else
