@@ -5,14 +5,14 @@ using UnityEditor;
 using UnityEngine;
 using WalletConnectSharp.Unity;
 
-[CustomEditor(typeof(WalletConnectSessionSaver))]
-public class WalletConnectSessionSaverEditor : Editor
+[CustomEditor(typeof(WalletConnect))]
+public class WalletConnectEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        var saver = (WalletConnectSessionSaver) target;
+        var saver = (WalletConnect) target;
 
         if (GUILayout.Button("Clear Session"))
         {

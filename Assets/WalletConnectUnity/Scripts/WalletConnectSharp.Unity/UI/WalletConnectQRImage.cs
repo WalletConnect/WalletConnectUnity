@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,15 +25,13 @@ public class WalletConnectQRImage : BindableMonoBehavior
             enabled = false;
             return;
         }
+        
+        walletConnect.ConnectionStarted += WalletConnectOnConnectionStarted;
+    }
 
-        if (walletConnect.Protocol == null)
-        {
-            Debug.LogError("WalletConnectQRImage: WalletConnect object " + walletConnect.gameObject.name + " has null reference, is the object active?");
-            enabled = false;
-            return;
-        }
-
-        var url = walletConnect.Protocol.URI;
+    private void WalletConnectOnConnectionStarted(object sender, EventArgs e)
+    {
+        var url = walletConnect.Session.URI;
         
         Debug.Log(url);
         

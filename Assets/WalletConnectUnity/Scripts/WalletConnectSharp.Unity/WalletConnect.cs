@@ -1,16 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using DefaultNamespace;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Unity.Models;
 using WalletConnectSharp.Unity.Network;
@@ -21,6 +18,8 @@ namespace WalletConnectSharp.Unity
     [RequireComponent(typeof(NativeWebSocketTransport))]
     public class WalletConnect : BindableMonoBehavior
     {
+        public const string SessionKey = "__WALLETCONNECT_SESSION__";
+        
         public Dictionary<string, AppEntry> SupportedWallets
         {
             get;
@@ -35,6 +34,8 @@ namespace WalletConnectSharp.Unity
         public class ConnectedEventNoSession : UnityEvent { }
         [Serializable]
         public class ConnectedEventWithSession : UnityEvent<WCSessionData> { }
+        
+        public event EventHandler ConnectionStarted;
 
         [BindComponent]
         private NativeWebSocketTransport _transport;
@@ -65,9 +66,9 @@ namespace WalletConnectSharp.Unity
             }
         }
 
-        public bool persistThroughScenes = true;
-
-        public bool waitForWalletOnStart = true;
+        public bool autoSaveAndResume = true;
+        public bool connectOnAwake = false;
+        public bool connectOnStart = true;
         
         public string customBridgeUrl;
         
@@ -103,92 +104,124 @@ namespace WalletConnectSharp.Unity
         [SerializeField]
         public ClientMeta AppData;
 
-        protected override void Awake()
+        protected override async void Awake()
         {
-            if (persistThroughScenes)
+            if (_instance != null)
             {
-                if (_instance != null)
-                {
-                    Destroy(gameObject);
-                    return;
-                }
-
-                DontDestroyOnLoad(gameObject);
+                Destroy(gameObject);
+                return;
             }
-            
+
+            DontDestroyOnLoad(gameObject);
+
             _instance = this;
-            
+
             base.Awake();
 
+            if (connectOnAwake)
+            {
+                await Connect();
+            }
+        }
+        
+        async void Start() 
+        {
+            if (connectOnStart && !connectOnAwake)
+            {
+                await Connect();
+            }
+        }
+
+        public async Task Connect()
+        {
+            SavedSession savedSession = null;
+            if (PlayerPrefs.HasKey(SessionKey))
+            {
+                var json = PlayerPrefs.GetString(SessionKey);
+                savedSession = JsonConvert.DeserializeObject<SavedSession>(json);
+            }
+            
             if (string.IsNullOrWhiteSpace(customBridgeUrl))
             {
                 customBridgeUrl = null;
             }
             
-            Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, null, chainId);
-
-            if (DefaultWallet != Wallets.None)
+            if (Session != null)
             {
-                StartCoroutine(SetupDefaultWallet());
+                var currentKey = Session.KeyData;
+                if (savedSession != null)
+                {
+                    if (currentKey != savedSession.Key)
+                    {
+                        if (Session.Connected)
+                        {
+                            await Session.Disconnect();
+                        }
+                        else if (Session.TransportConnected)
+                        {
+                            await Session.Transport.Close();
+                        }
+                    }
+                    else if (!Session.Connected && !Session.Connecting)
+                    {
+                        StartCoroutine(SetupDefaultWallet());
+
+                        #if UNITY_ANDROID || UNITY_IOS
+                        //Whenever we send a request to the Wallet, we want to open the Wallet app
+                        Session.OnSend += (sender, session) => OpenMobileWallet();
+                        #endif
+                        
+                        StartConnect();
+
+                        return;
+                    }
+                    else
+                    {
+                        return; //Nothing to do
+                    }
+                }
+                else if (Session.Connected)
+                {
+                    await Session.Disconnect();
+                }
+                else if (Session.TransportConnected)
+                {
+                    await Session.Transport.Close();
+                } 
+                else if (Session.Connecting)
+                {
+                    //We are still connecting, do nothing
+                    return;
+                }
             }
             
+            if (savedSession != null)
+            {
+                Session = new WalletConnectUnitySession(savedSession, this, _transport);
+            }
+            else
+            {
+                Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, null, chainId);
+            }
+            
+            Session.OnSessionDisconnect += SessionOnOnSessionDisconnect;
+            
+            StartCoroutine(SetupDefaultWallet());
+
             #if UNITY_ANDROID || UNITY_IOS
             //Whenever we send a request to the Wallet, we want to open the Wallet app
             Session.OnSend += (sender, session) => OpenMobileWallet();
             #endif
-
-            if (waitForWalletOnStart)
-            {
-                StartConnect();
-            }
-        }
-
-        public SavedSession SaveSession()
-        {
-            return Session.SaveSession();
-        }
-
-        public void SaveSession(Stream stream, bool leaveStreamOpen = true)
-        {
-            Session.SaveSession(stream, leaveStreamOpen);
-        }
-
-        public void ResumeSession(SavedSession data)
-        {
-            if (Session != null && Session.Connected)
-            {
-                //First check to see if these sessions match
-                var currentSession = Session.SaveSession();
-
-                if (currentSession != data)
-                {
-                    var oldSession = Session;
-                    oldSession.Disconnect().ContinueWith(_ => oldSession.Dispose());
-                }
-                else
-                {
-                    //If its the same session and were already connected then we're good
-                    return; 
-                }
-            }
             
-            Session = new WalletConnectUnitySession(data, this, _transport);
-            chainId = Session.ChainId;
-            
-            #if UNITY_ANDROID || UNITY_IOS
-            //Whenever we send a request to the Wallet, we want to open the Wallet app
-            Session.OnSend += (sender, session) => OpenMobileWallet();
-            #endif
-
-            if (waitForWalletOnStart)
-            {
-                StartConnect();
-            }
+            StartConnect();
         }
 
-        public void ResumeSession(Stream stream, bool leaveStreamOpen = true)
+        private void SessionOnOnSessionDisconnect(object sender, EventArgs e)
         {
-            ResumeSession(WalletConnectSession.ReadSession(stream, leaveStreamOpen));
+            if (autoSaveAndResume && PlayerPrefs.HasKey(SessionKey))
+            {
+                PlayerPrefs.DeleteKey(SessionKey);
+            }
         }
 
         private IEnumerator SetupDefaultWallet()
@@ -205,7 +238,7 @@ namespace WalletConnectSharp.Unity
             }
         }
 
-        public void StartConnect()
+        private void StartConnect()
         {
             ConnectedEventWithSession allEvents = new ConnectedEventWithSession();
                 
@@ -228,6 +261,11 @@ namespace WalletConnectSharp.Unity
             Debug.Log("Waiting for Wallet connection");
 
             var connectTask = Task.Run(() => Session.SourceConnectSession());
+
+            if (ConnectionStarted != null)
+            {
+                ConnectionStarted(this, EventArgs.Empty);
+            }
 
             var coroutineInstruction = new WaitForTaskResult<WCSessionData>(connectTask);
             yield return coroutineInstruction;
@@ -317,18 +355,43 @@ namespace WalletConnectSharp.Unity
 
         private async void OnDestroy()
         {
-            if (!Session.Connected) 
-                return;
-            
-            await Session.Disconnect();
+            await SaveOrDisconnect();
         }
 
-        public async void Disconnect()
+        private async void OnApplicationQuit()
+        {
+            await SaveOrDisconnect();
+        }
+
+        private async void OnApplicationPause(bool pauseStatus)
+        {
+            if (pauseStatus)
+            {
+                await SaveOrDisconnect();
+            }
+            else if (PlayerPrefs.HasKey(SessionKey) && autoSaveAndResume)
+            {
+                await Connect();
+            }
+        }
+
+        private async Task SaveOrDisconnect()
         {
             if (!Session.Connected)
                 return;
             
-            await Session.Disconnect();
+            if (autoSaveAndResume)
+            {
+                var session = Session.SaveSession();
+                var json = JsonConvert.SerializeObject(session);
+                PlayerPrefs.SetString(SessionKey, json);
+
+                await Session.Transport.Close();
+            }
+            else
+            {
+                await Session.Disconnect();
+            }
         }
 
         public void OpenMobileWallet(AppEntry selectedWallet)
@@ -413,6 +476,11 @@ namespace WalletConnectSharp.Unity
             Debug.Log("Platform does not support deep linking");
             return;
 #endif
+        }
+
+        public void CLearSession()
+        {
+            PlayerPrefs.DeleteKey(SessionKey);
         }
     }
 }

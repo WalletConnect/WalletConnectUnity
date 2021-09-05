@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using WalletConnectSharp.Core;
@@ -10,6 +11,8 @@ namespace WalletConnectSharp.Unity
     public class WalletConnectUnitySession : WalletConnectSession
     {
         private WalletConnect unityObjectSource;
+
+        public bool Connecting { get; private set; }
         
         public WalletConnectUnitySession(SavedSession savedSession, WalletConnect source, ITransport transport = null, ICipher cipher = null, EventDelegator eventDelegator = null) : base(savedSession, transport, cipher, eventDelegator)
         {
@@ -21,9 +24,20 @@ namespace WalletConnectSharp.Unity
             this.unityObjectSource = source;
         }
 
+        internal string KeyData
+        {
+            get
+            {
+                return base._key;
+            }
+        }
+
         internal async Task<WCSessionData> SourceConnectSession()
         {
-            return await base.ConnectSession();
+            Connecting = true;
+            var result = await base.ConnectSession();
+            Connecting = false;
+            return result;
         }
 
         public override async Task Connect()
@@ -40,20 +54,10 @@ namespace WalletConnectSharp.Unity
             {
                 eventCompleted.SetResult(arg0);
             });
-            
-            unityObjectSource.StartConnect();
+
+            await unityObjectSource.Connect();
 
             return await eventCompleted.Task;
-        }
-
-        public void ResumeSession(SavedSession session)
-        {
-            unityObjectSource.ResumeSession(session);
-        }
-
-        public void ResumeSession(Stream stream, bool leaveStreamOpen = true)
-        {
-            unityObjectSource.ResumeSession(stream, leaveStreamOpen);
         }
     }
 }

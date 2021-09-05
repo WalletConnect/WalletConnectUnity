@@ -59,6 +59,8 @@ namespace WalletConnectSharp.Core
             this.Accounts = savedSession.Accounts;
                         
             this.NetworkId = savedSession.NetworkID;
+
+            this.SessionConnected = true;
         }
 
         public WalletConnectSession(ClientMeta clientMeta, string bridgeUrl = null, ITransport transport = null, ICipher cipher = null, int chainId = 1, EventDelegator eventDelegator = null) : base(transport, cipher, eventDelegator)
@@ -103,6 +105,8 @@ namespace WalletConnectSharp.Core
             this.DappMetadata = clientMeta;
             this.ChainId = chainId;
             this._bridgeUrl = bridgeUrl;
+
+            this.SessionConnected = false;
             
             CreateNewSession();
         }
@@ -147,7 +151,23 @@ namespace WalletConnectSharp.Core
             
             ListenToTopic(this._handshakeTopic);
 
-            var result = await CreateSession();
+            WCSessionData result;
+            if (!SessionConnected)
+            {
+                result = await CreateSession();
+            }
+            else
+            {
+                result = new WCSessionData()
+                {
+                    accounts = Accounts,
+                    approved = true,
+                    chainId = ChainId,
+                    networkId = NetworkId,
+                    peerId = PeerId,
+                    peerMeta = WalletMetadata
+                };
+            }
             
             if (OnSessionConnect != null)
                 OnSessionConnect(this, this);
