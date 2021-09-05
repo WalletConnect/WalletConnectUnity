@@ -49,17 +49,7 @@ namespace WalletConnectSharp.Unity
 
         public override async Task<WCSessionData> ConnectSession()
         {
-            await unityObjectSource.Connect();
-
-            return new WCSessionData()
-            {
-                accounts = unityObjectSource.Session.Accounts,
-                approved = unityObjectSource.Session.SessionConnected,
-                chainId = unityObjectSource.Session.ChainId,
-                networkId = unityObjectSource.Session.NetworkId,
-                peerId = unityObjectSource.Session.PeerId,
-                peerMeta = unityObjectSource.Session.WalletMetadata
-            };
+            return await unityObjectSource.Connect();
         }
     }
 }

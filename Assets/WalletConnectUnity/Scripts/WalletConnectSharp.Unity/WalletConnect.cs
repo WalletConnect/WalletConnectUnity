@@ -132,7 +132,7 @@ namespace WalletConnectSharp.Unity
             }
         }
 
-        public async Task Connect()
+        public async Task<WCSessionData> Connect()
         {
             SavedSession savedSession = null;
             if (PlayerPrefs.HasKey(SessionKey))
@@ -170,14 +170,12 @@ namespace WalletConnectSharp.Unity
                         //Whenever we send a request to the Wallet, we want to open the Wallet app
                         Session.OnSend += (sender, session) => OpenMobileWallet();
                         #endif
-                        
-                        StartConnect();
 
-                        return;
+                        return await CompleteConnect();
                     }
                     else
                     {
-                        return; //Nothing to do
+                        return null; //Nothing to do
                     }
                 }
                 else if (Session.Connected)
@@ -191,7 +189,7 @@ namespace WalletConnectSharp.Unity
                 else if (Session.Connecting)
                 {
                     //We are still connecting, do nothing
-                    return;
+                    return null;
                 }
             }
             
@@ -212,8 +210,32 @@ namespace WalletConnectSharp.Unity
             //Whenever we send a request to the Wallet, we want to open the Wallet app
             Session.OnSend += (sender, session) => OpenMobileWallet();
             #endif
+
+            return await CompleteConnect();
+        }
+
+        private async Task<WCSessionData> CompleteConnect()
+        {
+            Debug.Log("Waiting for Wallet connection");
             
-            StartConnect();
+            if (ConnectionStarted != null)
+            {
+                ConnectionStarted(this, EventArgs.Empty);
+            }
+            
+            ConnectedEventWithSession allEvents = new ConnectedEventWithSession();
+                
+            allEvents.AddListener(delegate(WCSessionData arg0)
+            {
+                ConnectedEvent.Invoke();
+                ConnectedEventSession.Invoke(arg0);
+            });
+
+            var session = await Session.SourceConnectSession();
+            
+            allEvents.Invoke(session);
+
+            return session;
         }
 
         private void SessionOnOnSessionDisconnect(object sender, EventArgs e)
@@ -236,48 +258,6 @@ namespace WalletConnectSharp.Unity
                 SelectedWallet = wallet;
                 Debug.Log("Setup default wallet " + wallet.name);
             }
-        }
-
-        private void StartConnect()
-        {
-            ConnectedEventWithSession allEvents = new ConnectedEventWithSession();
-                
-            allEvents.AddListener(delegate(WCSessionData arg0)
-            {
-                ConnectedEvent.Invoke();
-                ConnectedEventSession.Invoke(arg0);
-            });
-                
-            WaitForWalletConnection(allEvents);
-        }
-
-        public void WaitForWalletConnection(UnityEvent<WCSessionData> onConnected)
-        {
-            StartCoroutine(ConnectAsync(onConnected));
-        }
-
-        private IEnumerator ConnectAsync(UnityEvent<WCSessionData> onConnected)
-        {
-            Debug.Log("Waiting for Wallet connection");
-
-            var connectTask = Task.Run(() => Session.SourceConnectSession());
-
-            if (ConnectionStarted != null)
-            {
-                ConnectionStarted(this, EventArgs.Empty);
-            }
-
-            var coroutineInstruction = new WaitForTaskResult<WCSessionData>(connectTask);
-            yield return coroutineInstruction;
-
-            var task = coroutineInstruction.Source;
-
-            if (task.Exception != null)
-            {
-                throw task.Exception;
-            }
-            
-            onConnected.Invoke(task.Result);
         }
 
         private IEnumerator DownloadImagesFor(string id, string[] sizes = null)
