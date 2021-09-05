@@ -12,6 +12,8 @@ namespace WalletConnectSharp.Unity
     {
         private WalletConnect unityObjectSource;
 
+        private bool listenerAdded;
+
         public bool Connecting { get; private set; }
         
         public WalletConnectUnitySession(SavedSession savedSession, WalletConnect source, ITransport transport = null, ICipher cipher = null, EventDelegator eventDelegator = null) : base(savedSession, transport, cipher, eventDelegator)
@@ -47,17 +49,17 @@ namespace WalletConnectSharp.Unity
 
         public override async Task<WCSessionData> ConnectSession()
         {
-            TaskCompletionSource<WCSessionData> eventCompleted =
-                new TaskCompletionSource<WCSessionData>(TaskCreationOptions.None);
-            //Block this call and redirect to the source object
-            unityObjectSource.ConnectedEventSession.AddListener(delegate(WCSessionData arg0)
-            {
-                eventCompleted.SetResult(arg0);
-            });
-
             await unityObjectSource.Connect();
 
-            return await eventCompleted.Task;
+            return new WCSessionData()
+            {
+                accounts = unityObjectSource.Session.Accounts,
+                approved = unityObjectSource.Session.SessionConnected,
+                chainId = unityObjectSource.Session.ChainId,
+                networkId = unityObjectSource.Session.NetworkId,
+                peerId = unityObjectSource.Session.PeerId,
+                peerMeta = unityObjectSource.Session.WalletMetadata
+            };
         }
     }
 }
