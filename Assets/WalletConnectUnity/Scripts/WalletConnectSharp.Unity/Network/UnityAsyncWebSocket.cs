@@ -16,7 +16,7 @@ public class UnityAsyncWebSocket : MonoBehaviour
     {
         get
         {
-            return client.State == WebSocketState.Open;
+            return client != null && client.State == WebSocketState.Open;
         }
     }
     

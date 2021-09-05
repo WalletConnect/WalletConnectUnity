@@ -494,8 +494,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultWallet: 1
-  persistThroughScenes: 1
-  waitForWalletOnStart: 1
+  autoSaveAndResume: 1
+  connectOnAwake: 0
+  connectOnStart: 1
   customBridgeUrl: https://f.bridge.walletconnect.org
   chainId: 2
   ConnectedEvent:
