@@ -493,7 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801bffbf4c62cc244b55ea230d19649d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultWallet: 1
+  DefaultWallet: 0
   autoSaveAndResume: 1
   connectOnAwake: 0
   connectOnStart: 1
@@ -762,7 +762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeOnDesktop: 0
-  activeOnAndroid: 0
+  activeOnAndroid: 1
   activeOniOS: 0
 --- !u!1 &519420028
 GameObject:
@@ -1963,7 +1963,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeOnDesktop: 0
   activeOnAndroid: 0
-  activeOniOS: 0
+  activeOniOS: 1
 --- !u!1 &1311433415
 GameObject:
   m_ObjectHideFlags: 0
