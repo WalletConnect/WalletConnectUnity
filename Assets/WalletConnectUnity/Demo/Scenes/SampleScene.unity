@@ -763,7 +763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeOnDesktop: 0
   activeOnAndroid: 1
-  activeOniOS: 0
+  activeOniOS: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1963,7 +1963,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeOnDesktop: 0
   activeOnAndroid: 0
-  activeOniOS: 1
+  activeOniOS: 0
 --- !u!1 &1311433415
 GameObject:
   m_ObjectHideFlags: 0

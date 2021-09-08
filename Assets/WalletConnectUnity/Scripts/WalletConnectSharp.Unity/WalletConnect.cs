@@ -427,6 +427,14 @@ namespace WalletConnectSharp.Unity
 
         public void OpenDeepLink()
         {
+            if (!ActiveSession.ReadyForUserPrompt)
+            {
+                Debug.LogError("WalletConnectUnity.ActiveSession not ready for a user prompt" +
+                               "\nWait for ActiveSession.ReadyForUserPrompt to be true");
+
+                return;
+            }
+            
 #if UNITY_ANDROID
             Application.OpenURL(ConnectURL);
 #elif UNITY_IOS
