@@ -35,7 +35,11 @@ public class UnityAsyncWebSocket : MonoBehaviour
             
         if (client != null)
             return;
+        _socketOpen();
+    }
 
+    private async void _socketOpen()
+    {
         client = new WebSocket(url);
 
         client.OnOpen += () =>
@@ -53,13 +57,7 @@ public class UnityAsyncWebSocket : MonoBehaviour
                 MessageReceived(data);
             }
         };
-
-        client.OnClose += (e) => {
-
-            Debug.Log("OnClose " + e);
-  
-        };
-
+        client.OnClose += ClientTryReconnect;
         client.OnError += (e) => {
 
             Debug.Log("OnError " + e);
@@ -67,6 +65,12 @@ public class UnityAsyncWebSocket : MonoBehaviour
         };
 
         await client.Connect();
+    }
+
+    private void ClientTryReconnect(WebSocketCloseCode closeCode)
+    {
+        client = null;
+        _socketOpen();
     }
 
     public void CancelConnection()
@@ -94,6 +98,7 @@ public class UnityAsyncWebSocket : MonoBehaviour
 
     public async Task Close()
     {
+        client.OnClose -= ClientTryReconnect;
         await client.Close();
     }
 
