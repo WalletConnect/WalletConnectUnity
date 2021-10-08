@@ -18,25 +18,19 @@ namespace WalletConnectSharp.Unity.Network
     {
         private bool opened = false;
 
-        private UnityAsyncWebSocket client;
+        private WebSocket nextClient;
+        private WebSocket client;
         private EventDelegator _eventDelegator;
         private bool wasPaused;
         private string currentUrl;
         private List<string> subscribedTopics = new List<string>();
+        private Queue<NetworkMessage> _queuedMessages = new Queue<NetworkMessage>();
 
         public bool Connected
         {
             get
             {
-                return client != null && client.Connected && opened;
-            }
-        }
-
-        public bool Opened
-        {
-            get
-            {
-                return opened;
+                return client != null && client.State == WebSocketState.Open && opened;
             }
         }
 
@@ -50,7 +44,6 @@ namespace WalletConnectSharp.Unity.Network
             if (client != null)
             {
                 client.CancelConnection();
-                Destroy(client);
             }
         }
 
@@ -59,41 +52,103 @@ namespace WalletConnectSharp.Unity.Network
 
         public async Task Open(string url)
         {
+            currentUrl = url;
+            
+            await _socketOpen();
+        }
+        
+        private async Task _socketOpen()
+        {
+            if (nextClient != null)
+            {
+                return;
+            }
+
+            string url = currentUrl;
             if (url.StartsWith("https"))
                 url = url.Replace("https", "wss");
             else if (url.StartsWith("http"))
                 url = url.Replace("http", "ws");
+            
+            nextClient = new WebSocket(url);
+            
+            TaskCompletionSource<bool> eventCompleted = new TaskCompletionSource<bool>(TaskCreationOptions.None);
 
-            currentUrl = url;
-            
-            TaskCompletionSource<object> openEventCompleted = new TaskCompletionSource<object>(TaskCreationOptions.None);
-            TaskCompletionSource<object> createdObjectCompleted = new TaskCompletionSource<object>(TaskCreationOptions.None);
-            
-            MainThreadUtil.Run(delegate
+            nextClient.OnOpen += () =>
             {
-                client = gameObject.AddComponent<UnityAsyncWebSocket>();
-                client.url = url;
-                client.source = this;
+                CompleteOpen();
                 
-                client.OpenReceived += (sender, args) =>
-                {
-                    createdObjectCompleted.SetResult(args);
+                // subscribe now
+                if (this.OpenReceived != null)
+                    OpenReceived(this, null);
 
-                    if (OpenReceived != null)
-                    {
-                        OpenReceived(this, args);
-                    }
-                };
-
-                client.MessageReceived += OnMessageReceived;
+                Debug.Log("[WebSocket] Opened");
                 
-                openEventCompleted.SetResult(client);
-            });
+                eventCompleted.SetResult(true);
+            };
 
-            await openEventCompleted.Task;
+            nextClient.OnMessage += OnMessageReceived;
+            nextClient.OnClose += ClientTryReconnect;
+            nextClient.OnError += (e) => {
 
-            await createdObjectCompleted.Task;
+                Debug.Log("[WebSocket] OnError " + e);
+                HandleError(new Exception(e));
+            };
+
+            nextClient.Connect().ContinueWith(t => HandleError(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+
+            await eventCompleted.Task;
         }
+
+        private void HandleError(Exception e)
+        {
+            Debug.LogError(e);
+        }
+
+        private async void CompleteOpen()
+        {
+            await Close();
+            this.client = this.nextClient;
+            this.nextClient = null;
+            QueueSubscriptions();
+            opened = true;
+            FlushQueue();
+        }
+
+        private async void FlushQueue()
+        {
+            Debug.Log("[WebSocket] Flushing Queue");
+            Debug.Log("[WebSocket] Queue Count: " + _queuedMessages.Count);
+            while (_queuedMessages.Count > 0)
+            {
+                var msg = _queuedMessages.Dequeue();
+                await SendMessage(msg);
+            }
+
+            Debug.Log("[WebSocket] Queue Flushed");
+        }
+
+        private void QueueSubscriptions()
+        {
+            foreach (var topic in subscribedTopics)
+            {
+                this._queuedMessages.Enqueue(GenerateSubscribeMessage(topic));
+            }
+
+            Debug.Log("[WebSocket] Queued " + subscribedTopics.Count + " subscriptions");
+        }
+        
+        private async void ClientTryReconnect(WebSocketCloseCode closeCode)
+        {
+            nextClient = null;
+            await _socketOpen();
+        }
+
+        public void CancelConnection()
+        {
+            client.CancelConnection();
+        }
+
 
         private async void OnMessageReceived(byte[] bytes)
         {
@@ -117,35 +172,53 @@ namespace WalletConnectSharp.Unity.Network
             }
             catch(Exception e)
             {
-                Debug.Log("Exception " + e.Message);
+                Debug.Log("[WebSocket] Exception " + e.Message);
             }   
+        }
+        
+        private void Update()
+        {
+#if !UNITY_WEBGL || UNITY_EDITOR
+            if (client != null && client.State == WebSocketState.Open)
+            {
+                client.DispatchMessageQueue();
+            }
+#endif
         }
 
         public async Task Close()
         {
-            await client.Close();
-            
-            Destroy(client);
+            if (client != null)
+            {
+                client.OnClose -= ClientTryReconnect;
+                await client.Close();
 
-            this.opened = false;
+                this.opened = false;
+            }
         }
-
+        
         public async Task SendMessage(NetworkMessage message)
         {
-            await this.client.SendMessage(message);
+            if (!Connected)
+            {
+                _queuedMessages.Enqueue(message);
+                await _socketOpen();
+            }
+            else
+            {
+                string finalJson = JsonConvert.SerializeObject(message);
+
+                await this.client.SendText(finalJson);
+            }
         }
 
         public async Task Subscribe(string topic)
         {
-            Debug.Log("Subscribe");
+            Debug.Log("[WebSocket] Subscribe");
 
-            await SendMessage(new NetworkMessage()
-            {
-                Payload = "",
-                Type = "sub",
-                Silent = true,
-                Topic = topic
-            });
+            var msg = GenerateSubscribeMessage(topic);
+            
+            await SendMessage(msg);
 
             if (!subscribedTopics.Contains(topic))
             {
@@ -153,6 +226,17 @@ namespace WalletConnectSharp.Unity.Network
             }
 
             opened = true;
+        }
+
+        private NetworkMessage GenerateSubscribeMessage(string topic)
+        {
+            return new NetworkMessage()
+            {
+                Payload = "",
+                Type = "sub",
+                Silent = true,
+                Topic = topic
+            };
         }
 
         public async Task Subscribe<T>(string topic, EventHandler<JsonRpcResponseEvent<T>> callback) where T : JsonRpcResponse
@@ -169,12 +253,12 @@ namespace WalletConnectSharp.Unity.Network
             _eventDelegator.ListenFor(topic, callback);
         }
 
-        #if UNITY_IOS
+        //#if UNITY_IOS
         private IEnumerator OnApplicationPause(bool pauseStatus)
         {
             if (pauseStatus)
             {
-                Debug.Log("IOS Pausing");
+                Debug.Log("[WebSocket] Pausing");
                 wasPaused = true;
                 
                 //We need to close the Websocket Properly
@@ -184,7 +268,7 @@ namespace WalletConnectSharp.Unity.Network
             }
             else if (wasPaused)
             {
-                Debug.Log("IOS Resuming");
+                Debug.Log("[WebSocket] Resuming");
                 var openTask = Task.Run(() => Open(currentUrl));
                 var coroutineInstruction = new WaitForTask(openTask);
                 yield return coroutineInstruction;
@@ -197,6 +281,6 @@ namespace WalletConnectSharp.Unity.Network
                 }
             }
         }
-        #endif
+        //#endif
     }
 }
