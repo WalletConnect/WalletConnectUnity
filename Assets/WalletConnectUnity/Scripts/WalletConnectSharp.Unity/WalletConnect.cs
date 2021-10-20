@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 using WalletConnectSharp.Core.Models;
+using WalletConnectSharp.Core.Network;
 using WalletConnectSharp.Unity.Models;
 using WalletConnectSharp.Unity.Network;
 using WalletConnectSharp.Unity.Utils;
@@ -192,6 +193,13 @@ namespace WalletConnectSharp.Unity
                     return null;
                 }
             }
+
+            //default will be set by library
+            ICipher ciper = null;
+            
+            #if UNITY_WEBGL
+            ciper = new WebGlAESCipher();
+            #endif
             
             if (savedSession != null)
             {
@@ -199,7 +207,7 @@ namespace WalletConnectSharp.Unity
             }
             else
             {
-                Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, null, chainId);
+                Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, ciper, chainId);
             }
             
             Session.OnSessionDisconnect += SessionOnOnSessionDisconnect;
