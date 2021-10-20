@@ -188,12 +188,22 @@ namespace WalletConnectSharp.Unity.Network
 
         public async Task Close()
         {
-            if (client != null)
+            try
             {
-                client.OnClose -= ClientTryReconnect;
-                await client.Close();
+                if (client != null)
+                {
+                    client.OnClose -= ClientTryReconnect;
+                    await client.Close();
 
-                this.opened = false;
+                    this.opened = false;
+                }
+            }
+            catch (WebSocketInvalidStateException e)
+            {
+                if (e.Message.Contains("WebSocket is not connected"))
+                    Debug.LogWarning("Tried to close a websocket when it's already closed");
+                else
+                    throw;
             }
         }
         
