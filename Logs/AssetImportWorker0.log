@@ -1,0 +1,1609 @@
+Using pre-set license
+Built from '2020.3/staging' branch; Version is '2020.3.11f1 (99c7afb366b3) revision 10078127'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Pro; OS build 22000.282; Version 2009; 64bit' Language: 'en' Physical Memory: 49047 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+D:\Program Files\Unity\2020.3.11f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+D:/Projects/WalletConnectUnity
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+31489
+Successfully changed project path to: D:/Projects/WalletConnectUnity
+D:/Projects/WalletConnectUnity
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 67.58 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.3.11f1 (99c7afb366b3)
+[Subsystems] Discovering subsystems at path D:/Program Files/Unity/2020.3.11f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/Projects/WalletConnectUnity/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 2070 (ID=0x1f02)
+    Vendor:   
+    VRAM:     8031 MB
+    Driver:   27.21.14.6140
+Initialize mono
+Mono path[0] = 'D:/Program Files/Unity/2020.3.11f1/Editor/Data/Managed'
+Mono path[1] = 'D:/Program Files/Unity/2020.3.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'D:/Program Files/Unity/2020.3.11f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56760
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: D:/Program Files/Unity/2020.3.11f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: D:/Program Files/Unity/2020.3.11f1/Editor/Data/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: D:/Program Files/Unity/2020.3.11f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: D:/Program Files/Unity/2020.3.11f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.002071 seconds.
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 51.53 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.794 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.009350 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.94 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.499 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.14 seconds
+Refreshing native plugins compatible for Editor in 0.93 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2212 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 88.2 MB.
+System memory in use after: 88.2 MB.
+
+Unloading 67 unused Assets to reduce memory usage. Loaded Objects now: 2608.
+Total: 7.553500 ms (FindLiveObjects: 0.284300 ms CreateObjectMapping: 0.121800 ms MarkObjects: 7.014900 ms  DeleteObjects: 0.130600 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Assemblies/AOT/Newtonsoft.Json.dll
+  artifactKey: Guid(4663a802f3ea9874084c7b0740cbb132) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Assemblies/AOT/Newtonsoft.Json.dll using Guid(4663a802f3ea9874084c7b0740cbb132) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '906fc2de2defcd054abc3f860c67bb31') in 0.058935 seconds
+  Import took 0.062912 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000521 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages
+  artifactKey: Guid(1136fe256ae81434eb7e6b335515b50a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages using Guid(1136fe256ae81434eb7e6b335515b50a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '29f63eb7ec2cbc26e8541788266fb15e') in 0.015242 seconds
+  Import took 0.019062 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.029501 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.15 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.590 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.26 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2240 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 89.7 MB.
+System memory in use after: 89.8 MB.
+
+Unloading 91 unused Assets to reduce memory usage. Loaded Objects now: 2611.
+Total: 7.075400 ms (FindLiveObjects: 0.356800 ms CreateObjectMapping: 0.116900 ms MarkObjects: 6.518500 ms  DeleteObjects: 0.081300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 61.595642 seconds.
+  path: Assets/WalletConnectUnity.NEthereum
+  artifactKey: Guid(206dc119d39c03f46b0c009d6f2d7e88) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum using Guid(206dc119d39c03f46b0c009d6f2d7e88) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6ffbaf3273837ec32675c17cb51c83f8') in 0.016869 seconds
+  Import took 0.020858 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.844408 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Scripts
+  artifactKey: Guid(956d73f35cfd44646a8ba3921ad7c91c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Scripts using Guid(956d73f35cfd44646a8ba3921ad7c91c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c3f6887100b4368b6f5f3b92a51cf605') in 0.015416 seconds
+  Import took 0.019062 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.065796 seconds.
+  path: Assets/WalletConnectUnity/Scripts
+  artifactKey: Guid(af1fca81125802549b2e1a30f63a9e86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts using Guid(af1fca81125802549b2e1a30f63a9e86) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '360be797c2404d341ca6f34ab1b76a0f') in 0.006915 seconds
+  Import took 0.010663 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.934888 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity
+  artifactKey: Guid(c97ad1277a3ba3649ba3fd901aff78ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity using Guid(c97ad1277a3ba3649ba3fd901aff78ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c528b688c2a1067b46b3ef4c11cdb614') in 0.015090 seconds
+  Import took 0.019016 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.024629 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.27 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.650 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.25 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2243 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 89.8 MB.
+System memory in use after: 89.9 MB.
+
+Unloading 91 unused Assets to reduce memory usage. Loaded Objects now: 2617.
+Total: 7.125400 ms (FindLiveObjects: 0.310600 ms CreateObjectMapping: 0.141400 ms MarkObjects: 6.599400 ms  DeleteObjects: 0.071900 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 64.521305 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum
+  artifactKey: Guid(c019746b682cc5a4bb0adbb17a23718d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum using Guid(c019746b682cc5a4bb0adbb17a23718d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dbfedde54c2a4a3d1acaa94018834487') in 0.019283 seconds
+  Import took 0.023052 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.792923 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/WalletConnectNEthereumExtensions.cs
+  artifactKey: Guid(36384cc125701e3499906dde20970446) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/WalletConnectNEthereumExtensions.cs using Guid(36384cc125701e3499906dde20970446) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b779acfb8d6ac7d0f145fb2b9226ca6') in 0.020950 seconds
+  Import took 0.024705 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.026993 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/WalletConnectNEthereumExtensions.cs
+  artifactKey: Guid(36384cc125701e3499906dde20970446) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/WalletConnectNEthereumExtensions.cs using Guid(36384cc125701e3499906dde20970446) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b779acfb8d6ac7d0f145fb2b9226ca6') in 0.008496 seconds
+  Import took 0.012632 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.576415 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/Client
+  artifactKey: Guid(5763ae0ac363dff478d8e9f5c199d827) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/Client using Guid(5763ae0ac363dff478d8e9f5c199d827) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '852356fc81bf7bf0140e65d4d0d7e7e6') in 0.015975 seconds
+  Import took 0.019747 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.023232 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.23 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.572 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.41 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2243 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 89.9 MB.
+System memory in use after: 90.0 MB.
+
+Unloading 91 unused Assets to reduce memory usage. Loaded Objects now: 2620.
+Total: 7.192200 ms (FindLiveObjects: 0.290700 ms CreateObjectMapping: 0.141700 ms MarkObjects: 6.682500 ms  DeleteObjects: 0.075000 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 33.285242 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Demo
+  artifactKey: Guid(584a1aec05277d04c87524aab7ee34be) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Demo using Guid(584a1aec05277d04c87524aab7ee34be) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7d3c52a4f785f67988e4fcfe2334641f') in 0.019397 seconds
+  Import took 0.023206 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 148.569408 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Demo/Scripts
+  artifactKey: Guid(300c769ab59520944bc8ffe9dba45be4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Demo/Scripts using Guid(300c769ab59520944bc8ffe9dba45be4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bea4352681a8ebd3386fd55181f5fe98') in 0.016406 seconds
+  Import took 0.020483 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 12.240240 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Demo/Scripts/NewBehaviourScript.cs
+  artifactKey: Guid(b9f5b72ff99d55346a42eda0cb38628f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Demo/Scripts/NewBehaviourScript.cs using Guid(b9f5b72ff99d55346a42eda0cb38628f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '146c5c83129994e1848cedac45aec7b8') in 0.015472 seconds
+  Import took 0.019179 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.024475 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.15 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.536 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.17 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2244 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 89.9 MB.
+System memory in use after: 90.0 MB.
+
+Unloading 91 unused Assets to reduce memory usage. Loaded Objects now: 2624.
+Total: 6.836100 ms (FindLiveObjects: 0.276100 ms CreateObjectMapping: 0.109900 ms MarkObjects: 6.377300 ms  DeleteObjects: 0.071100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.024241 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for LinuxStandalone target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.25 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.507 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.22 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2243 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 89.9 MB.
+System memory in use after: 90.0 MB.
+
+Unloading 91 unused Assets to reduce memory usage. Loaded Objects now: 2627.
+Total: 6.930300 ms (FindLiveObjects: 0.285000 ms CreateObjectMapping: 0.115800 ms MarkObjects: 6.451700 ms  DeleteObjects: 0.076200 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 51.715032 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Model.dll
+  artifactKey: Guid(2bdbe4f1261c67f4c9ee1106de89f47a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Model.dll using Guid(2bdbe4f1261c67f4c9ee1106de89f47a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3a929366fd9fe747231a764edd5994e3') in 0.019302 seconds
+  Import took 0.023586 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004463 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/WalletConnectSession.cs
+  artifactKey: Guid(2f76ba395c5f59a4a85ed9c882575420) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/WalletConnectSession.cs using Guid(2f76ba395c5f59a4a85ed9c882575420) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ca49a7b75431608dd5d9bda0fd4929a3') in 0.016457 seconds
+  Import took 0.020971 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004211 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/ClientMeta.cs
+  artifactKey: Guid(e13cfac32f165c6449b028556987a526) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/ClientMeta.cs using Guid(e13cfac32f165c6449b028556987a526) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9fb92e2abcd74892e5ede6b9ba3b4910') in 0.016996 seconds
+  Import took 0.021110 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003970 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/System.Runtime.CompilerServices.Unsafe.dll
+  artifactKey: Guid(5c40bf1056049b44599ce9cedff6d3d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/System.Runtime.CompilerServices.Unsafe.dll using Guid(5c40bf1056049b44599ce9cedff6d3d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6293e522774e29f7ec54fae2b757d79b') in 0.017400 seconds
+  Import took 0.022686 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005129 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EIP712Domain.cs
+  artifactKey: Guid(524a41446d7387d4ca26fa19edfc9f33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EIP712Domain.cs using Guid(524a41446d7387d4ca26fa19edfc9f33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fca4ea63772ee130d7eb998ef4c4cf04') in 0.014685 seconds
+  Import took 0.019266 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003906 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthSignTypedData.cs
+  artifactKey: Guid(c53004b372d9b794a9c7981ceee1460a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthSignTypedData.cs using Guid(c53004b372d9b794a9c7981ceee1460a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c8634ca9059bb528e53cc60b5c9d6b2b') in 0.015161 seconds
+  Import took 0.020141 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003885 seconds.
+  path: Assets/Resources/BillingMode.json
+  artifactKey: Guid(d127e7a6d5f449347a73aaddbc304bc2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/BillingMode.json using Guid(d127e7a6d5f449347a73aaddbc304bc2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8af890b946b0553015767bc5bb5ecc2a') in 0.048473 seconds
+  Import took 0.052331 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003715 seconds.
+  path: Assets/WalletConnectUnity/Demo/Sprites/walletconnect-banner.e1cb8d21.png
+  artifactKey: Guid(6b5f5a132c44d7e43b323f4f029b3c2a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Sprites/walletconnect-banner.e1cb8d21.png using Guid(6b5f5a132c44d7e43b323f4f029b3c2a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f1fec99a1f3b7ae8bf673c8276acfbde') in 0.235340 seconds
+  Import took 0.239323 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.019581 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/LICENSE
+  artifactKey: Guid(0fbb68bb99ec81b4f91bd9187c26afe2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/LICENSE using Guid(0fbb68bb99ec81b4f91bd9187c26afe2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c2c7b528b9f0f7bb1bbe9fc2d3c77bb5') in 0.013344 seconds
+  Import took 0.017267 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003775 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Chains.cs
+  artifactKey: Guid(2cdd33956def5e348a50c6fa42282e7f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Chains.cs using Guid(2cdd33956def5e348a50c6fa42282e7f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '537729da5503dd737a464955d325d406') in 0.014821 seconds
+  Import took 0.018678 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004939 seconds.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json
+  artifactKey: Guid(cfb84c8b7bee3154b8b8461eb995f677) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json using Guid(cfb84c8b7bee3154b8b8461eb995f677) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fdd7bff9b1d6e2599ad6706581e820be') in 0.006890 seconds
+  Import took 0.010851 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003455 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.1.3.4/lib
+  artifactKey: Guid(a49c064e3f5b1e3459ebe9309d0a6113) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.1.3.4/lib using Guid(a49c064e3f5b1e3459ebe9309d0a6113) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9b8ee7101e8afa9a34eed1ec9dc89d92') in 0.014248 seconds
+  Import took 0.018066 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.007102 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/Model/JsonRpcRequestEvent.cs
+  artifactKey: Guid(86f280ccca6b84a419873d1d1c8c57d4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/Model/JsonRpcRequestEvent.cs using Guid(86f280ccca6b84a419873d1d1c8c57d4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '84dce9b0ed430e8091cf629b4e2d48c7') in 0.014505 seconds
+  Import took 0.018426 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.029636 seconds.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Documentation/Json Net for Unity 2.0.1.pdf
+  artifactKey: Guid(4e7d9a07cc3f02a41a575406e7230846) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Documentation/Json Net for Unity 2.0.1.pdf using Guid(4e7d9a07cc3f02a41a575406e7230846) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '89591e71967acc4011516e0d8820c77b') in 0.019420 seconds
+  Import took 0.023399 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003853 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EvmTypeInfo.cs
+  artifactKey: Guid(834b4797bfb7b8d48aae9bed30202a5a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EvmTypeInfo.cs using Guid(834b4797bfb7b8d48aae9bed30202a5a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6ca858b991b0c11430aee8b88eac6654') in 0.014622 seconds
+  Import took 0.018534 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003449 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Utils
+  artifactKey: Guid(8e99a3a7bf2a8aa40964f4c015b01d20) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Utils using Guid(8e99a3a7bf2a8aa40964f4c015b01d20) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bd59bf0fb360b4f4dcba6c2a60f2fe68') in 0.014700 seconds
+  Import took 0.018876 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002978 seconds.
+  path: Assets/WalletConnectUnity/Demo/Scripts
+  artifactKey: Guid(571669c814bd1894c886a7eeb1430247) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Scripts using Guid(571669c814bd1894c886a7eeb1430247) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '05bcd33b11bf71658b8ba2fadad1e5ab') in 0.005499 seconds
+  Import took 0.009370 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004015 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.JsonRpc.IpcClient.dll
+  artifactKey: Guid(06f90ce03960e6246bc0d71c90df4067) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.JsonRpc.IpcClient.dll using Guid(06f90ce03960e6246bc0d71c90df4067) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7e0007e2371574934e3e6ddb0bdbb263') in 0.013761 seconds
+  Import took 0.018075 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003908 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthGenericRequest.cs
+  artifactKey: Guid(8387bd3c05efa774f902fbec623f03e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthGenericRequest.cs using Guid(8387bd3c05efa774f902fbec623f03e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '05f7587d806143b0267dbbd802e43322') in 0.020325 seconds
+  Import took 0.024318 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003103 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/UI
+  artifactKey: Guid(762a3f154750ea34cb437d432d6a6229) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/UI using Guid(762a3f154750ea34cb437d432d6a6229) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c871e6882580e0f36bac7d71a2cd4865') in 0.014627 seconds
+  Import took 0.018514 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003855 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Util.dll
+  artifactKey: Guid(d93149b8ad5c29d4a92911b0f2a1e0e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Util.dll using Guid(d93149b8ad5c29d4a92911b0f2a1e0e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '123b08bac5917e06f914d384e2e12c21') in 0.013553 seconds
+  Import took 0.017516 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002898 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2/lib/net35
+  artifactKey: Guid(4d057ff021a5e3a4cb77ccbda60579b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2/lib/net35 using Guid(4d057ff021a5e3a4cb77ccbda60579b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd9f5965109db807bf86e8b95358a9865') in 0.013986 seconds
+  Import took 0.017828 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003691 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthChainData.cs
+  artifactKey: Guid(0ca1b80a6563a9a4fa50523732e7f35b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthChainData.cs using Guid(0ca1b80a6563a9a4fa50523732e7f35b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e095b551426fe812e00ccc4d08bbc052') in 0.015539 seconds
+  Import took 0.019696 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003815 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Utils/WaitForTask.cs
+  artifactKey: Guid(4a0832c3cddb1624684a65912285efd9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Utils/WaitForTask.cs using Guid(4a0832c3cddb1624684a65912285efd9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ad512192295936d3e21909d67c381f40') in 0.013737 seconds
+  Import took 0.017576 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.007651 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WCSessionUpdate.cs
+  artifactKey: Guid(89e4a598b522cf4498e94c9fac7ece62) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WCSessionUpdate.cs using Guid(89e4a598b522cf4498e94c9fac7ece62) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8a22bde992ae194566c4c3a406394ef9') in 0.016056 seconds
+  Import took 0.020512 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002980 seconds.
+  path: Assets/WalletConnectUnity/Demo/Scenes
+  artifactKey: Guid(021ab984bf7c2024d8ae8f197af7b551) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Scenes using Guid(021ab984bf7c2024d8ae8f197af7b551) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e0d6d1418430323bb43e5025feff7638') in 0.014037 seconds
+  Import took 0.017791 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003946 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/MobileAppData.cs
+  artifactKey: Guid(8b9abb638695647749aff931513e39dd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/MobileAppData.cs using Guid(8b9abb638695647749aff931513e39dd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5b828b9c3ef5a210208ed948069e29ca') in 0.015221 seconds
+  Import took 0.019075 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004197 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/DefaultBridge.cs
+  artifactKey: Guid(9c2e1c360b8dae545865d9c71cd81f3e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/DefaultBridge.cs using Guid(9c2e1c360b8dae545865d9c71cd81f3e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4b5325125c3273424b037753f082655e') in 0.014453 seconds
+  Import took 0.018555 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003091 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.1.3.4/lib/net35
+  artifactKey: Guid(a0d495005ad6e6a408c6c4eb135d1e17) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.1.3.4/lib/net35 using Guid(a0d495005ad6e6a408c6c4eb135d1e17) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7560f924c85a879426cc73b08d184234') in 0.006571 seconds
+  Import took 0.010517 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003305 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models
+  artifactKey: Guid(c439e44cf068f32418b6b6b3debb4b08) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models using Guid(c439e44cf068f32418b6b6b3debb4b08) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b0985a4d72113d5c5b13ecab1cd66ca') in 0.014177 seconds
+  Import took 0.018064 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003913 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/EventFactory.cs
+  artifactKey: Guid(ffb05d58c429f99449f0cc825ecad787) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/EventFactory.cs using Guid(ffb05d58c429f99449f0cc825ecad787) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '468f6e49153912bc72a3261b70f5f83a') in 0.015242 seconds
+  Import took 0.019340 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003837 seconds.
+  path: Assets/WalletConnectUnity/Demo/Scripts/DemoSignTypedData.cs
+  artifactKey: Guid(33f73d5eea7e42b3839364e01169f20a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Scripts/DemoSignTypedData.cs using Guid(33f73d5eea7e42b3839364e01169f20a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '453d418a9bcd989ee9cd089bc59b81c9') in 0.014321 seconds
+  Import took 0.018153 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003587 seconds.
+  path: Assets/WalletConnectUnity/Demo/Prefabs/NFT Token.prefab
+  artifactKey: Guid(c99a117f7190fc1479bf9d380f4a98ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Prefabs/NFT Token.prefab using Guid(c99a117f7190fc1479bf9d380f4a98ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a9386d5419558d15e95dfa0f8299d6d7') in 0.037701 seconds
+  Import took 0.041758 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003759 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Utils/Hex.cs
+  artifactKey: Guid(8b5ed24870f4ac141ad2fc0e57af84a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Utils/Hex.cs using Guid(8b5ed24870f4ac141ad2fc0e57af84a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '50681157148b5e8fceb4d3faecf21a57') in 0.014433 seconds
+  Import took 0.018480 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003654 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/UI/ChooseWalletScreen.cs
+  artifactKey: Guid(abe4eccbf6bc45fd800854f241644981) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/UI/ChooseWalletScreen.cs using Guid(abe4eccbf6bc45fd800854f241644981) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fbc2320b15f93619f9e12930d285e539') in 0.016493 seconds
+  Import took 0.020392 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003503 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2/lib
+  artifactKey: Guid(00f1e438d3bc8624aba87cb89c01aaf7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2/lib using Guid(00f1e438d3bc8624aba87cb89c01aaf7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9984bfa78e86b69d40989c36a1d97779') in 0.005813 seconds
+  Import took 0.009746 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004006 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Utils/WaitForTaskResult.cs
+  artifactKey: Guid(43571a2e29977c246bb4690db0988aab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Utils/WaitForTaskResult.cs using Guid(43571a2e29977c246bb4690db0988aab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6c47ec843d4c5d0fec8e03a684e3dbdc') in 0.013832 seconds
+  Import took 0.017808 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004484 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Contracts.dll
+  artifactKey: Guid(82eef48a38db3af4489d232fef3f49bc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Contracts.dll using Guid(82eef48a38db3af4489d232fef3f49bc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd24388c31e1a39bd05060d99493b75ff') in 0.017421 seconds
+  Import took 0.021692 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003934 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.RPC.dll
+  artifactKey: Guid(778984213b22025478766536a846570c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.RPC.dll using Guid(778984213b22025478766536a846570c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4c048ef4dc5425d2d6e09b50d74ba9d8') in 0.014611 seconds
+  Import took 0.018656 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004118 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Besu.dll
+  artifactKey: Guid(1f93dcca7a8d6c74fb3891400c31ddf7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Besu.dll using Guid(1f93dcca7a8d6c74fb3891400c31ddf7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f09fef840063ef320a17a8dd95a72fc2') in 0.015179 seconds
+  Import took 0.019155 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003978 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Utils/RpcPayloadId.cs
+  artifactKey: Guid(b570ea9e0a33a604e8bbebb666df97a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Utils/RpcPayloadId.cs using Guid(b570ea9e0a33a604e8bbebb666df97a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '901ed0b877541374c8767af6e261f374') in 0.014894 seconds
+  Import took 0.018833 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003880 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/AESCipher.cs
+  artifactKey: Guid(f3b31b51fc040c3409382a443a2cb533) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/AESCipher.cs using Guid(f3b31b51fc040c3409382a443a2cb533) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '18ec1807394f2678d28e89386cc63f0f') in 0.015120 seconds
+  Import took 0.019123 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003754 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/WebGLAESCipher.cs
+  artifactKey: Guid(fa6a01b8c12d4f5f970a903284bc0c37) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/WebGLAESCipher.cs using Guid(fa6a01b8c12d4f5f970a903284bc0c37) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6f14df887da8bc89cbd43b39225163db') in 0.014709 seconds
+  Import took 0.018600 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004468 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.JsonRpc.RpcClient.dll
+  artifactKey: Guid(afae4dea7f7601b4a9fdbd886615aa2d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.JsonRpc.RpcClient.dll using Guid(afae4dea7f7601b4a9fdbd886615aa2d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '292acf5bd92a0826d5492b61f21ec359') in 0.013099 seconds
+  Import took 0.017153 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003722 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/Model/GenericEvent.cs
+  artifactKey: Guid(68476596d20cf7d49a7004baba3153a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/Model/GenericEvent.cs using Guid(68476596d20cf7d49a7004baba3153a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2c6a3a3c984214e04a2149980f386340') in 0.015473 seconds
+  Import took 0.019354 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004024 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WCSessionRequestRequest.cs
+  artifactKey: Guid(ff70ad64207bf8c4dbe9fa39ead733f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WCSessionRequestRequest.cs using Guid(ff70ad64207bf8c4dbe9fa39ead733f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '982474e5bd2595d39ff8c94bff8f1f03') in 0.014030 seconds
+  Import took 0.017956 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005684 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/BouncyCastle.Crypto.dll
+  artifactKey: Guid(ed2cdabaedf7c4648b344c8e9bfa4e56) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/BouncyCastle.Crypto.dll using Guid(ed2cdabaedf7c4648b344c8e9bfa4e56) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cfe1c9cb20ad037dc0456db02a2193c7') in 0.014491 seconds
+  Import took 0.018343 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004818 seconds.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Assemblies/AOT/Newtonsoft.Json.XML
+  artifactKey: Guid(7f499b0ccaa0b9144a31a159717ad91d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Assemblies/AOT/Newtonsoft.Json.XML using Guid(7f499b0ccaa0b9144a31a159717ad91d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2536fbdd946f38fac5509b8e51c2dad2') in 0.026700 seconds
+  Import took 0.031003 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003661 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/WalletConnect.cs
+  artifactKey: Guid(801bffbf4c62cc244b55ea230d19649d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/WalletConnect.cs using Guid(801bffbf4c62cc244b55ea230d19649d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7331bf20bba9ad6a6ca19cc9c92e7243') in 0.014981 seconds
+  Import took 0.019133 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003049 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models
+  artifactKey: Guid(d654606dda514625a72ed037dbe76c64) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models using Guid(d654606dda514625a72ed037dbe76c64) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8d8eeddccd407253e73de90ced508481') in 0.005990 seconds
+  Import took 0.009934 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004170 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.StandardTokenEIP20.dll
+  artifactKey: Guid(7ac07f7f16a7e624e8854cf4dbbcb177) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.StandardTokenEIP20.dll using Guid(7ac07f7f16a7e624e8854cf4dbbcb177) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '292734a3df6a0226853edab48e6c0109') in 0.014483 seconds
+  Import took 0.018550 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004568 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/SavedSession.cs
+  artifactKey: Guid(a8b272581a5306849bd2fae29904d21e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/SavedSession.cs using Guid(a8b272581a5306849bd2fae29904d21e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '419923d1d0b8e7de069beab3ca32c647') in 0.015206 seconds
+  Import took 0.019449 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003460 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Web3.dll
+  artifactKey: Guid(22a70fef939c8c841881163de09e3279) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Web3.dll using Guid(22a70fef939c8c841881163de09e3279) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a3c7a2681942c076deaae0754e53bd36') in 0.013737 seconds
+  Import took 0.017750 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002936 seconds.
+  path: Assets/WalletConnectUnity/Demo/Prefabs
+  artifactKey: Guid(eccc6e20c80ca11469b1b3253f6aa209) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Prefabs using Guid(eccc6e20c80ca11469b1b3253f6aa209) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9cda9321ba7999a7e493db91b54a4a67') in 0.013793 seconds
+  Import took 0.017674 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.021761 seconds.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json/JsonDotNet201Source.zip
+  artifactKey: Guid(bcd05c6c01ffff7479ba6630cc12f3f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json/JsonDotNet201Source.zip using Guid(bcd05c6c01ffff7479ba6630cc12f3f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '54c64986013b57d850c247b787ed3d21') in 0.020106 seconds
+  Import took 0.024070 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003814 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.JsonRpc.WebSocketClient.dll
+  artifactKey: Guid(c175181e7fc5be84a850cf7511babcff) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.JsonRpc.WebSocketClient.dll using Guid(c175181e7fc5be84a850cf7511babcff) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '547617514520cbd26a2cd49d41698a97') in 0.013903 seconds
+  Import took 0.017754 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004011 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/Client/endel.nativewebsocket.asmdef
+  artifactKey: Guid(47a6419234171834491ba0f130f904f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/Client/endel.nativewebsocket.asmdef using Guid(47a6419234171834491ba0f130f904f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3ea1395a0633fcfdccf23beb8360f6d1') in 0.020971 seconds
+  Import took 0.025224 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004313 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/WalletConnectProtocol.cs
+  artifactKey: Guid(e204059b0ecc5c0458c9f49183bae0cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/WalletConnectProtocol.cs using Guid(e204059b0ecc5c0458c9f49183bae0cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '78931d9cfe1389767f01238a53ece6bd') in 0.014773 seconds
+  Import took 0.018713 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003940 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Geth.dll
+  artifactKey: Guid(1875dd038edf79544bcc798d321fa3d7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Geth.dll using Guid(1875dd038edf79544bcc798d321fa3d7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66857142c2087ff52006925cff664625') in 0.015210 seconds
+  Import took 0.019066 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004802 seconds.
+  path: Assets/WalletConnectUnity/Demo/Prefabs/WalletButton.prefab
+  artifactKey: Guid(79a634f9f4a2b410ab955aaecf979611) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Prefabs/WalletButton.prefab using Guid(79a634f9f4a2b410ab955aaecf979611) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '01d48d6bd3ca070be56f3b4322039696') in 0.021364 seconds
+  Import took 0.025761 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004145 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Accounts.dll
+  artifactKey: Guid(86baeb5112fcd2146bb63f5f6d3228e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Accounts.dll using Guid(86baeb5112fcd2146bb63f5f6d3228e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2a9227cdfb6142d2f7fc4665ef3e9d84') in 0.014853 seconds
+  Import took 0.018944 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004040 seconds.
+  path: Assets/WalletConnectUnity/Demo/Scripts/DemoActions.cs
+  artifactKey: Guid(ecdd963e96d941e49aa0f7df5e491749) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Scripts/DemoActions.cs using Guid(ecdd963e96d941e49aa0f7df5e491749) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '074cc4113ac6320f164592cfcb03e4e2') in 0.015928 seconds
+  Import took 0.020092 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003057 seconds.
+  path: Assets/WalletConnectUnity/Demo/Sprites
+  artifactKey: Guid(fb91d8590627beb448e3996a2e8ae69b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Sprites using Guid(fb91d8590627beb448e3996a2e8ae69b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e57397052de3e9f90b99f24f465d998b') in 0.014636 seconds
+  Import took 0.018467 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002879 seconds.
+  path: Assets/WalletConnectUnity/Packages/System.Drawing.Common
+  artifactKey: Guid(2c35339c8a0547e4481c0a716ec51019) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/System.Drawing.Common using Guid(2c35339c8a0547e4481c0a716ec51019) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0f1e82194f525314b4392922f26a5c5e') in 0.016375 seconds
+  Import took 0.020157 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003003 seconds.
+  path: Assets/WalletConnectUnity/Packages
+  artifactKey: Guid(267e10369179a6640bffbcd4e479403c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages using Guid(267e10369179a6640bffbcd4e479403c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66eedf883b1157063cbc53e04e165d06') in 0.013350 seconds
+  Import took 0.017092 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003928 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.RPC.Reactive.dll
+  artifactKey: Guid(fb3f1fadc0dc0ed44becadc92357243d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.RPC.Reactive.dll using Guid(fb3f1fadc0dc0ed44becadc92357243d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '57ea078b88c5e07809f438fee996d30c') in 0.013745 seconds
+  Import took 0.017683 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003180 seconds.
+  path: Assets/Resources
+  artifactKey: Guid(5d9de299f60f82142a43a14db14ee8e6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources using Guid(5d9de299f60f82142a43a14db14ee8e6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e842a428755fd1b0d2f80606a2bd3fa5') in 0.014172 seconds
+  Import took 0.018141 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.007157 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.HdWallet.dll
+  artifactKey: Guid(9762d38c93f05b549b5f12267afefbcc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.HdWallet.dll using Guid(9762d38c93f05b549b5f12267afefbcc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a8691fc526643f2b67e2ab7b5b6f6f11') in 0.014519 seconds
+  Import took 0.018394 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004036 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/AppMetadata.cs
+  artifactKey: Guid(f1922fe98c9c4e3eba2058b3d65c9c66) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/AppMetadata.cs using Guid(f1922fe98c9c4e3eba2058b3d65c9c66) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '75ec2679e566dc17ac8161253eafd3e1') in 0.014402 seconds
+  Import took 0.018457 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004105 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/EncryptedPayload.cs
+  artifactKey: Guid(833cebbe29878ea4dba3366d77deab32) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/EncryptedPayload.cs using Guid(833cebbe29878ea4dba3366d77deab32) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5d28d8f97fa5e670de66455d6c14ad32') in 0.013642 seconds
+  Import took 0.017422 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004126 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/System.Buffers.dll
+  artifactKey: Guid(8fbd0ce8608046e4681947eb59154e77) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/System.Buffers.dll using Guid(8fbd0ce8608046e4681947eb59154e77) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3394535cab33f1c8a84ae382974c3653') in 0.013780 seconds
+  Import took 0.017839 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003770 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/System.Threading.Tasks.Extensions.dll
+  artifactKey: Guid(a7cb2ef202abb114880836d6befab25f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/System.Threading.Tasks.Extensions.dll using Guid(a7cb2ef202abb114880836d6befab25f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e47eb5ef9f34cca70777ab2962e7f6c1') in 0.014484 seconds
+  Import took 0.018540 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003815 seconds.
+  path: Assets/WalletConnectUnity/Demo/Sprites/c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96.jpeg
+  artifactKey: Guid(2606d4c15c44843aba7b4b938297c8fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Sprites/c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96.jpeg using Guid(2606d4c15c44843aba7b4b938297c8fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '037a5596d44c4b73169879ef1e44e6fa') in 0.031177 seconds
+  Import took 0.035163 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.033231 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.1.3.4/QRCoder.1.3.4.nupkg
+  artifactKey: Guid(5aa66c745757e7f4ca8289afd5a6d801) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.1.3.4/QRCoder.1.3.4.nupkg using Guid(5aa66c745757e7f4ca8289afd5a6d801) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e459be69f036b202b68659cee00bdbe9') in 0.015355 seconds
+  Import took 0.019320 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003571 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Editor/WalletConnectEditor.cs
+  artifactKey: Guid(68e24df2c2ac4150b6b99968737e21d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Editor/WalletConnectEditor.cs using Guid(68e24df2c2ac4150b6b99968737e21d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '243055e38e1488e85feae79cbdbea4a4') in 0.014077 seconds
+  Import took 0.017808 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004037 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Address.cs
+  artifactKey: Guid(2ca68c3ce4e49564ba9f1f7e75bd6d9f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Address.cs using Guid(2ca68c3ce4e49564ba9f1f7e75bd6d9f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b44901308e6b34262c8fa8535a3d2512') in 0.014602 seconds
+  Import took 0.018402 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004656 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/AppEntry.cs
+  artifactKey: Guid(380f1402ceec4a208444852c4ff4fc0e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/AppEntry.cs using Guid(380f1402ceec4a208444852c4ff4fc0e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '700b22ec9b94f007580c169789125404') in 0.013008 seconds
+  Import took 0.016848 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003393 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum
+  artifactKey: Guid(844fdf3a293e37347bc6932425f4fb79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum using Guid(844fdf3a293e37347bc6932425f4fb79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a544a7fd6521f5f269ba1eabb8355f14') in 0.014172 seconds
+  Import took 0.018626 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003778 seconds.
+  path: Assets/WalletConnectUnity/Demo
+  artifactKey: Guid(e25748cb202472f4fa8ff70c9c535257) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo using Guid(e25748cb202472f4fa8ff70c9c535257) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2af856769d6e0920b94241105a9dda7e') in 0.005829 seconds
+  Import took 0.009702 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003462 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/IEventSource.cs
+  artifactKey: Guid(097b93e07deafca49bb0c461d9351026) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/IEventSource.cs using Guid(097b93e07deafca49bb0c461d9351026) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '541ad77570dfe3730bfd6fb2897542ea') in 0.014764 seconds
+  Import took 0.018668 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003427 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Hex.dll
+  artifactKey: Guid(3492ce7b583201c4db673a20d4b1a9ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Hex.dll using Guid(3492ce7b583201c4db673a20d4b1a9ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '080a8c04ad0e0ba00a91b223ee64faed') in 0.014538 seconds
+  Import took 0.018424 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004173 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/Client/WalletConnectClient.cs
+  artifactKey: Guid(c8bc1f2dfc67803428ecc7112256cd31) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/Client/WalletConnectClient.cs using Guid(c8bc1f2dfc67803428ecc7112256cd31) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8c22b92b01169b92c000df581ceb38b1') in 0.015310 seconds
+  Import took 0.019188 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004021 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EvmTypedData.cs
+  artifactKey: Guid(a752ab9863bdcef44845469af59f8cc8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EvmTypedData.cs using Guid(a752ab9863bdcef44845469af59f8cc8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '44bea0e93f6759d2840553acd7f5c34b') in 0.014383 seconds
+  Import took 0.018138 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002860 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events
+  artifactKey: Guid(370bd33d254d7104d9b64ceab0cf5d1a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events using Guid(370bd33d254d7104d9b64ceab0cf5d1a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e64391896eeb8ee8fd31e3c23d019f5') in 0.014095 seconds
+  Import took 0.017870 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003810 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/System.ValueTuple.dll
+  artifactKey: Guid(5a6b3e0953137a641a120f148fc4ad8a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/System.ValueTuple.dll using Guid(5a6b3e0953137a641a120f148fc4ad8a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '954471cff446e12fb2e5b6d38d2f7eec') in 0.014591 seconds
+  Import took 0.018433 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002929 seconds.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Assemblies
+  artifactKey: Guid(ad8f59e50f4e8e14f9f2594a357dedb5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Assemblies using Guid(ad8f59e50f4e8e14f9f2594a357dedb5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b8537deeff62a1d46855f6e3cc39ce64') in 0.014169 seconds
+  Import took 0.018072 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003692 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/NativeCurrency.cs
+  artifactKey: Guid(65e92f3f8836a0142b555c745118f64b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/NativeCurrency.cs using Guid(65e92f3f8836a0142b555c745118f64b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '457398b64372a1d9d588012acfe9474e') in 0.015134 seconds
+  Import took 0.018944 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003276 seconds.
+  path: Assets/WalletConnectUnity/Packages/System.Drawing.Common/netstandard2.0
+  artifactKey: Guid(1fb90a5736f87f54588c6765e3eb3be5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/System.Drawing.Common/netstandard2.0 using Guid(1fb90a5736f87f54588c6765e3eb3be5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '09bba070c847bb958931ce2c7c9c7255') in 0.013116 seconds
+  Import took 0.016855 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003772 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/UI/WalletConnectQRImage.cs
+  artifactKey: Guid(a76715672e638354bb16f1a0cf190f15) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/UI/WalletConnectQRImage.cs using Guid(a76715672e638354bb16f1a0cf190f15) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0425b5b1c64f135d563b916191f8d714') in 0.014399 seconds
+  Import took 0.018257 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.006371 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.BlockchainProcessing.dll
+  artifactKey: Guid(98791a83431f1e94982ae5598b5e3f99) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.BlockchainProcessing.dll using Guid(98791a83431f1e94982ae5598b5e3f99) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '445b974d4d172da26a3da3634501179a') in 0.014393 seconds
+  Import took 0.018600 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003916 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Signer.dll
+  artifactKey: Guid(1c7457bfa6ee6bc438a549976d7bed90) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Signer.dll using Guid(1c7457bfa6ee6bc438a549976d7bed90) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7ff29127398a472fdd2016b90c9b7823') in 0.014494 seconds
+  Import took 0.018483 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003991 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/InternalEvent.cs
+  artifactKey: Guid(363174484fc09454d89a531a75480286) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/InternalEvent.cs using Guid(363174484fc09454d89a531a75480286) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cc39b18520195576f7eaa162c332016b') in 0.014201 seconds
+  Import took 0.018701 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005194 seconds.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Assemblies/AOT
+  artifactKey: Guid(16bc90e6567f706488d8e93d00c65784) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Assemblies/AOT using Guid(16bc90e6567f706488d8e93d00c65784) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3d1639741df406bb51be60091e716f6c') in 0.015727 seconds
+  Import took 0.020255 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003611 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.RLP.dll
+  artifactKey: Guid(e478c4446afa6b84aba57fac670769ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.RLP.dll using Guid(e478c4446afa6b84aba57fac670769ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8fb3bd5c6d70946e0b3c4bb5e4df8174') in 0.013380 seconds
+  Import took 0.017483 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004036 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/AppColors.cs
+  artifactKey: Guid(7183b9b6a1e641f490fadadd72574165) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/AppColors.cs using Guid(7183b9b6a1e641f490fadadd72574165) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '72cdfba98b79895b5ec5fe731833eff1') in 0.014486 seconds
+  Import took 0.018607 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003654 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/JsonRpcRequest.cs
+  artifactKey: Guid(1c81dc43fbc4bc246aa7f5e96f366c41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/JsonRpcRequest.cs using Guid(1c81dc43fbc4bc246aa7f5e96f366c41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd0f44a0477bbae1bfd70de8d8224a3d6') in 0.014437 seconds
+  Import took 0.018338 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003789 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthChain.cs
+  artifactKey: Guid(86b8f140d33f4e14381dcb4f04380a52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthChain.cs using Guid(86b8f140d33f4e14381dcb4f04380a52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '98841455ce5b5f52602e9a597acfc0da') in 0.014074 seconds
+  Import took 0.017981 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002818 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Utils
+  artifactKey: Guid(0cc05d82b3c5e7d4da74b1401bb9544e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Utils using Guid(0cc05d82b3c5e7d4da74b1401bb9544e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4b346f3972a8c2edac7e3cd852d80c7a') in 0.013619 seconds
+  Import took 0.017564 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004173 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EvmTypeAttribute.cs
+  artifactKey: Guid(1d1cab82a3fd9db4794cd7f1ae1d68ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EvmTypeAttribute.cs using Guid(1d1cab82a3fd9db4794cd7f1ae1d68ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7ba849ba03f645c8ecb082d2cebb84e8') in 0.017061 seconds
+  Import took 0.021438 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002904 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2
+  artifactKey: Guid(1e14b620c1349ea41aa5eb80e7018410) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2 using Guid(1e14b620c1349ea41aa5eb80e7018410) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4bf987c31df8dd2709747a0663fcb69f') in 0.014583 seconds
+  Import took 0.018510 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003468 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthResponse.cs
+  artifactKey: Guid(48f8bc117a8a5fb4783c107d2ce99149) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthResponse.cs using Guid(48f8bc117a8a5fb4783c107d2ce99149) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cddbb605972191e170dd5a94d958f135') in 0.015260 seconds
+  Import took 0.019404 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003542 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/TransactionData.cs
+  artifactKey: Guid(af36c087d6cae8e4fbb108b0dcd7ad3f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/TransactionData.cs using Guid(af36c087d6cae8e4fbb108b0dcd7ad3f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2a3a844b0610b0d9d6bfdf63cc48d235') in 0.014544 seconds
+  Import took 0.018673 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003937 seconds.
+  path: Assets/WalletConnectUnity/Demo/Scenes/SampleScene.unity
+  artifactKey: Guid(424df8a514da7e34ab000969350e40e6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Scenes/SampleScene.unity using Guid(424df8a514da7e34ab000969350e40e6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8c45351698d20ca0409b53729f081320') in 0.014505 seconds
+  Import took 0.018401 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003701 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthSignTransaction.cs
+  artifactKey: Guid(4d0d8bc15f341584295d57e04867e2fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthSignTransaction.cs using Guid(4d0d8bc15f341584295d57e04867e2fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fcd3749ac139e5f2b527237a59d8c92f') in 0.014371 seconds
+  Import took 0.018247 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003924 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/IEvent.cs
+  artifactKey: Guid(d1c26adbb5b2f4b4789e04c068b8de09) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/IEvent.cs using Guid(d1c26adbb5b2f4b4789e04c068b8de09) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5537cd39fa05b616694c0fc71a3f2088') in 0.013703 seconds
+  Import took 0.017613 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003782 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/AppInfo.cs
+  artifactKey: Guid(1f0dffd13cdd4d5486db64e23d854fe9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/AppInfo.cs using Guid(1f0dffd13cdd4d5486db64e23d854fe9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7d3ac33a0af9056a1846ce06e9523c22') in 0.013832 seconds
+  Import took 0.017955 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002896 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network
+  artifactKey: Guid(a22376f63a9c8ae48b23003339698d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network using Guid(a22376f63a9c8ae48b23003339698d45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fbd4c30406d07663e4a76b77e8c1578f') in 0.014378 seconds
+  Import took 0.018203 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003622 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/IEventProvider.cs
+  artifactKey: Guid(030654dd12f03ac468e907998f0cb555) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/IEventProvider.cs using Guid(030654dd12f03ac468e907998f0cb555) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4f0d771882935a65b4fde8dfa42d275b') in 0.014087 seconds
+  Import took 0.018238 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003746 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/TransportFactory.cs
+  artifactKey: Guid(38f740884bd1b6540810052cbc9b9b70) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/TransportFactory.cs using Guid(38f740884bd1b6540810052cbc9b9b70) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '43ac91f0ba5a9dca56f7820435249da8') in 0.016007 seconds
+  Import took 0.019955 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004830 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/Client
+  artifactKey: Guid(9c2bb411fb6746e42bc9111abeae5e01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/Client using Guid(9c2bb411fb6746e42bc9111abeae5e01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '41ffcad46eb9453facf6662310102f5e') in 0.014756 seconds
+  Import took 0.018696 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003388 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthPersonalSign.cs
+  artifactKey: Guid(ece43a2d57f2c034e94c205e90627565) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthPersonalSign.cs using Guid(ece43a2d57f2c034e94c205e90627565) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '918947b039ab00e5635ba0f2d7c7032a') in 0.013746 seconds
+  Import took 0.017614 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005711 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/EventManager.cs
+  artifactKey: Guid(6417bb4164cdff74ab81a4f511764048) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/EventManager.cs using Guid(6417bb4164cdff74ab81a4f511764048) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e9e22eb48897f9a77108dc9b74a0fc03') in 0.016243 seconds
+  Import took 0.020246 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.008536 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Quorum.dll
+  artifactKey: Guid(6f0eee8eaaa3454479817be3d5577138) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Quorum.dll using Guid(6f0eee8eaaa3454479817be3d5577138) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '46f4a03037bc40eeb0f53c4712527f7c') in 0.016619 seconds
+  Import took 0.020742 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004319 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/WalletAddEthChain.cs
+  artifactKey: Guid(dbf89a0894d624342b6b4158db2de361) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/WalletAddEthChain.cs using Guid(dbf89a0894d624342b6b4158db2de361) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd46144ddf2754474a79d51decbdf8bb5') in 0.018107 seconds
+  Import took 0.022433 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004545 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.1.3.4/lib/net35/QRCoder.dll
+  artifactKey: Guid(f137ae62cf2f8e047b0580e7a3f0b031) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.1.3.4/lib/net35/QRCoder.dll using Guid(f137ae62cf2f8e047b0580e7a3f0b031) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fd811bd729eafe6940d6bc120a3ef121') in 0.014866 seconds
+  Import took 0.018839 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003892 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/WalletConnectUnitySession.cs
+  artifactKey: Guid(6cc7e3e284cb4c33ae9f7fe2250bb1ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/WalletConnectUnitySession.cs using Guid(6cc7e3e284cb4c33ae9f7fe2250bb1ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c19f38436c5642fde330cf2cf335e33') in 0.014554 seconds
+  Import took 0.018597 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005175 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink
+  artifactKey: Guid(88c249ec053c44f3b48a22c1144f37b1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink using Guid(88c249ec053c44f3b48a22c1144f37b1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1e5a6bf24ceeccd4df0955937bb8db85') in 0.015188 seconds
+  Import took 0.019186 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.007917 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/NativeWebSocketTransport.cs
+  artifactKey: Guid(17303ab972a16184e8ba0066d294c7ad) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/NativeWebSocketTransport.cs using Guid(17303ab972a16184e8ba0066d294c7ad) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0bdbe4dc8784d8115819df1f72ff42e7') in 0.014166 seconds
+  Import took 0.018116 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003928 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/NFTTokenData.cs
+  artifactKey: Guid(341516c971824708b3038d2f4d61d0ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/NFTTokenData.cs using Guid(341516c971824708b3038d2f4d61d0ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9e8a5d729a543de33517c546b8d68966') in 0.014874 seconds
+  Import took 0.019521 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004151 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/ITransport.cs
+  artifactKey: Guid(0bfaa3cfeee3614419a2a8dbce068379) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/ITransport.cs using Guid(0bfaa3cfeee3614419a2a8dbce068379) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5558814fb2ad7aa1d97f3250b6d3cd44') in 0.015036 seconds
+  Import took 0.018985 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003171 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network
+  artifactKey: Guid(cafbba81187a4bc4a83d657c7419f9f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network using Guid(cafbba81187a4bc4a83d657c7419f9f8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef19de40441bbf2f5c6842defb03bd58') in 0.005723 seconds
+  Import took 0.009694 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003099 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp
+  artifactKey: Guid(e69bdf39b7d82314f86bdaeaf5021955) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp using Guid(e69bdf39b7d82314f86bdaeaf5021955) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2650518592d881d79e41ef9a8cc4ac20') in 0.014652 seconds
+  Import took 0.018641 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003307 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/Model
+  artifactKey: Guid(07f0c4d78c3a1ea4da5c02323a06438f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/Model using Guid(07f0c4d78c3a1ea4da5c02323a06438f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6f7892409aa73273412544916d0adb9') in 0.014050 seconds
+  Import took 0.017931 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.006987 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/Model/JsonRpcResponseEvent.cs
+  artifactKey: Guid(48dc9ee1e1896104f8c5b3d6888cee06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/Model/JsonRpcResponseEvent.cs using Guid(48dc9ee1e1896104f8c5b3d6888cee06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b98b7d17ecc614cc20871dd4cf99a9f1') in 0.014826 seconds
+  Import took 0.018744 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003565 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Parity.dll
+  artifactKey: Guid(fed57e7c9f2c7e840b574a9c8704b265) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Parity.dll using Guid(fed57e7c9f2c7e840b574a9c8704b265) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b0f3440656982d7752b87df65fee7be5') in 0.013648 seconds
+  Import took 0.017512 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.017921 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2/QRCoder.Unity.1.0.2.nupkg
+  artifactKey: Guid(afeed08568d2fa148b80f11605c764cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2/QRCoder.Unity.1.0.2.nupkg using Guid(afeed08568d2fa148b80f11605c764cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd907e4d8152a092a323f1ebe0f927541') in 0.005935 seconds
+  Import took 0.010031 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004142 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/ICipher.cs
+  artifactKey: Guid(8dc46302e710b6d4cb37c8897c6a83e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/ICipher.cs using Guid(8dc46302e710b6d4cb37c8897c6a83e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0b4b9e5ac1d44b44eec48ece1b77d617') in 0.013977 seconds
+  Import took 0.018378 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004920 seconds.
+  path: Assets/WalletConnectUnity
+  artifactKey: Guid(7bab0edd1c9bf9e448ccac9759517b0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity using Guid(7bab0edd1c9bf9e448ccac9759517b0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6de95a811813b5f520f919bad6b36fce') in 0.015052 seconds
+  Import took 0.019048 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004103 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/EventHandlerMap.cs
+  artifactKey: Guid(2f4f9c1790975c444bcdbbe18971227b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/EventHandlerMap.cs using Guid(2f4f9c1790975c444bcdbbe18971227b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6cc5af64315990bbb1e117ea27f72c7a') in 0.013680 seconds
+  Import took 0.017551 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003983 seconds.
+  path: Assets/WalletConnectUnity/Packages/System.Drawing.Common/netstandard2.0/System.Drawing.Common.dll
+  artifactKey: Guid(af8a0e525b9e34542aa3303a73282d22) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/System.Drawing.Common/netstandard2.0/System.Drawing.Common.dll using Guid(af8a0e525b9e34542aa3303a73282d22) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2889393f6b409c69d9ffc719ca0ecc11') in 0.006179 seconds
+  Import took 0.010199 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003588 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.1.3.4
+  artifactKey: Guid(550be39eccec22f42a8b96a1b10af183) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.1.3.4 using Guid(550be39eccec22f42a8b96a1b10af183) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fb00736f974283dfbdd9eeaec950e603') in 0.006067 seconds
+  Import took 0.010051 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003934 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.JsonRpc.Client.dll
+  artifactKey: Guid(31ae22d50aa0f674593a300b8adc5ab0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.JsonRpc.Client.dll using Guid(31ae22d50aa0f674593a300b8adc5ab0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1ac7f8bdfa95e5f407d778159abbd074') in 0.014047 seconds
+  Import took 0.017939 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005069 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/System.Reactive.dll
+  artifactKey: Guid(ff93c5addb094a845aa85cf74ead6ad1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/System.Reactive.dll using Guid(ff93c5addb094a845aa85cf74ead6ad1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a4853b5c6c4e3131a86783e3ca1e7bcb') in 0.014716 seconds
+  Import took 0.018837 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003914 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/ErrorResponse.cs
+  artifactKey: Guid(8171e8c48028ce644ad6b6875e9ac477) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/ErrorResponse.cs using Guid(8171e8c48028ce644ad6b6875e9ac477) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f8657e2f3a86479aa8a115acfdd6596c') in 0.015487 seconds
+  Import took 0.019420 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003717 seconds.
+  path: Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2/lib/net35/QRCoder.Unity.dll
+  artifactKey: Guid(3b7d1cf914798bc438bd91f2aae925c7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/QRCoder.Unity.1.0.2/lib/net35/QRCoder.Unity.dll using Guid(3b7d1cf914798bc438bd91f2aae925c7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2e4e550a0f202f015c2822e5bc50eadf') in 0.014755 seconds
+  Import took 0.018800 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004359 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Unity.dll
+  artifactKey: Guid(83d91eddfa8c85444af130828128ba47) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.Unity.dll using Guid(83d91eddfa8c85444af130828128ba47) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '232666d5d952f62500d0e2aef721e362') in 0.014228 seconds
+  Import took 0.018145 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003768 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Utils/UnityBinder.cs
+  artifactKey: Guid(445d09febc00d274da54afe6e9179db3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Utils/UnityBinder.cs using Guid(445d09febc00d274da54afe6e9179db3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '934243021584d63151fe77e603737231') in 0.015278 seconds
+  Import took 0.019251 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004191 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/Client/FallbackProvider.cs
+  artifactKey: Guid(f69b22e912c42ea4ebc7a1e3b06fa07e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Scripts/WalletConnectSharp.NEthereum/Client/FallbackProvider.cs using Guid(f69b22e912c42ea4ebc7a1e3b06fa07e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8c5030e72c353418d0e73f7a802f927c') in 0.015694 seconds
+  Import took 0.019663 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003615 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/Client/NativeWebSocket.cs
+  artifactKey: Guid(25b730a2083ddfa4bbb8412b1ab6a8cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/Client/NativeWebSocket.cs using Guid(25b730a2083ddfa4bbb8412b1ab6a8cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a851d7723a29cdf3d5323eb1aae3eec6') in 0.014795 seconds
+  Import took 0.018642 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003656 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.KeyStore.dll
+  artifactKey: Guid(1b45a6b7696b6794eb31d6c630f218a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.KeyStore.dll using Guid(1b45a6b7696b6794eb31d6c630f218a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f995b0e2833866648d650af08d5e90b6') in 0.013243 seconds
+  Import took 0.017150 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003768 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EvmIgnoreAttribute.cs
+  artifactKey: Guid(47114bf65579893468cca72f927c8471) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types/EvmIgnoreAttribute.cs using Guid(47114bf65579893468cca72f927c8471) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ec0602f4373d221838a81fa78cf0d3d6') in 0.015339 seconds
+  Import took 0.019259 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003922 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthSendTransaction.cs
+  artifactKey: Guid(24789744d511bb246a16db49ca2e1a49) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthSendTransaction.cs using Guid(24789744d511bb246a16db49ca2e1a49) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '192adeeb45c38181a743e70b61e38028') in 0.014730 seconds
+  Import took 0.019184 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002968 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Editor
+  artifactKey: Guid(249d17c10558497dadfd3d1d1d5c7e9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Editor using Guid(249d17c10558497dadfd3d1d1d5c7e9e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd2a0f4ac75b66aa1b11f3e26a82f966e') in 0.015044 seconds
+  Import took 0.018904 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002823 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types
+  artifactKey: Guid(e75b5c49d94fa6446b36c24960c75c4f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/Types using Guid(e75b5c49d94fa6446b36c24960c75c4f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e2ce8d8e40898faf929106125792e64d') in 0.013868 seconds
+  Import took 0.018062 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003612 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/JsonRpcResponse.cs
+  artifactKey: Guid(b9246dfd40d5c0e418518c8cfd6e212d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/JsonRpcResponse.cs using Guid(b9246dfd40d5c0e418518c8cfd6e212d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b5f1254351284fb256a1f5fc93bd9c1b') in 0.013954 seconds
+  Import took 0.017849 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003837 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/NetworkMessage.cs
+  artifactKey: Guid(de591b4c16977d64f8ae3e824dbdd1e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/NetworkMessage.cs using Guid(de591b4c16977d64f8ae3e824dbdd1e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '08aba52b63540661e715f0f1b56f7b92') in 0.014107 seconds
+  Import took 0.017974 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004307 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.ABI.dll
+  artifactKey: Guid(77564a25308d6364e808b8d7fc597bd4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Nethereum.ABI.dll using Guid(77564a25308d6364e808b8d7fc597bd4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ac8d8e9439ad39b4b1c85aed7ed18060') in 0.013727 seconds
+  Import took 0.017687 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003712 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/Wallets.cs
+  artifactKey: Guid(6b8d774a31bd4a0c934425a042ec4e98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Models/DeepLink/Wallets.cs using Guid(6b8d774a31bd4a0c934425a042ec4e98) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '03b570bd55c38030db18e7f328a4140d') in 0.015722 seconds
+  Import took 0.019729 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004005 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Microsoft.Extensions.Logging.Abstractions.dll
+  artifactKey: Guid(558bed249eac8b9458aecce408f80d69) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Microsoft.Extensions.Logging.Abstractions.dll using Guid(558bed249eac8b9458aecce408f80d69) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1cb26325e561ec71953288bf941f5555') in 0.014383 seconds
+  Import took 0.018427 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003970 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/EventDelegator.cs
+  artifactKey: Guid(85b037070b8dcbb4182b9366812e0748) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Events/EventDelegator.cs using Guid(85b037070b8dcbb4182b9366812e0748) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c0e13c497d580add5d483e537cbbbc7') in 0.016091 seconds
+  Import took 0.020022 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.005434 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/NBitcoin.dll
+  artifactKey: Guid(c78c5fed63bcd1d41bffc02719beba97) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/NBitcoin.dll using Guid(c78c5fed63bcd1d41bffc02719beba97) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aa4ed66d13c16c8599144b9942e98fa8') in 0.014030 seconds
+  Import took 0.018069 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003486 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core
+  artifactKey: Guid(42dbc96f29f3e5e42b72f4f3f0f85687) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core using Guid(42dbc96f29f3e5e42b72f4f3f0f85687) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8499744bc554400605868a5967d13490') in 0.104739 seconds
+  Import took 0.108595 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.002772 seconds.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Documentation
+  artifactKey: Guid(7e4e34162b0d68844b602428bf2afa69) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json/Documentation using Guid(7e4e34162b0d68844b602428bf2afa69) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5fddbc8193deb705b215cc4851effd74') in 0.013104 seconds
+  Import took 0.016800 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004047 seconds.
+  path: Assets/WalletConnectUnity/Packages/Newtonsoft.Json/link.xml
+  artifactKey: Guid(ad1d021d2eee6c942b0bf3d625436a5a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Packages/Newtonsoft.Json/link.xml using Guid(ad1d021d2eee6c942b0bf3d625436a5a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9338747e00dd1b73766e016a494f29de') in 0.019106 seconds
+  Import took 0.023081 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003603 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WCSessionRequestResponse.cs
+  artifactKey: Guid(2fd5b975dee31fc4eba86f924e256b7b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WCSessionRequestResponse.cs using Guid(2fd5b975dee31fc4eba86f924e256b7b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0591baeb15d417fbc06b2aa16400e903') in 0.014930 seconds
+  Import took 0.018828 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003783 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/WalletConnectProvider.cs
+  artifactKey: Guid(6955fce508aaa5744b383ff704e9e2df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/WalletConnectProvider.cs using Guid(6955fce508aaa5744b383ff704e9e2df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c2c314237c1b41fe4cdb035877052605') in 0.013995 seconds
+  Import took 0.017854 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003776 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/Client/WebSocket.jslib
+  artifactKey: Guid(a802c4662a3713646975b6798cda3dde) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp.Unity/Network/Client/WebSocket.jslib using Guid(a802c4662a3713646975b6798cda3dde) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '450e1d21c7484525204d37520fd6fe67') in 0.016664 seconds
+  Import took 0.020556 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003602 seconds.
+  path: Assets/WalletConnectUnity.NEthereum/Packages/Common.Logging.Core.dll
+  artifactKey: Guid(08dcd3a962605714583cac174d5a5e34) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity.NEthereum/Packages/Common.Logging.Core.dll using Guid(08dcd3a962605714583cac174d5a5e34) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '292dbb5e0c600eba633408ae75038484') in 0.014830 seconds
+  Import took 0.018888 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003978 seconds.
+  path: Assets/WalletConnectUnity/Demo/Scripts/PlatformToggle.cs
+  artifactKey: Guid(d6e250d4a7e5b1a4184428151283920e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Demo/Scripts/PlatformToggle.cs using Guid(d6e250d4a7e5b1a4184428151283920e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f1e2d519d7f12df08aa4238aa85321a') in 0.014162 seconds
+  Import took 0.018274 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003969 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WcSessionRequest.cs
+  artifactKey: Guid(99978f99fa22200478cddb1c2035403d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WcSessionRequest.cs using Guid(99978f99fa22200478cddb1c2035403d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fd90dadb3df6b6958ae73919f5818062') in 0.013551 seconds
+  Import took 0.017435 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004370 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/MessageReceivedEventArgs.cs
+  artifactKey: Guid(4f917f5efacf6054290212676baba21a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Network/MessageReceivedEventArgs.cs using Guid(4f917f5efacf6054290212676baba21a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6a277f15ec1b6a6ab9c745f43358d974') in 0.013649 seconds
+  Import took 0.017489 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003785 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthSign.cs
+  artifactKey: Guid(dbfe6e81c76e9dd4cb2eb5066411093b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/Ethereum/EthSign.cs using Guid(dbfe6e81c76e9dd4cb2eb5066411093b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c8e0af5a315f3df714b068195dc78d4') in 0.013655 seconds
+  Import took 0.017565 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004021 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/README.md
+  artifactKey: Guid(30c3f58b6c77cd94483853c657d40281) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/README.md using Guid(30c3f58b6c77cd94483853c657d40281) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dfb8805b77a7ed50a1446e43ab669cc8') in 0.033055 seconds
+  Import took 0.037455 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003828 seconds.
+  path: Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WCSessionData.cs
+  artifactKey: Guid(e92c7aca3a6cce74ea1bfde5a274fb79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/WalletConnectUnity/Scripts/WalletConnectSharp/WalletConnectSharp.Core/Models/WCSessionData.cs using Guid(e92c7aca3a6cce74ea1bfde5a274fb79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '82353735dbd340a65ae035bc094393a4') in 0.015091 seconds
+  Import took 0.019017 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
