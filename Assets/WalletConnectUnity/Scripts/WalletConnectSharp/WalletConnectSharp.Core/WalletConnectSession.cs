@@ -144,6 +144,7 @@ namespace WalletConnectSharp.Core
             }
 
             SessionUsed = false;
+            ReadyForUserPrompt = false;
 
             if (NewSessionCreated != null)
             {
@@ -209,6 +210,8 @@ namespace WalletConnectSharp.Core
             }
             finally
             {
+                //The session has been made, we are no longer ready for another user prompt
+                ReadyForUserPrompt = false;
                 Connecting = false;
             }
         }
@@ -411,6 +414,8 @@ namespace WalletConnectSharp.Core
             ReadyForUserPrompt = true;
 
             var response = await eventCompleted.Task;
+
+            ReadyForUserPrompt = false;
 
             return response;
         }
