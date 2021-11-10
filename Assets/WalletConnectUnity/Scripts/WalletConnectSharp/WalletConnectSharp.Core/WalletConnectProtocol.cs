@@ -162,9 +162,11 @@ namespace WalletConnectSharp.Core
         protected async Task SetupTransport()
         {
             Transport.MessageReceived += TransportOnMessageReceived;
-
+            
             await Transport.Open(this._bridgeUrl);
-
+            
+            //Debug.Log("[WalletConnect] Transport Opened");
+            
             TriggerOnTransportConnect();
         }
 

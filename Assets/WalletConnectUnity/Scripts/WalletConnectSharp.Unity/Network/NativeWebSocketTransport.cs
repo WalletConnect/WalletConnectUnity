@@ -59,9 +59,13 @@ namespace WalletConnectSharp.Unity.Network
             }
         }
 
-        public async Task Open(string url)
+        public async Task Open(string url, bool clearSubscriptions = true)
         {
-            ClearSubscriptions();
+            if (currentUrl != url || clearSubscriptions)
+            {
+                ClearSubscriptions();
+            }
+
             currentUrl = url;
             
             await _socketOpen();
@@ -107,7 +111,9 @@ namespace WalletConnectSharp.Unity.Network
 
             nextClient.Connect().ContinueWith(t => HandleError(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
 
+            Debug.Log("[WebSocket] Waiting for Open " + url);
             await eventCompleted.Task;
+            Debug.Log("[WebSocket] Open Completed");
         }
 
         private void HandleError(Exception e)
@@ -296,7 +302,7 @@ namespace WalletConnectSharp.Unity.Network
             else if (wasPaused)
             {
                 Debug.Log("[WebSocket] Resuming");
-                var openTask = Task.Run(() => Open(currentUrl));
+                var openTask = Task.Run(() => Open(currentUrl, false));
                 var coroutineInstruction = new WaitForTask(openTask);
                 yield return coroutineInstruction;
 

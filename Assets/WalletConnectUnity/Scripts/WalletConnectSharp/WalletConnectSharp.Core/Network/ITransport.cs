@@ -14,7 +14,7 @@ namespace WalletConnectSharp.Core.Network
         
         string URL { get; }
         
-        Task Open(string bridgeURL);
+        Task Open(string bridgeURL, bool clearSubscriptions = true);
 
         Task Close();
 

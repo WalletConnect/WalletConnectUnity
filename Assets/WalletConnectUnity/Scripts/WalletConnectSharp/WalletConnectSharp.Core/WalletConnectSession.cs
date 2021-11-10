@@ -371,6 +371,8 @@ namespace WalletConnectSharp.Core
 
             this._handshakeId = data.ID;
 
+            //Debug.Log("[WalletConnect] Sending Session to topic " + _handshakeTopic);
+
             await SendRequest(data, this._handshakeTopic);
 
             SessionUsed = true;
@@ -412,6 +414,8 @@ namespace WalletConnectSharp.Core
                 });
             
             ReadyForUserPrompt = true;
+            
+            //Debug.Log("[WalletConnect] Session Ready for Wallet");
 
             var response = await eventCompleted.Task;
 

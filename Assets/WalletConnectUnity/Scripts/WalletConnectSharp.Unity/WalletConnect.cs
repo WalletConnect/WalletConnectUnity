@@ -458,6 +458,7 @@ namespace WalletConnectSharp.Unity
             }
             
 #if UNITY_ANDROID
+            Debug.Log("[WalletConnect] Opening URL: " + ConnectURL);
             Application.OpenURL(ConnectURL);
 #elif UNITY_IOS
             if (SelectedWallet == null)
