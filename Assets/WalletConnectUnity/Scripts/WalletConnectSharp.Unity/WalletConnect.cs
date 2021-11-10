@@ -37,6 +37,8 @@ namespace WalletConnectSharp.Unity
         public class ConnectedEventWithSession : UnityEvent<WCSessionData> { }
         
         public event EventHandler ConnectionStarted;
+        
+        public event EventHandler NewSessionCreated;
 
         [BindComponent]
         private NativeWebSocketTransport _transport;
@@ -70,6 +72,7 @@ namespace WalletConnectSharp.Unity
         public bool autoSaveAndResume = true;
         public bool connectOnAwake = false;
         public bool connectOnStart = true;
+        public bool autoReconnectOnNewSession = true;
         
         public string customBridgeUrl;
         
@@ -205,12 +208,12 @@ namespace WalletConnectSharp.Unity
             {
                 Session = new WalletConnectUnitySession(savedSession, this, _transport);
             }
-            else
+            else if (Session == null)
             {
                 Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, ciper, chainId);
+                Session.OnSessionDisconnect += SessionOnOnSessionDisconnect;
+                Session.NewSessionCreated += SessionOnNewSessionCreated;
             }
-            
-            Session.OnSessionDisconnect += SessionOnOnSessionDisconnect;
             
             StartCoroutine(SetupDefaultWallet());
 
@@ -220,6 +223,17 @@ namespace WalletConnectSharp.Unity
             #endif
 
             return await CompleteConnect();
+        }
+
+        private async void SessionOnNewSessionCreated(object sender, EventArgs e)
+        {
+            if (NewSessionCreated != null)
+                NewSessionCreated(sender, e);
+
+            if (autoReconnectOnNewSession)
+            {
+                await Connect();
+            }
         }
 
         private async Task<WCSessionData> CompleteConnect()

@@ -26,12 +26,15 @@ namespace WalletConnectSharp.Core
         public event EventHandler OnSessionDisconnect;
         public event EventHandler<WalletConnectSession> OnSend;
         public event EventHandler<WCSessionData> SessionUpdate;
+        public event EventHandler NewSessionCreated;
 
         public int NetworkId { get; private set; }
         
         public string[] Accounts { get; private set; }
         
         public bool ReadyForUserPrompt { get; private set; }
+        
+        public bool SessionUsed { get; private set; }
 
         public int ChainId { get; private set; }
 
@@ -110,15 +113,22 @@ namespace WalletConnectSharp.Core
 
             this.SessionConnected = false;
             
-            CreateNewSession();
+            CreateNewSession(true);
         }
 
         public void CreateNewSession(bool force = false)
         {
+            if (!SessionUsed && !force)
+            {
+                return;
+            }
+            
             if (SessionConnected && !force)
             {
                 throw new IOException("You must disconnect the current session before you can create a new one");
             }
+
+            this._bridgeUrl = DefaultBridge.GetBridgeUrl(this._bridgeUrl);
 
             var topicGuid = Guid.NewGuid();
 
@@ -127,6 +137,18 @@ namespace WalletConnectSharp.Core
             clientId = Guid.NewGuid().ToString();
 
             GenerateKey();
+
+            if (Transport != null)
+            {
+                Transport.ClearSubscriptions();
+            }
+
+            SessionUsed = false;
+
+            if (NewSessionCreated != null)
+            {
+                NewSessionCreated(this, EventArgs.Empty);
+            }
         }
         
         private void GenerateKey()
@@ -144,41 +166,51 @@ namespace WalletConnectSharp.Core
 
         public virtual async Task<WCSessionData> ConnectSession()
         {
-            if (!base.TransportConnected)
+            Connecting = true;
+            try
             {
-                await base.SetupTransport();
-            }
-
-            ReadyForUserPrompt = false;
-            await SubscribeAndListenToTopic(this.clientId);
-            
-            ListenToTopic(this._handshakeTopic);
-
-            WCSessionData result;
-            if (!SessionConnected)
-            {
-                result = await CreateSession();
-                //Reset this back after we have established a session
-                ReadyForUserPrompt = false;
-                
-            }
-            else
-            {
-                result = new WCSessionData()
+                if (!base.TransportConnected)
                 {
-                    accounts = Accounts,
-                    approved = true,
-                    chainId = ChainId,
-                    networkId = NetworkId,
-                    peerId = PeerId,
-                    peerMeta = WalletMetadata
-                };
-            }
-            
-            if (OnSessionConnect != null)
-                OnSessionConnect(this, this);
+                    await base.SetupTransport();
+                }
 
-            return result;
+                ReadyForUserPrompt = false;
+                await SubscribeAndListenToTopic(this.clientId);
+
+                ListenToTopic(this._handshakeTopic);
+
+                WCSessionData result;
+                if (!SessionConnected)
+                {
+                    result = await CreateSession();
+                    //Reset this back after we have established a session
+                    ReadyForUserPrompt = false;
+
+                }
+                else
+                {
+                    result = new WCSessionData()
+                    {
+                        accounts = Accounts,
+                        approved = true,
+                        chainId = ChainId,
+                        networkId = NetworkId,
+                        peerId = PeerId,
+                        peerMeta = WalletMetadata
+                    };
+                }
+                
+                Connecting = false;
+
+                if (OnSessionConnect != null)
+                    OnSessionConnect(this, this);
+
+                return result;
+            }
+            finally
+            {
+                Connecting = false;
+            }
         }
         
         public override async Task Connect()
@@ -338,6 +370,8 @@ namespace WalletConnectSharp.Core
 
             await SendRequest(data, this._handshakeTopic);
 
+            SessionUsed = true;
+
             TaskCompletionSource<WCSessionData> eventCompleted =
                 new TaskCompletionSource<WCSessionData>(TaskCreationOptions.None);
 
@@ -407,10 +441,12 @@ namespace WalletConnectSharp.Core
 
             //We are connected if we are approved
             SessionConnected = data.approved;
-
-            ChainId = data.chainId;
-
-            NetworkId = data.networkId;
+            
+            if (data.chainId != null)
+                ChainId = (int)data.chainId;
+            
+            if (data.networkId != null)
+                NetworkId = (int)data.networkId;
 
             Accounts = data.accounts;
 
@@ -421,6 +457,10 @@ namespace WalletConnectSharp.Core
                 WalletMetadata = data.peerMeta;
 
                 Events.Trigger("connect", data);
+            }
+            else if (wasConnected && !SessionConnected)
+            {
+                HandleSessionDisconnect("Wallet Disconnected");
             }
             else
             {

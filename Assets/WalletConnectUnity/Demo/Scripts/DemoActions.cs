@@ -30,6 +30,9 @@ public class DemoActions : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (WalletConnect.ActiveSession.Accounts == null)
+            return;
+        
         accountText.text = "\nConnected to Chain " + WalletConnect.ActiveSession.ChainId + ":\n" + WalletConnect.ActiveSession.Accounts[0];
     }
 
