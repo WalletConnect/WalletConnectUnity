@@ -34,6 +34,8 @@ namespace WalletConnectSharp.Unity
         [Serializable]
         public class ConnectedEventNoSession : UnityEvent { }
         [Serializable]
+        public class DisconnectedEventWithSession : UnityEvent<WalletConnectUnitySession> { }
+        [Serializable]
         public class ConnectedEventWithSession : UnityEvent<WCSessionData> { }
         
         public event EventHandler ConnectionStarted;
@@ -81,6 +83,8 @@ namespace WalletConnectSharp.Unity
         public ConnectedEventNoSession ConnectedEvent;
 
         public ConnectedEventWithSession ConnectedEventSession;
+
+        public DisconnectedEventWithSession DisconnectedEvent;
 
         public WalletConnectUnitySession Session
         {
@@ -134,6 +138,11 @@ namespace WalletConnectSharp.Unity
             {
                 await Connect();
             }
+        }
+
+        public void CreateNewSession()
+        {
+            
         }
 
         public async Task<WCSessionData> Connect()
@@ -208,9 +217,13 @@ namespace WalletConnectSharp.Unity
             {
                 Session = new WalletConnectUnitySession(savedSession, this, _transport);
             }
-            else if (Session == null)
+            else
             {
                 Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, ciper, chainId);
+                Session.OnSessionConnect += (sender, session) =>
+                {
+                    Debug.Log("[WalletConnect] Session Connected");
+                };
                 Session.OnSessionDisconnect += SessionOnOnSessionDisconnect;
                 Session.NewSessionCreated += SessionOnNewSessionCreated;
             }
@@ -262,6 +275,9 @@ namespace WalletConnectSharp.Unity
 
         private void SessionOnOnSessionDisconnect(object sender, EventArgs e)
         {
+            if (DisconnectedEvent != null)
+                DisconnectedEvent.Invoke(ActiveSession);
+            
             if (autoSaveAndResume && PlayerPrefs.HasKey(SessionKey))
             {
                 PlayerPrefs.DeleteKey(SessionKey);
@@ -492,6 +508,17 @@ namespace WalletConnectSharp.Unity
         public void CLearSession()
         {
             PlayerPrefs.DeleteKey(SessionKey);
+        }
+        
+        public async void CloseSession(bool waitForNewSession = true)
+        {
+            if (ActiveSession == null)
+                return;
+            
+            await ActiveSession.Disconnect();
+        
+            if (waitForNewSession)
+                await ActiveSession.Connect();
         }
     }
 }

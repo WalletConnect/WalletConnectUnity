@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "98241FFBA007DP",
         "name": "com.DefaultCompany.WalletConnectUnity",
-        "processId": 3199,
+        "processId": 7177,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -11,25 +11,73 @@
         {
             "deviceId": "98241FFBA007DP",
             "name": "com.DefaultCompany.WalletConnectUnity",
-            "processId": 14186,
+            "processId": 14164,
+            "exited": true
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "io.metamask",
+            "processId": 14290,
+            "exited": true
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "com.wallet.crypto.trustapp",
+            "processId": 15749,
+            "exited": true
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "io.metamask",
+            "processId": 16042,
+            "exited": true
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 15950,
+            "exited": false
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "io.metamask",
+            "processId": 16639,
+            "exited": true
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "io.metamask",
+            "processId": 17016,
             "exited": false
         },
         {
             "deviceId": "98241FFBA007DP",
             "name": "com.DefaultCompany.WalletConnectUnity",
-            "processId": 15061,
+            "processId": 30334,
             "exited": false
         },
         {
             "deviceId": "98241FFBA007DP",
             "name": "com.DefaultCompany.WalletConnectUnity",
-            "processId": 16360,
+            "processId": 32442,
             "exited": false
         },
         {
             "deviceId": "98241FFBA007DP",
             "name": "com.DefaultCompany.WalletConnectUnity",
-            "processId": 3199,
+            "processId": 3646,
+            "exited": false
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 4979,
+            "exited": false
+        },
+        {
+            "deviceId": "98241FFBA007DP",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 7177,
             "exited": false
         }
     ],
@@ -83,7 +131,7 @@
         "MemoryGroup": 2,
         "Behavior": 0
     },
-    "m_Filter": "",
+    "m_Filter": "Session",
     "m_FilterIsRegularExpression": false,
     "m_SymbolPaths": []
 }
