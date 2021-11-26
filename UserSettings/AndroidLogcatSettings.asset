@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "98241FFBA007DP",
+    "m_SelectedDeviceId": "1B091FDEE007SK",
     "m_SelectedPackage": {
-        "deviceId": "98241FFBA007DP",
+        "deviceId": "1B091FDEE007SK",
         "name": "com.DefaultCompany.WalletConnectUnity",
-        "processId": 7177,
+        "processId": 25726,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -78,6 +78,18 @@
             "deviceId": "98241FFBA007DP",
             "name": "com.DefaultCompany.WalletConnectUnity",
             "processId": 7177,
+            "exited": false
+        },
+        {
+            "deviceId": "1B091FDEE007SK",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 24425,
+            "exited": false
+        },
+        {
+            "deviceId": "1B091FDEE007SK",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 25726,
             "exited": false
         }
     ],

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -37,10 +38,10 @@ namespace WalletConnectSharp.Unity
         public class DisconnectedEventWithSession : UnityEvent<WalletConnectUnitySession> { }
         [Serializable]
         public class ConnectedEventWithSession : UnityEvent<WCSessionData> { }
+        [Serializable]
+        public class ConnectionFailedEventWithSession : UnityEvent<WalletConnectUnitySession> { }
         
         public event EventHandler ConnectionStarted;
-        
-        public event EventHandler NewSessionCreated;
 
         [BindComponent]
         private NativeWebSocketTransport _transport;
@@ -74,8 +75,8 @@ namespace WalletConnectSharp.Unity
         public bool autoSaveAndResume = true;
         public bool connectOnAwake = false;
         public bool connectOnStart = true;
-        public bool autoReconnectOnNewSession = true;
-        
+        public bool createNewSessionOnSessionDisconnect = true;
+        public int connectSessionRetryCount = 3;
         public string customBridgeUrl;
         
         public int chainId = 1;
@@ -85,6 +86,8 @@ namespace WalletConnectSharp.Unity
         public ConnectedEventWithSession ConnectedEventSession;
 
         public DisconnectedEventWithSession DisconnectedEvent;
+        
+        public ConnectionFailedEventWithSession ConnectionFailedEvent;
 
         public WalletConnectUnitySession Session
         {
@@ -138,11 +141,6 @@ namespace WalletConnectSharp.Unity
             {
                 await Connect();
             }
-        }
-
-        public void CreateNewSession()
-        {
-            
         }
 
         public async Task<WCSessionData> Connect()
@@ -225,7 +223,6 @@ namespace WalletConnectSharp.Unity
                     Debug.Log("[WalletConnect] Session Connected");
                 };
                 Session.OnSessionDisconnect += SessionOnOnSessionDisconnect;
-                Session.NewSessionCreated += SessionOnNewSessionCreated;
             }
             
             StartCoroutine(SetupDefaultWallet());
@@ -236,17 +233,6 @@ namespace WalletConnectSharp.Unity
             #endif
 
             return await CompleteConnect();
-        }
-
-        private async void SessionOnNewSessionCreated(object sender, EventArgs e)
-        {
-            if (NewSessionCreated != null)
-                NewSessionCreated(sender, e);
-
-            if (autoReconnectOnNewSession)
-            {
-                await Connect();
-            }
         }
 
         private async Task<WCSessionData> CompleteConnect()
@@ -266,21 +252,42 @@ namespace WalletConnectSharp.Unity
                 ConnectedEventSession.Invoke(arg0);
             });
 
-            var session = await Session.SourceConnectSession();
-            
-            allEvents.Invoke(session);
+            int tries = 0;
+            while (tries < connectSessionRetryCount)
+            {
+                try
+                {
+                    var session = await Session.SourceConnectSession();
 
-            return session;
+                    allEvents.Invoke(session);
+
+                    return session;
+                }
+                catch (IOException e)
+                {
+                    tries++;
+
+                    if (tries >= connectSessionRetryCount)
+                        throw new IOException("Failed to request session connection after " + tries + " times.", e);
+                }
+            }
+            
+            throw new IOException("Failed to request session connection after " + tries + " times.");
         }
 
-        private void SessionOnOnSessionDisconnect(object sender, EventArgs e)
+        private async void SessionOnOnSessionDisconnect(object sender, EventArgs e)
         {
             if (DisconnectedEvent != null)
                 DisconnectedEvent.Invoke(ActiveSession);
-            
+
             if (autoSaveAndResume && PlayerPrefs.HasKey(SessionKey))
             {
                 PlayerPrefs.DeleteKey(SessionKey);
+            }
+            
+            if (createNewSessionOnSessionDisconnect)
+            {
+                await Connect();
             }
         }
 

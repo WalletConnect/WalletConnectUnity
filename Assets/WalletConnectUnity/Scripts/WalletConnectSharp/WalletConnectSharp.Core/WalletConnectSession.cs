@@ -28,7 +28,6 @@ namespace WalletConnectSharp.Core
         public event EventHandler OnSessionDisconnect;
         public event EventHandler<WalletConnectSession> OnSend;
         public event EventHandler<WCSessionData> SessionUpdate;
-        public event EventHandler NewSessionCreated;
 
         public int NetworkId { get; private set; }
         
@@ -142,11 +141,6 @@ namespace WalletConnectSharp.Core
 
             SessionUsed = false;
             ReadyForUserPrompt = false;
-
-            if (NewSessionCreated != null)
-            {
-                NewSessionCreated(this, EventArgs.Empty);
-            }
         }
 
         private void EnsureNotDisconnected()
@@ -208,13 +202,28 @@ namespace WalletConnectSharp.Core
                         peerMeta = WalletMetadata
                     };
                 }
-                
+
                 Connecting = false;
 
                 if (OnSessionConnect != null)
                     OnSessionConnect(this, this);
 
                 return result;
+            }
+            catch (IOException e)
+            {
+                //If the transport is connected, then disconnect that
+                //we tried our best, they can try again
+                if (TransportConnected)
+                {
+                    await DisconnectTransport();
+                }
+                else
+                {
+                    throw new IOException("Transport Connection failed", e);
+                }
+
+                throw new IOException("Session Connection failed", e);
             }
             finally
             {

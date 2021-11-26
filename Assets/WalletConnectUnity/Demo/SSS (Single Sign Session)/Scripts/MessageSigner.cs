@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using WalletConnectSharp.Core.Utils;
 using WalletConnectSharp.Unity;
 using WalletConnectSharp.Unity.Models;
 using WalletConnectSharp.Unity.Utils;
+using Org.BouncyCastle.Math;
 
 public class MessageSigner : MonoBehaviour
 {
@@ -78,6 +80,8 @@ public class MessageSigner : MonoBehaviour
         }
 
         var result = await WalletConnect.ActiveSession.EthPersonalSign(address, messageToSign);
+        
+        //Lets recover the signer
 
         var eventData = new WCMessageSigned(this, result);
 
