@@ -98,6 +98,7 @@ public class DemoActions : WalletConnectActions
 
     public async void OnClickDisconnectAndConnect()
     {
-        CloseSession();
+        bool shouldConnect = !WalletConnect.Instance.createNewSessionOnSessionDisconnect;
+        CloseSession(shouldConnect);
     }
 }
