@@ -156,6 +156,12 @@ namespace WalletConnectSharp.Unity.Network
         
         private async void ClientTryReconnect(WebSocketCloseCode closeCode)
         {
+            if (wasPaused)
+            {
+                Debug.Log("[WebSocket] Application paused, retry attempt aborted");
+                return;
+            }
+            
             nextClient = null;
             await _socketOpen();
         }
