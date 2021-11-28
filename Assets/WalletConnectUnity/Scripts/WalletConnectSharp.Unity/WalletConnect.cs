@@ -218,12 +218,13 @@ namespace WalletConnectSharp.Unity
             else
             {
                 Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, ciper, chainId);
-                Session.OnSessionConnect += (sender, session) =>
-                {
-                    Debug.Log("[WalletConnect] Session Connected");
-                };
-                Session.OnSessionDisconnect += SessionOnOnSessionDisconnect;
             }
+            
+            Session.OnSessionConnect += (sender, session) =>
+            {
+                Debug.Log("[WalletConnect] Session Connected");
+            };
+            Session.OnSessionDisconnect += SessionOnOnSessionDisconnect;
             
             StartCoroutine(SetupDefaultWallet());
 

@@ -42,7 +42,14 @@ public class WalletConnectActions : MonoBehaviour
     {
         await WalletConnect.ActiveSession.Disconnect();
         
-        if (waitForNewSession)
+        //Warn the user, maybe this isn't what they wanted to do
+        if (WalletConnect.Instance.createNewSessionOnSessionDisconnect && waitForNewSession)
+        {
+            //Only try connecting if we are not already connecting or if we are not already connected
+            if (!WalletConnect.ActiveSession.Connecting && !WalletConnect.ActiveSession.Connected)
+                await WalletConnect.ActiveSession.Connect();
+        } 
+        else if (waitForNewSession)
             await WalletConnect.ActiveSession.Connect();
     }
 }

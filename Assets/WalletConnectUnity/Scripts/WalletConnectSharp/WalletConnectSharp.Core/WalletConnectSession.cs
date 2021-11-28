@@ -66,6 +66,8 @@ namespace WalletConnectSharp.Core
                         
             this.NetworkId = savedSession.NetworkID;
 
+            this._handshakeId = savedSession.HandshakeID;
+
             this.SessionConnected = true;
         }
 
@@ -172,6 +174,16 @@ namespace WalletConnectSharp.Core
             Connecting = true;
             try
             {
+                if (SessionConnected)
+                {
+                    //Listen for the _handshakeId response
+                    //The response will be of type WCSessionRequestResponse
+                    //We do this now before subscribing
+                    //This is in case we need to respond to a session disconnect and this is a
+                    //resume session
+                    Events.ListenForResponse<WCSessionRequestResponse>(this._handshakeId, HandleSessionResponse);
+                }
+                
                 if (!base.TransportConnected)
                 {
                     await base.SetupTransport();
@@ -569,7 +581,7 @@ namespace WalletConnectSharp.Core
                 return null;
             }
             
-            return new SavedSession(clientId, _bridgeUrl, _key, _keyRaw, PeerId, NetworkId, Accounts, ChainId, DappMetadata, WalletMetadata);
+            return new SavedSession(clientId, _handshakeId, _bridgeUrl, _key, _keyRaw, PeerId, NetworkId, Accounts, ChainId, DappMetadata, WalletMetadata);
         }
 
         /// <summary>

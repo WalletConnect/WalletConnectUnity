@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "1B091FDEE007SK",
         "name": "com.DefaultCompany.WalletConnectUnity",
-        "processId": 25726,
+        "processId": 24201,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -83,13 +83,49 @@
         {
             "deviceId": "1B091FDEE007SK",
             "name": "com.DefaultCompany.WalletConnectUnity",
-            "processId": 24425,
+            "processId": 13532,
+            "exited": true
+        },
+        {
+            "deviceId": "1B091FDEE007SK",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 15252,
+            "exited": true
+        },
+        {
+            "deviceId": "1B091FDEE007SK",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 17843,
+            "exited": true
+        },
+        {
+            "deviceId": "1B091FDEE007SK",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 19403,
+            "exited": true
+        },
+        {
+            "deviceId": "1B091FDEE007SK",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 21903,
+            "exited": true
+        },
+        {
+            "deviceId": "1B091FDEE007SK",
+            "name": "io.metamask",
+            "processId": 22107,
             "exited": false
         },
         {
             "deviceId": "1B091FDEE007SK",
             "name": "com.DefaultCompany.WalletConnectUnity",
-            "processId": 25726,
+            "processId": 23303,
+            "exited": false
+        },
+        {
+            "deviceId": "1B091FDEE007SK",
+            "name": "com.DefaultCompany.WalletConnectUnity",
+            "processId": 24201,
             "exited": false
         }
     ],
