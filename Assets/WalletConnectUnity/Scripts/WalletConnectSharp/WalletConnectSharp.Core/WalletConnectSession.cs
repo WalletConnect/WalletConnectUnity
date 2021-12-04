@@ -25,6 +25,8 @@ namespace WalletConnectSharp.Core
         private long _handshakeId;
         
         public event EventHandler<WalletConnectSession> OnSessionConnect;
+        public event EventHandler<WalletConnectSession> OnSessionCreated;
+        public event EventHandler<WalletConnectSession> OnSessionResumed;
         public event EventHandler OnSessionDisconnect;
         public event EventHandler<WalletConnectSession> OnSend;
         public event EventHandler<WCSessionData> SessionUpdate;
@@ -201,6 +203,9 @@ namespace WalletConnectSharp.Core
                     //Reset this back after we have established a session
                     ReadyForUserPrompt = false;
 
+                    if (OnSessionCreated != null)
+                        OnSessionCreated(this, this);
+
                 }
                 else
                 {
@@ -213,6 +218,9 @@ namespace WalletConnectSharp.Core
                         peerId = PeerId,
                         peerMeta = WalletMetadata
                     };
+
+                    if (OnSessionResumed != null)
+                        OnSessionResumed(this, this);
                 }
 
                 Connecting = false;
