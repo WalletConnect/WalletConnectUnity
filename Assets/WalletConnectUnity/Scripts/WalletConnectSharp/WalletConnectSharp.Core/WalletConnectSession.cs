@@ -202,6 +202,7 @@ namespace WalletConnectSharp.Core
                     result = await CreateSession();
                     //Reset this back after we have established a session
                     ReadyForUserPrompt = false;
+                    Connecting = false;
 
                     if (OnSessionCreated != null)
                         OnSessionCreated(this, this);
@@ -218,12 +219,12 @@ namespace WalletConnectSharp.Core
                         peerId = PeerId,
                         peerMeta = WalletMetadata
                     };
+                    Connecting = false;
 
                     if (OnSessionResumed != null)
                         OnSessionResumed(this, this);
                 }
 
-                Connecting = false;
 
                 if (OnSessionConnect != null)
                     OnSessionConnect(this, this);
