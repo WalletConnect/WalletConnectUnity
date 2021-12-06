@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WalletConnectSharp.Core.Events;
@@ -38,6 +37,8 @@ namespace WalletConnectSharp.Core
         public event EventHandler<WalletConnectProtocol> OnTransportDisconnect;
 
         public bool SessionConnected { get; protected set; }
+        
+        public bool Disconnected { get; protected set; }
 
         public bool Connected
         {
@@ -46,12 +47,14 @@ namespace WalletConnectSharp.Core
                 return SessionConnected && TransportConnected;
             }
         }
+        
+        public bool Connecting { get; protected set; }
 
         public bool TransportConnected
         {
             get
             {
-                return Transport != null && Transport.Connected;
+                return Transport != null && Transport.Connected && Transport.URL == _bridgeUrl;
             }
         }
 
@@ -161,9 +164,11 @@ namespace WalletConnectSharp.Core
         protected async Task SetupTransport()
         {
             Transport.MessageReceived += TransportOnMessageReceived;
-
+            
             await Transport.Open(this._bridgeUrl);
-
+            
+            //Debug.Log("[WalletConnect] Transport Opened");
+            
             TriggerOnTransportConnect();
         }
 
@@ -244,7 +249,7 @@ namespace WalletConnectSharp.Core
             {
                 silent = false;
             }
-            
+
             string json = JsonConvert.SerializeObject(requestObject);
 
             var encrypted = await Cipher.EncryptWithKey(_keyRaw, json);
