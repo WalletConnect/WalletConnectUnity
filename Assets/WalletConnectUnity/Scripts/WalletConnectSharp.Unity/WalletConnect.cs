@@ -41,6 +41,7 @@ namespace WalletConnectSharp.Unity
         public class WalletConnectEventWithSessionData : UnityEvent<WCSessionData> { }
         
         public event EventHandler ConnectionStarted;
+        public event EventHandler NewSessionStarted;
 
         [BindComponent]
         private NativeWebSocketTransport _transport;
@@ -216,6 +217,9 @@ namespace WalletConnectSharp.Unity
             else
             {
                 Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, ciper, chainId);
+                
+                if (NewSessionStarted != null)
+                    NewSessionStarted(this, EventArgs.Empty);
             }
 
             StartCoroutine(SetupDefaultWallet());
