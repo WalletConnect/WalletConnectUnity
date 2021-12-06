@@ -26,10 +26,10 @@ public class WalletConnectQRImage : BindableMonoBehavior
             return;
         }
         
-        walletConnect.ConnectionStarted += WalletConnectOnConnectionStarted;
+        walletConnect.ConnectionStarted += UpdateQRCode;
     }
 
-    private void WalletConnectOnConnectionStarted(object sender, EventArgs e)
+    private void UpdateQRCode(object sender, EventArgs e)
     {
         var url = walletConnect.Session.URI;
         

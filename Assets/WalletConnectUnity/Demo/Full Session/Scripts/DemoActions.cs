@@ -7,10 +7,12 @@ using WalletConnectSharp.Core.Models.Ethereum;
 using WalletConnectSharp.Unity;
 using WalletConnectUnity.Demo.Scripts;
 
-public class DemoActions : MonoBehaviour
+public class DemoActions : WalletConnectActions
 {
     public Text resultText;
     public Text accountText;
+
+    private int count;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -30,20 +32,21 @@ public class DemoActions : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (WalletConnect.ActiveSession.Accounts == null)
+            return;
+        
         accountText.text = "\nConnected to Chain " + WalletConnect.ActiveSession.ChainId + ":\n" + WalletConnect.ActiveSession.Accounts[0];
     }
-
-    public async void PersonalSign()
+    
+    public async void OnClickPersonalSign()
     {
-        var address = WalletConnect.ActiveSession.Accounts[0];
-
-        var results = await WalletConnect.ActiveSession.EthPersonalSign(address, "This is a test!");
+        var results = await PersonalSign("This is a test!");
 
         resultText.text = results;
         resultText.gameObject.SetActive(true);
     }
     
-    public async void SendTransaction()
+    public async void OnClickSendTransaction()
     {
         var address = WalletConnect.ActiveSession.Accounts[0];
         var transaction = new TransactionData()
@@ -56,13 +59,13 @@ public class DemoActions : MonoBehaviour
             chainId = 2,
         };
 
-        var results = await WalletConnect.ActiveSession.EthSendTransaction(transaction);
+        var results = await SendTransaction(transaction);
 
         resultText.text = results;
         resultText.gameObject.SetActive(true);
     }
     
-    public async void SignTransaction()
+    public async void OnClickSignTransaction()
     {
         var address = WalletConnect.ActiveSession.Accounts[0];
         var transaction = new TransactionData()
@@ -77,26 +80,25 @@ public class DemoActions : MonoBehaviour
             gasPrice = "50000000000"
         };
 
-        var results = await WalletConnect.ActiveSession.EthSignTransaction(transaction);
+        var results = await SignTransaction(transaction);
 
         resultText.text = results;
         resultText.gameObject.SetActive(true);
     }
     
-    public async void SignTypedData()
+    public async void OnClickSignTypedData()
     {
         var address = WalletConnect.ActiveSession.Accounts[0];
 
-        var results = await WalletConnect.ActiveSession.EthSignTypedData(address, DemoSignTypedData.ExampleData, DemoSignTypedData.Eip712Domain);
+        var results = await SignTypedData(DemoSignTypedData.ExampleData, DemoSignTypedData.Eip712Domain);
 
         resultText.text = results;
         resultText.gameObject.SetActive(true);
     }
 
-    public async void DisconnectAndConnect()
+    public async void OnClickDisconnectAndConnect()
     {
-        await WalletConnect.ActiveSession.Disconnect();
-
-        await WalletConnect.ActiveSession.Connect();
+        bool shouldConnect = !WalletConnect.Instance.createNewSessionOnSessionDisconnect;
+        CloseSession(shouldConnect);
     }
 }

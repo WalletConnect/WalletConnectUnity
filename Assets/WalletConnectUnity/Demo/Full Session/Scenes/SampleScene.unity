@@ -204,7 +204,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1238222471}
-        m_MethodName: SendTransaction
+        m_MethodName: OnClickSendTransaction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -497,6 +497,7 @@ MonoBehaviour:
   autoSaveAndResume: 1
   connectOnAwake: 0
   connectOnStart: 1
+  autoReconnectOnNewSession: 1
   customBridgeUrl: https://f.bridge.walletconnect.org
   chainId: 1
   ConnectedEvent:
@@ -664,7 +665,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1238222471}
-        m_MethodName: PersonalSign
+        m_MethodName: OnClickPersonalSign
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1152,7 +1153,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1238222471}
-        m_MethodName: DisconnectAndConnect
+        m_MethodName: OnClickDisconnectAndConnect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1360,7 +1361,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1238222471}
-        m_MethodName: SignTransaction
+        m_MethodName: OnClickSignTransaction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1568,7 +1569,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1238222471}
-        m_MethodName: SignTypedData
+        m_MethodName: OnClickSignTypedData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
