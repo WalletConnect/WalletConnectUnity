@@ -5,6 +5,14 @@ This project includes a working demo scene (**TODO**: needs to show sample trans
 
 #### :warning: **This is beta software**: This software is currently in beta and under development. Please proceed with caution, and open a new issue if you encounter a bug :warning:
 
+## Installation
+
+*To use WalletConnectUnity, you would need Unity2019.4.28f1 or above.* 
+
+After making a new project in Unity, you will need to download WalletConnectUnity from this repo by cloning it, forking it, or downloading as a zip file. Take the contents of the Assets folder in the repo and place it in your Unity Project.
+
+Once imported in your Unity Project, create a game object in your scene named Wallet Connect and attach the Wallet Connect component to the your new game object. You can configure both the connection settings and app details in the Wallet Connect Component.
+
 ## Usage
 
 To use WalletConnect in your Unity project, simply create an empty GameObject in your Scene and attach the `WalletConnect` component to your GameObject. Attaching this script will automatically attach any required components as well
