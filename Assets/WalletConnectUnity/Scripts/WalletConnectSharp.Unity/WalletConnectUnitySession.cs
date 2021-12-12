@@ -14,8 +14,6 @@ namespace WalletConnectSharp.Unity
 
         private bool listenerAdded;
 
-        public bool Connecting { get; private set; }
-        
         public WalletConnectUnitySession(SavedSession savedSession, WalletConnect source, ITransport transport = null, ICipher cipher = null, EventDelegator eventDelegator = null) : base(savedSession, transport, cipher, eventDelegator)
         {
             this.unityObjectSource = source;

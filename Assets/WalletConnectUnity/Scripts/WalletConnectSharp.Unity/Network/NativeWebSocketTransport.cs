@@ -17,6 +17,7 @@ namespace WalletConnectSharp.Unity.Network
     public class NativeWebSocketTransport : MonoBehaviour, ITransport
     {
         private bool opened = false;
+        private bool closed = false;
 
         private WebSocket nextClient;
         private WebSocket client;
@@ -49,14 +50,27 @@ namespace WalletConnectSharp.Unity.Network
 
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<MessageReceivedEventArgs> OpenReceived;
-
-        public async Task Open(string url)
+        
+        public string URL
         {
+            get
+            {
+                return currentUrl;
+            }
+        }
+
+        public async Task Open(string url, bool clearSubscriptions = true)
+        {
+            if (currentUrl != url || clearSubscriptions)
+            {
+                ClearSubscriptions();
+            }
+
             currentUrl = url;
             
             await _socketOpen();
         }
-        
+
         private async Task _socketOpen()
         {
             if (nextClient != null)
@@ -69,7 +83,7 @@ namespace WalletConnectSharp.Unity.Network
                 url = url.Replace("https", "wss");
             else if (url.StartsWith("http"))
                 url = url.Replace("http", "ws");
-            
+
             nextClient = new WebSocket(url);
             
             TaskCompletionSource<bool> eventCompleted = new TaskCompletionSource<bool>(TaskCreationOptions.None);
@@ -82,7 +96,7 @@ namespace WalletConnectSharp.Unity.Network
                 if (this.OpenReceived != null)
                     OpenReceived(this, null);
 
-                Debug.Log("[WebSocket] Opened");
+                Debug.Log("[WebSocket] Opened " + url);
                 
                 eventCompleted.SetResult(true);
             };
@@ -97,7 +111,9 @@ namespace WalletConnectSharp.Unity.Network
 
             nextClient.Connect().ContinueWith(t => HandleError(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
 
+            Debug.Log("[WebSocket] Waiting for Open " + url);
             await eventCompleted.Task;
+            Debug.Log("[WebSocket] Open Completed");
         }
 
         private void HandleError(Exception e)
@@ -140,6 +156,12 @@ namespace WalletConnectSharp.Unity.Network
         
         private async void ClientTryReconnect(WebSocketCloseCode closeCode)
         {
+            if (wasPaused)
+            {
+                Debug.Log("[WebSocket] Application paused, retry attempt aborted");
+                return;
+            }
+            
             nextClient = null;
             await _socketOpen();
         }
@@ -188,14 +210,14 @@ namespace WalletConnectSharp.Unity.Network
 
         public async Task Close()
         {
+            Debug.Log("Closing Websocket");
             try
             {
                 if (client != null)
                 {
+                    this.opened = false;
                     client.OnClose -= ClientTryReconnect;
                     await client.Close();
-
-                    this.opened = false;
                 }
             }
             catch (WebSocketInvalidStateException e)
@@ -224,7 +246,7 @@ namespace WalletConnectSharp.Unity.Network
 
         public async Task Subscribe(string topic)
         {
-            Debug.Log("[WebSocket] Subscribe");
+            Debug.Log("[WebSocket] Subscribe to " + topic);
 
             var msg = GenerateSubscribeMessage(topic);
             
@@ -263,6 +285,13 @@ namespace WalletConnectSharp.Unity.Network
             _eventDelegator.ListenFor(topic, callback);
         }
 
+        public void ClearSubscriptions()
+        {
+            Debug.Log("[WebSocket] Subs Cleared");
+            subscribedTopics.Clear();
+            _queuedMessages.Clear();
+        }
+
         //#if UNITY_IOS
         private IEnumerator OnApplicationPause(bool pauseStatus)
         {
@@ -279,7 +308,7 @@ namespace WalletConnectSharp.Unity.Network
             else if (wasPaused)
             {
                 Debug.Log("[WebSocket] Resuming");
-                var openTask = Task.Run(() => Open(currentUrl));
+                var openTask = Task.Run(() => Open(currentUrl, false));
                 var coroutineInstruction = new WaitForTask(openTask);
                 yield return coroutineInstruction;
 
