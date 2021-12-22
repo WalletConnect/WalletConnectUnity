@@ -1,3 +1,4 @@
+
 # WalletConnectUnity
 This project is an extension of WalletConnectSharp that brings WalletConnect to Unity. This project has been built using Unity 2019.4.28f1 (LTS), and has been tested using 2020.1.14f1. 
 
@@ -20,15 +21,34 @@ To use WalletConnect in your Unity project, simply create an empty GameObject in
 ![example](https://i.imgur.com/nlpZx5l.png)
 
 ### Options
-
-* Persist Through Scenes
-    - This makes the WalletConnect GameObject persist through Scene changes. This is the same as calling `DontDestroyOnLoad`
-* Wait For Wallet On Start
+* Default Wallet
+    - The default wallet to open up on iOS when no when no wallet is specified in `OpenMobileWallet`
+* Auto Save and Resume
+    - Automatically saves the session when the application pauses or quits and resumes the session when the app resumes or starts.
+* Connect On Awake
+    - Whether you would like WalletConnect to automatically start listening for a Wallet connection on awake. The user will still need to initiate a connection either by scanning a QR code or through deep linking
+* Connect On Start
     - Whether you would like WalletConnect to automatically start listening for a Wallet connection on start. The user will still need to initiate a connection either by scanning a QR code or through deep linking
-* ConnectedEvent
-    - A Unity Event that is triggered when a Wallet seession has started. Nothing is passed to this event listener
-* ConnectedEventSession
+* Create New Session On Session Disconnect
+	- WalletConnect will create a new session every time the current session ends. 
+* Connect Session Retry Count
+	 - How many times a session should attempt to reconnect to the bridge server before failing.
+* Custom Bridge Url
+	 - Set a custom bridge to connect to. Leave this blank to use WalletConnect default bridges.
+* Chain Id
+	 - **Unused** will be used to specify chain to interact with.
+* Connected Event
+    - A Unity Event that is triggered when a Wallet session has started. Nothing is passed to this event listener.
+* Connected Event Session
     - A Unity Event that is triggered when a Wallet session has started. The Session data is passed to this event listener
+* Disconnected Event Session
+    - A Unity Event that is triggered when a Wallet session has disconnected. The Session data is passed to this event listener.
+* Connection Failed Event
+    - A Unity Event that is triggered when a Wallet session has failed to connect either due to transport errors, network errors, or user declining to create session. The Session data is passed to this event listener
+* New Session Connected
+	 -  A Unity Event that is triggered when a new Wallet session has been successfully created and connected. The Session data is passed to this event listener. This event will only be called once in a session's lifetime.
+* Resumed Session Connected
+	 -  A Unity Event that is triggered when a Wallet session has been successfully resumed and connected. The Session data is passed to this event listener. 
 * App Data
     - This is the Session data that is given and shown in the Wallet
 
