@@ -234,6 +234,21 @@ namespace WalletConnectSharp.Core
             }
         }
 
+        public async Task<TR> SendRequestAwaitResponse<T, TR>(T requestObject, object requestId, string sendingTopic = null,
+            bool? forcePushNotification = null)
+        {
+            TaskCompletionSource<TR> response = new TaskCompletionSource<TR>(TaskCreationOptions.None);
+            
+            Events.ListenForGenericResponse<TR>(requestId, (sender, args) =>
+            {
+                response.SetResult(args.Response);
+            });
+
+            await SendRequest(requestObject, sendingTopic, forcePushNotification);
+
+            return await response.Task;
+        }
+
         public async Task SendRequest<T>(T requestObject, string sendingTopic = null, bool? forcePushNotification = null)
         {
             bool silent;
