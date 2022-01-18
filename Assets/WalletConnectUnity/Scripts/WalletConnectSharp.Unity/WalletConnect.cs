@@ -340,8 +340,8 @@ namespace WalletConnectSharp.Unity
 
             if (wallet != null)
             {
-                yield return DownloadImagesFor(wallet.id);
                 SelectedWallet = wallet;
+                yield return DownloadImagesFor(wallet.id);
                 Debug.Log("Setup default wallet " + wallet.name);
             }
         }
