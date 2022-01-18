@@ -1,12 +1,13 @@
+
 namespace WalletConnectSharp.Unity.Models
 {
     public enum Wallets
     {
         None,
-        MetaMask,
         Rainbow,
         TrustWallet,
         Argent,
+        MetaMask,
         GnosisSafeMultisig,
         CryptocomDeFiWallet,
         Pillar,
@@ -27,7 +28,7 @@ namespace WalletConnectSharp.Unity.Models
         TrustVault,
         Atomic,
         Coin98,
-        CoolWalletS,
+        CoolWallet,
         Alice,
         AlphaWallet,
         DCENTWallet,
@@ -78,7 +79,6 @@ namespace WalletConnectSharp.Unity.Models
         Valora,
         QuiverX,
         CeloWallet,
-        EncryptedInk,
         ElastosEssentials,
         fusecash,
         Bitpie,
@@ -88,6 +88,7 @@ namespace WalletConnectSharp.Unity.Models
         fxWallet,
         BullApp,
         Anybit,
+        Bitpie,
         MinervaWallet,
         ArchiPage,
         Tangem,
@@ -112,5 +113,10 @@ namespace WalletConnectSharp.Unity.Models
         Avacus,
         Krystal,
         Linen,
+        CeloTerminal,
+        AmbireWallet,
+        Spot,
+        Frontier,
+
     }
 }
