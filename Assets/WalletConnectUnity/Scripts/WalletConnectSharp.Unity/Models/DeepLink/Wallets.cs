@@ -88,7 +88,6 @@ namespace WalletConnectSharp.Unity.Models
         fxWallet,
         BullApp,
         Anybit,
-        Bitpie,
         MinervaWallet,
         ArchiPage,
         Tangem,
