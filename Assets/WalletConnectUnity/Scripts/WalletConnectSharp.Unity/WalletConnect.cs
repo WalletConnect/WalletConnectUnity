@@ -326,11 +326,17 @@ namespace WalletConnectSharp.Unity
             }
         }
 
+        private string FormatWalletName(string name)
+        {
+            return name.Replace('.', ' ').Replace('|', ' ').Replace(")", "").Replace("(", "").Replace("'", "")
+                .Replace(" ", "").Replace("1", "One").ToLower();
+        }
+
         private IEnumerator SetupDefaultWallet()
         {
             yield return FetchWalletList(false);
 
-            var wallet = SupportedWallets.Values.FirstOrDefault(a => a.name.ToLower() == DefaultWallet.ToString().ToLower());
+            var wallet = SupportedWallets.Values.FirstOrDefault(a => FormatWalletName(a.name) == DefaultWallet.ToString().ToLower());
 
             if (wallet != null)
             {
