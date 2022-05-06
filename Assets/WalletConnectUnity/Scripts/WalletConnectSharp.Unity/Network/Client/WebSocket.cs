@@ -458,6 +458,9 @@ namespace NativeWebSocket
                 m_CancellationToken = m_TokenSource.Token;
 
                 m_Socket = new ClientWebSocket();
+                //Update KeepAliveInterval to wicked big value so it never triggers 
+                m_Socket.Options.KeepAliveInterval = TimeSpan.Zero;
+                //The bridge doesn't handle ping packets properly, so let's just not do them.
 
                 foreach (var header in headers)
                 {
