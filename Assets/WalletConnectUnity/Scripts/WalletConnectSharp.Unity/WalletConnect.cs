@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -72,6 +75,7 @@ namespace WalletConnectSharp.Unity
             }
         }
 
+        public bool retryOnTimeout = true;
         public bool autoSaveAndResume = true;
         public bool connectOnAwake = false;
         public bool connectOnStart = true;
@@ -147,26 +151,52 @@ namespace WalletConnectSharp.Unity
 
         public async Task<WCSessionData> Connect()
         {
-            SavedSession savedSession = null;
-            if (PlayerPrefs.HasKey(SessionKey))
+            while (true)
             {
-                var json = PlayerPrefs.GetString(SessionKey);
-                savedSession = JsonConvert.DeserializeObject<SavedSession>(json);
-            }
-            
-            if (string.IsNullOrWhiteSpace(customBridgeUrl))
-            {
-                customBridgeUrl = null;
-            }
-            
-            if (Session != null)
-            {
-                var currentKey = Session.KeyData;
-                if (savedSession != null)
+                try
                 {
-                    if (currentKey != savedSession.Key)
+                    SavedSession savedSession = null;
+                    if (PlayerPrefs.HasKey(SessionKey))
                     {
-                        if (Session.Connected)
+                        var json = PlayerPrefs.GetString(SessionKey);
+                        savedSession = JsonConvert.DeserializeObject<SavedSession>(json);
+                    }
+
+                    if (string.IsNullOrWhiteSpace(customBridgeUrl))
+                    {
+                        customBridgeUrl = null;
+                    }
+
+                    if (Session != null)
+                    {
+                        var currentKey = Session.KeyData;
+                        if (savedSession != null)
+                        {
+                            if (currentKey != savedSession.Key)
+                            {
+                                if (Session.Connected)
+                                {
+                                    await Session.Disconnect();
+                                }
+                                else if (Session.TransportConnected)
+                                {
+                                    await Session.Transport.Close();
+                                }
+                            }
+                            else if (!Session.Connected && !Session.Connecting)
+                            {
+                                StartCoroutine(SetupDefaultWallet());
+
+                                SetupEvents();
+
+                                return await CompleteConnect();
+                            }
+                            else
+                            {
+                                return null; //Nothing to do
+                            }
+                        }
+                        else if (Session.Connected)
                         {
                             await Session.Disconnect();
                         }
@@ -174,59 +204,45 @@ namespace WalletConnectSharp.Unity
                         {
                             await Session.Transport.Close();
                         }
+                        else if (Session.Connecting)
+                        {
+                            //We are still connecting, do nothing
+                            return null;
+                        }
                     }
-                    else if (!Session.Connected && !Session.Connecting)
-                    {
-                        StartCoroutine(SetupDefaultWallet());
-                        
-                        SetupEvents();
 
-                        return await CompleteConnect();
+                    //default will be set by library
+                    ICipher ciper = null;
+
+#if UNITY_WEBGL
+            ciper = new WebGlAESCipher();
+            #endif
+
+                    if (savedSession != null)
+                    {
+                        Session = new WalletConnectUnitySession(savedSession, this, _transport);
                     }
                     else
                     {
-                        return null; //Nothing to do
+                        Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, ciper,
+                            chainId);
+
+                        if (NewSessionStarted != null)
+                            NewSessionStarted(this, EventArgs.Empty);
                     }
+
+                    StartCoroutine(SetupDefaultWallet());
+
+                    SetupEvents();
+
+                    return await CompleteConnect();
                 }
-                else if (Session.Connected)
+                catch(TimeoutException)
                 {
-                    await Session.Disconnect();
-                }
-                else if (Session.TransportConnected)
-                {
-                    await Session.Transport.Close();
-                } 
-                else if (Session.Connecting)
-                {
-                    //We are still connecting, do nothing
-                    return null;
+                    Debug.Log("Timeout Reached, Regenerating Session");
                 }
             }
-
-            //default will be set by library
-            ICipher ciper = null;
-            
-            #if UNITY_WEBGL
-            ciper = new WebGlAESCipher();
-            #endif
-            
-            if (savedSession != null)
-            {
-                Session = new WalletConnectUnitySession(savedSession, this, _transport);
-            }
-            else
-            {
-                Session = new WalletConnectUnitySession(AppData, this, customBridgeUrl, _transport, ciper, chainId);
-                
-                if (NewSessionStarted != null)
-                    NewSessionStarted(this, EventArgs.Empty);
-            }
-
-            StartCoroutine(SetupDefaultWallet());
-            
-            SetupEvents();
-
-            return await CompleteConnect();
+           
         }
 
         private void SetupEvents()

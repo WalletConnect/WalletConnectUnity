@@ -9,6 +9,8 @@
 [Bb]uild/
 [Bb]uilds/
 Assets/AssetStoreTools*
+#ignore editor plugins
+Assets/Plugins/
 
 # Visual Studio cache directory
 .vs/

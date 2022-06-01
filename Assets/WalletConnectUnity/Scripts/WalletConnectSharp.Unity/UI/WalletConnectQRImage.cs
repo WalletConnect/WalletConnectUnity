@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using WalletConnectSharp.Unity;
@@ -9,6 +12,8 @@ using QRCoder.Unity;
 [RequireComponent(typeof(Image))]
 public class WalletConnectQRImage : BindableMonoBehavior
 {
+    public GameObject loader;
+    
     /// <summary>
     /// The WalletConnect instance we'll work with to generate the QR code.
     /// </summary>
@@ -51,6 +56,28 @@ public class WalletConnectQRImage : BindableMonoBehavior
     /// <param name="sender">Source of event</param>
     /// <param name="e">Event arguments</param>
     private void WalletConnectOnConnectionStarted(object sender, EventArgs e)
+    {
+        if (loader == null) {
+            GenerateQrCode();
+        }
+        else
+        {
+            StartCoroutine(ShowLoader());
+        }
+        
+    }
+
+    private IEnumerator ShowLoader()
+    {
+        GenerateQrCode();
+        //hide the QRcode, show the loader, then wait a sec and then do the inverse
+        _image.enabled = false;
+        loader.SetActive(true);
+        yield return new WaitForSeconds(1);
+        _image.enabled = true;
+        loader.SetActive(false);
+    }
+    private void GenerateQrCode()
     {
         // Grab the WC URL and generate a QR code for it. Note: The ECCLevel is the "Error Correction Code" level which
         // is basically how much checksum data to add to the code - the more checksum data the more likely the code can
