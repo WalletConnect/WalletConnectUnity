@@ -38,6 +38,17 @@ public class DemoActions : WalletConnectActions
         accountText.text = "\nConnected to Chain " + WalletConnect.ActiveSession.ChainId + ":\n" + WalletConnect.ActiveSession.Accounts[0];
     }
     
+    public async void OnClickChangeChain(){
+        List<string> list = new List<string>();
+        list.Add("https://rpc-mumbai.maticvigil.com/");
+        var chainData = new EthChainData(){
+            chainId = "0x13881",
+            chainName = "Mumbai Testnet",
+            rpcUrls = list.ToArray()
+        };
+        var results = await WalletAddEthChain(chainData);
+    }
+
     public async void OnClickPersonalSign()
     {
         var results = await PersonalSign("This is a test!");

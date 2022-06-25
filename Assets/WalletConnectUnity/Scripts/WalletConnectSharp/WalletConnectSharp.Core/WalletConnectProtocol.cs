@@ -23,6 +23,7 @@ namespace WalletConnectSharp.Core
             "eth_signTypedData_v3",
             "eth_signTypedData_v4",
             "personal_sign",
+            "wallet_addEthereumChain"
         };
 
         public readonly EventDelegator Events;
