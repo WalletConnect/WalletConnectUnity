@@ -38,15 +38,31 @@ public class DemoActions : WalletConnectActions
         accountText.text = "\nConnected to Chain " + WalletConnect.ActiveSession.ChainId + ":\n" + WalletConnect.ActiveSession.Accounts[0];
     }
     
-    public async void OnClickChangeChain(){
+    public async void OnClickSwitchChain(){
+        try{
+            var chainId = new EthChain();
+            chainId.chainId = "0x13881";
+            var results = await WalletSwitchEthChain(chainId);
+        } catch {
+            //If the client rejected or doesn't have that chain, try to add it.
+            addEthChain();
+        }
+    }
+
+    public async void addEthChain(){
         List<string> list = new List<string>();
-        list.Add("https://rpc-mumbai.maticvigil.com/");
-        var chainData = new EthChainData(){
-            chainId = "0x13881",
-            chainName = "Mumbai Testnet",
-            rpcUrls = list.ToArray()
-        };
-        var results = await WalletAddEthChain(chainData);
+            list.Add("https://rpc-mumbai.maticvigil.com/");
+            var chainData = new EthChainData(){
+                chainId = "0x13881",
+                chainName = "Mumbai Testnet",
+                rpcUrls = list.ToArray(),
+                nativeCurrency = new NativeCurrency(){
+                    name = "MATIC",
+                    symbol = "MATIC",
+                    decimals = 18
+                }
+            };
+            var results = await WalletAddEthChain(chainData);
     }
 
     public async void OnClickPersonalSign()

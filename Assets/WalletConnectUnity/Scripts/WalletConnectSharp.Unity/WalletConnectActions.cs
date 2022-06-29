@@ -14,6 +14,14 @@ public class WalletConnectActions : MonoBehaviour
         return results;
     }
 
+    public async Task<string> WalletSwitchEthChain(EthChain chainId)
+    {
+
+        var results = await WalletConnect.ActiveSession.WalletSwitchEthChain(chainId);
+
+        return results;
+    }
+
     public async Task<string> PersonalSign(string message, int addressIndex = 0)
     {
         var address = WalletConnect.ActiveSession.Accounts[addressIndex];

@@ -318,6 +318,24 @@ namespace WalletConnectSharp.Core
             return response.Result;
         }
 
+        public async Task<string> WalletSwitchEthChain(params EthChain[] chainId)
+        {
+            EnsureNotDisconnected();
+            
+            
+            
+            
+            
+            var request = new WalletSwitchEthChain(chainId);
+
+            var response = await Send<WalletSwitchEthChain, EthResponse>(request);
+            
+            
+            
+
+            return response.Result;
+        }
+
         public async Task<string> EthSign(string address, string message)
         {
             EnsureNotDisconnected();
