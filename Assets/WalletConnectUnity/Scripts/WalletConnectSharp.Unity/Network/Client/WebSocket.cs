@@ -561,7 +561,7 @@ namespace NativeWebSocket
                 if (!Monitor.TryEnter(m_Socket, 1000))
                 {
                     // If we couldn't obtain exclusive access to the socket in one second, something is wrong.
-                    await m_Socket.CloseAsync(WebSocketCloseStatus.InternalServerError, string.Empty, m_CancellationToken);
+                    await m_Socket.CloseOutputAsync(WebSocketCloseStatus.InternalServerError, string.Empty, m_CancellationToken);
                     return;
                 }
 
@@ -649,7 +649,7 @@ namespace NativeWebSocket
             ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[8192]);
             try
             {
-                while (m_Socket.State == System.Net.WebSockets.WebSocketState.Open)
+                while (m_Socket.State == System.Net.WebSockets.WebSocketState.Open || m_Socket.State == System.Net.WebSockets.WebSocketState.CloseSent)
                 {
                     WebSocketReceiveResult result = null;
 
@@ -708,7 +708,7 @@ namespace NativeWebSocket
         {
             if (State == WebSocketState.Open)
             {
-                await m_Socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, m_CancellationToken);
+                await m_Socket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, string.Empty, m_CancellationToken);
             }
         }
     }
