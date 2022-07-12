@@ -6,6 +6,22 @@ using WalletConnectSharp.Unity;
 
 public class WalletConnectActions : MonoBehaviour
 {
+    public async Task<string> WalletAddEthChain(EthChainData chainData)
+    {
+
+        var results = await WalletConnect.ActiveSession.WalletAddEthChain(chainData);
+
+        return results;
+    }
+
+    public async Task<string> WalletSwitchEthChain(EthChain chainId)
+    {
+
+        var results = await WalletConnect.ActiveSession.WalletSwitchEthChain(chainId);
+
+        return results;
+    }
+
     public async Task<string> PersonalSign(string message, int addressIndex = 0)
     {
         var address = WalletConnect.ActiveSession.Accounts[addressIndex];
