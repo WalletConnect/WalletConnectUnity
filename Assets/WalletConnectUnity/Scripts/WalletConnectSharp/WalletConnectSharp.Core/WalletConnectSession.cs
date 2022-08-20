@@ -384,6 +384,8 @@ namespace WalletConnectSharp.Core
                 
                 var hash = new Sha3Keccack().CalculateHash(byteList.ToArray());*/
 
+                message = message.Replace("\\n", "\n");
+
                 message = "0x" + Encoding.UTF8.GetBytes(message).ToHex();
             }
             
