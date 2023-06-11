@@ -91,3 +91,23 @@ Update Mode: updateDependencies
 The following packages were updated:
   com.unity.collab-proxy from version 1.10.2 to 1.12.5
   com.unity.purchasing from version 3.2.2 to 4.0.3
+
+=== Sun Jun 11 16:46:33 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.analytics from version 3.6.11 to 3.6.12
+  com.unity.collab-proxy from version 1.12.5 to 2.0.0
+  com.unity.ide.rider from version 1.2.1 to 3.0.18
+  com.unity.ide.visualstudio from version 2.0.11 to 2.0.17
+  com.unity.ide.vscode from version 1.2.4 to 1.2.5
+  com.unity.mobile.android-logcat from version 1.2.3 to 1.3.2
+  com.unity.purchasing from version 4.0.3 to 4.5.2
+  com.unity.test-framework from version 1.1.29 to 1.1.31
+  com.unity.textmeshpro from version 2.1.4 to 3.0.6
+  com.unity.timeline from version 1.2.18 to 1.6.4
+  com.unity.xr.legacyinputhelpers from version 2.1.8 to 2.1.10
+The following packages were removed:
+  com.unity.multiplayer-hlapi@1.0.8
