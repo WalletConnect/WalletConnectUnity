@@ -8,6 +8,10 @@ namespace WalletConnect
 {
     public class WalletConnectUnity : BindableMonoBehavior
     {
+        private static WalletConnectUnity _instance;
+
+        public static WalletConnectUnity Instance => _instance;
+        
         public string ProjectName;
         public string ProjectId;
         public Metadata ClientMetadata;
@@ -22,6 +26,17 @@ namespace WalletConnect
         public override async void Awake()
         {
             base.Awake();
+
+            if (_instance == null || _instance == this)
+            {
+                _instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(this);
+                return;
+            }
 
             if (ConnectOnAwake)
             {

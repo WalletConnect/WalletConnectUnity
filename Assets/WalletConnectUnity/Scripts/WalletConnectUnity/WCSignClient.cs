@@ -8,6 +8,10 @@ namespace WalletConnect
     [RequireComponent(typeof(WalletConnectUnity))]
     public class WCSignClient : BindableMonoBehavior
     {
+        private static WCSignClient _currentInstance;
+
+        public static WCSignClient Instance => _currentInstance;
+        
         private bool _initialized = false;
         [BindComponent]
         private WalletConnectUnity WalletConnectUnity;
@@ -20,7 +24,18 @@ namespace WalletConnect
         public override async void Awake()
         {
             base.Awake();
-
+            
+            if (_currentInstance == null || _currentInstance == this)
+            {
+                _currentInstance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(this);
+                return;
+            }
+            
             if (ConnectOnAwake)
             {
                 await InitSignClient();
