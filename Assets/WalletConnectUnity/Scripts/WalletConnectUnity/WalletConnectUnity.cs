@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using UnityBinder;
 using UnityEngine;
 using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Models;
@@ -23,7 +24,7 @@ namespace WalletConnect
         private bool _initialized = false;
         public WalletConnectCore Core { get; private set; }
 
-        public override async void Awake()
+        protected override async void Awake()
         {
             base.Awake();
 

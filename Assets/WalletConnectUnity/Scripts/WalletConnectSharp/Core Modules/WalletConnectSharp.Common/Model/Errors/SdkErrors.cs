@@ -160,7 +160,7 @@ namespace WalletConnectSharp.Common.Model.Errors
                     errorMessage = "Unauthorized: peer is also {controller} controller";
                     break;
                 case ErrorType.JSONRPC_REQUEST_METHOD_REJECTED:
-                    errorMessage = "User rejected the request.";
+                    errorMessage = "Client rejected the request: {message}";
                     break;
                 case ErrorType.JSONRPC_REQUEST_METHOD_UNAUTHORIZED:
                     errorMessage = "The requested account and/or method has not been authorized by the user.";
