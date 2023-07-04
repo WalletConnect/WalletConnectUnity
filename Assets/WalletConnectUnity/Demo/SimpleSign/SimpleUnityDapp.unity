@@ -292,15 +292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 61:2004
-  fixedName: Sign in with WalletConnect
-  tags: 130000000a000000
-  rootFrame: {fileID: 0}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &137463866
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,15 +402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2985
-  fixedName: Separator
-  tags: 130000000c000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &171679708
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,15 +636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: I16:1943;41:3425
-  fixedName: Icon
-  tags: 130000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 1
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &188544987
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,15 +805,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: I16:2121;12:910
-  fixedName: Label
-  tags: 130000000a000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &205410795
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,15 +1109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2968
-  fixedName: so-so.eth
-  tags: 130000000a000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &253122048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1414,15 +1369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2973
-  fixedName: "\u270F\uFE0F Label"
-  tags: 130000000a000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &350587657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,15 +1468,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1942
-  fixedName: Scan Caption
-  tags: 050000001300000001000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT NULL NULL CENTER NULL
 --- !u!1 &401250682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,15 +1567,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2974
-  fixedName: Right Content
-  tags: 050000001300000001000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: STRETCH FIXED NULL CENTER NULL
 --- !u!1 &428648549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,15 +1736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1945
-  fixedName: Open your camera app or mobile wallet and scan the code to sign in
-  tags: 130000000a000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &458393217
 GameObject:
   m_ObjectHideFlags: 0
@@ -2025,15 +1944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2969
-  fixedName: Table Row Group
-  tags: 06000000020000000c00000001000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: NULL FIXED NULL NULL NULL
 --- !u!1 &481097155
 GameObject:
   m_ObjectHideFlags: 0
@@ -2172,15 +2082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: I16:2121;12:908
-  fixedName: Left Icon
-  tags: 05000000130000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT NULL NULL CENTER NULL
 --- !u!1 &504115970
 GameObject:
   m_ObjectHideFlags: 0
@@ -2355,15 +2256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2972
-  fixedName: Left Content
-  tags: 050000001300000001000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT NULL FIXED NULL NULL
 --- !u!1 &547366663
 GameObject:
   m_ObjectHideFlags: 0
@@ -2488,15 +2380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1937
-  fixedName: QR
-  tags: 13000000020000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 1
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &619878484
 GameObject:
   m_ObjectHideFlags: 0
@@ -2534,8 +2417,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.016601562, y: -0.01171875}
-  m_SizeDelta: {x: -973.47, y: -2001}
+  m_AnchoredPosition: {x: 0.057373, y: -0.01171875}
+  m_SizeDelta: {x: -3585.5, y: -2001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &619878486
 MonoBehaviour:
@@ -2549,15 +2432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 453:4468
-  fixedName: Home Screen
-  tags: 03000000020000000c0000001400000001000000
-  rootFrame: {fileID: 619878486}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!114 &619878488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2571,7 +2445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.95686275}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -2929,15 +2803,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 61:2002
-  fixedName: Large Button
-  tags: 0500000013000000020000000c00000001000000
-  rootFrame: {fileID: 0}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: STRETCH FIXED FIXED CENTER CENTER
 --- !u!1 &749362275
 GameObject:
   m_ObjectHideFlags: 0
@@ -3015,15 +2880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2967
-  fixedName: Header
-  tags: 0600000001000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: NULL FIXED NULL CENTER CENTER
 --- !u!1 &870759596
 GameObject:
   m_ObjectHideFlags: 0
@@ -3328,15 +3184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2984
-  fixedName: "\u270F\uFE0F Label"
-  tags: 130000000a000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &881460642
 GameObject:
   m_ObjectHideFlags: 0
@@ -3394,15 +3241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2865
-  fixedName: Home Screen
-  tags: 03000000020000000c0000001400000001000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!114 &881460645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3651,15 +3489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 61:2002
-  fixedName: Large Button
-  tags: 0500000013000000020000000c00000001000000
-  rootFrame: {fileID: 0}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: STRETCH FIXED FIXED CENTER CENTER
 --- !u!1 &954300451
 GameObject:
   m_ObjectHideFlags: 0
@@ -4009,15 +3838,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: I16:2121;12:911
-  fixedName: Right Icon
-  tags: 05000000130000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT NULL NULL CENTER MAX
 --- !u!1 &1055127167
 GameObject:
   m_ObjectHideFlags: 0
@@ -4117,15 +3937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2971
-  fixedName: "\u270F\uFE0F Content"
-  tags: 050000001300000001000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: STRETCH NULL FIXED NULL NULL
 --- !u!1 &1130083855
 GameObject:
   m_ObjectHideFlags: 0
@@ -4250,15 +4061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2975
-  fixedName: Image - ETH
-  tags: 13000000020000000c000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 1
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &1157266932
 GameObject:
   m_ObjectHideFlags: 0
@@ -4397,15 +4199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: I16:2121;12:912
-  fixedName: Icon-Copy
-  tags: 06000000130000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT NULL NULL CENTER CENTER
 --- !u!1 &1169535098
 GameObject:
   m_ObjectHideFlags: 0
@@ -4544,15 +4337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: I16:2121;12:909
-  fixedName: Icon-Copy
-  tags: 06000000130000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT NULL NULL CENTER CENTER
 --- !u!1 &1181587199
 GameObject:
   m_ObjectHideFlags: 0
@@ -4713,10 +4497,10 @@ RectTransform:
   m_Father: {fileID: 619878485}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 233.26, y: -479.5}
-  m_SizeDelta: {x: 525.67, y: 959}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 525.6699, y: 959}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1189257740
 MonoBehaviour:
@@ -4730,15 +4514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1920
-  fixedName: Scan
-  tags: 03000000020000000c00000001000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!222 &1189257743
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4977,15 +4752,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: I16:2121;12:909;11:1169
-  fixedName: Icon
-  tags: 130000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 1
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &1446437413
 GameObject:
   m_ObjectHideFlags: 0
@@ -5970,15 +5736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1943
-  fixedName: Icon-Large-QRCode
-  tags: 05000000130000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT FIXED FIXED CENTER CENTER
 --- !u!1 &1751306911
 GameObject:
   m_ObjectHideFlags: 0
@@ -6082,15 +5839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1920
-  fixedName: Scan
-  tags: 03000000020000000c00000001000000
-  rootFrame: {fileID: 1751306916}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &1772156726
 GameObject:
   m_ObjectHideFlags: 0
@@ -6336,15 +6084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 61:2004
-  fixedName: Sign in with WalletConnect
-  tags: 130000000a000000
-  rootFrame: {fileID: 0}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &1789068415
 GameObject:
   m_ObjectHideFlags: 0
@@ -6592,15 +6331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2957
-  fixedName: Frame 7
-  tags: 020000000c00000014000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 1
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &1881489135
 GameObject:
   m_ObjectHideFlags: 0
@@ -6711,15 +6441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: I16:2121;12:912;11:1169
-  fixedName: Icon
-  tags: 130000000c000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 1
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &1891781538
 GameObject:
   m_ObjectHideFlags: 0
@@ -6919,15 +6640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:2121
-  fixedName: Small Button
-  tags: 0500000013000000020000000c00000001000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT FIXED NULL CENTER CENTER
 --- !u!1 &1901264206
 GameObject:
   m_ObjectHideFlags: 0
@@ -7097,15 +6809,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1944
-  fixedName: Scan with your phone
-  tags: 130000000a000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &1916517462
 GameObject:
   m_ObjectHideFlags: 0
@@ -7206,15 +6909,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1941
-  fixedName: Frame 6
-  tags: 060000001300000001000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: INHERIT NULL NULL CENTER NULL
 --- !u!1 &2034913541
 GameObject:
   m_ObjectHideFlags: 0
@@ -7304,15 +6998,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2964
-  fixedName: Frame 6
-  tags: 0c000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 1
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: 
 --- !u!1 &2097256848
 GameObject:
   m_ObjectHideFlags: 0
@@ -7452,15 +7137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 68:2970
-  fixedName: TableRow
-  tags: 06000000130000000c00000001000000
-  rootFrame: {fileID: 881460644}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: STRETCH FIXED NULL NULL NULL
 --- !u!1 &2105077782
 GameObject:
   m_ObjectHideFlags: 0
@@ -7644,12 +7320,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b42570416bdca4697b2749e5bf8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 16:1936
-  fixedName: QR Code
-  tags: 060000000c0000001400000001000000
-  rootFrame: {fileID: 1189257740}
-  fcuInstance: {fileID: 0}
-  isDownloadable: 0
-  text: {fileID: 0}
-  buttonComponent: 0
-  figmaAligment: NULL NULL NULL CENTER CENTER
