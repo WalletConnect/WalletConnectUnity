@@ -59,7 +59,7 @@ namespace WalletConnectUnity.Demo.SimpleSign
 
                 var chainIds = eipChains.Select(c => c.FullChainId).ToArray();
                 
-                requiriedNamespaces.Add(Chain.EvmNamespace, new RequiredNamespace()
+                requiriedNamespaces.Add(Chain.EvmNamespace, new ProposedNamespace()
                 {
                     Chains = chainIds,
                     Events = events,

@@ -7,6 +7,7 @@ using WalletConnectSharp.Storage;
 
 namespace WalletConnect
 {
+    [RequireComponent(typeof(WCWebSocketBuilder))]
     public class WalletConnectUnity : BindableMonoBehavior
     {
         private static WalletConnectUnity _instance;
@@ -22,6 +23,9 @@ namespace WalletConnect
         public string BaseContext = "unity-game";
         
         private bool _initialized = false;
+
+        [BindComponent]
+        private WCWebSocketBuilder _builder;
         public WalletConnectCore Core { get; private set; }
 
         protected override async void Awake()
@@ -63,12 +67,16 @@ namespace WalletConnect
             
             var storage = new FileSystemStorage(Application.persistentDataPath + "/walletconnect.json");
 
+            if (_builder == null)
+                _builder = GetComponent<WCWebSocketBuilder>();
+
             Core = new WalletConnectCore(new CoreOptions()
             {
                 Name = ProjectName,
                 ProjectId = ProjectId,
                 BaseContext = BaseContext,
                 Storage = storage,
+                ConnectionBuilder = _builder,
             });
 
             await Core.Start();

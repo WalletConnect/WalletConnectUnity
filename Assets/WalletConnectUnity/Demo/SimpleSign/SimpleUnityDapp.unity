@@ -4534,6 +4534,7 @@ GameObject:
   - component: {fileID: 1352578362}
   - component: {fileID: 1352578361}
   - component: {fileID: 1352578364}
+  - component: {fileID: 1352578365}
   m_Layer: 0
   m_Name: WalletConnectUnity
   m_TagString: Untagged
@@ -4568,11 +4569,14 @@ MonoBehaviour:
   ProjectName: Simple Unity Demo
   ProjectId: 39f3dc0a2c604ec9885799f9fc5feb7c
   ClientMetadata:
-    Name: Simple Unity Demo
-    Description: A simple dapp unity demo for WalletConnectUnity
-    Url: https://github.com/WalletConnect/WalletConnectUnity
+    Name: WalletConnectSharpv2 Dapp Example
+    Description: An example dapp to showcase WalletConnectSharpv2
+    Url: https://walletconnect.com
     Icons:
     - https://walletconnect.com/meta/favicon.ico
+    Redirect:
+      Native: 
+      Universal: 
     VerifyUrl: 
   ConnectOnAwake: 1
   ConnectOnStart: 0
@@ -4642,6 +4646,18 @@ MonoBehaviour:
   onSignClientAuthorizedWithArgs:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1352578365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352578360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dac91b1c8064059995e377cfa0340f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1379361301
 GameObject:
   m_ObjectHideFlags: 0
