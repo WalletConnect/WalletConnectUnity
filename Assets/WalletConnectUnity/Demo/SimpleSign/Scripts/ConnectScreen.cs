@@ -50,6 +50,7 @@ namespace WalletConnectUnity.Demo.SimpleSign
                     "eth_sign",
                     "personal_sign",
                     "eth_signTypedData",
+                    "eth_getBalance",
                 };
 
                 var events = new string[]
