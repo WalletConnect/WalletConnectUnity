@@ -219,7 +219,7 @@ namespace WalletConnect
         void SetupAOT()
         {
             // Reference all required models
-            // This is required so AOT code is generated for these functions
+            // This is required so AOT code is generated for these generic functions
             var historyFactory = new JsonRpcHistoryFactory(null);
             Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPropose, SessionProposeResponse>().GetType().FullName);
             Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionSettle, Boolean>().GetType().FullName);

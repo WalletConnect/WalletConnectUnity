@@ -73,9 +73,9 @@ namespace WalletConnect
                 WCLogger.Logger = new WCUnityLogger();
                 
                 var storage = new FileSystemStorage(Application.persistentDataPath + "/walletconnect.json");
-                var keychain = new KeyChain(storage);
+                //var keychain = new KeyChain(storage);
 
-                var crypto = new WCUnityCrypto(keychain);
+                //var crypto = new WCUnityCrypto(keychain);
 
                 if (_builder == null)
                     _builder = GetComponent<WCWebSocketBuilder>();
@@ -87,7 +87,7 @@ namespace WalletConnect
                     BaseContext = BaseContext,
                     Storage = storage,
                     ConnectionBuilder = _builder,
-                    CryptoModule = crypto,
+                    //CryptoModule = crypto,
                 });
 
                 await Core.Start();

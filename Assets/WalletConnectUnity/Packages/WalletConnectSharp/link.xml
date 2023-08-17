@@ -6,5 +6,6 @@
     </assembly>
     <assembly fullname="WalletConnectSharp.Core">
         <type fullname="WalletConnectSharp.Core.Models.Subscriber.JsonRpcSubscriptionParams" preserve="all" />
+        <type fullname="WalletConnectSharp.Core.Models.Subscriber.MessageData" preserve="all" />
     </assembly>
 </linker>
