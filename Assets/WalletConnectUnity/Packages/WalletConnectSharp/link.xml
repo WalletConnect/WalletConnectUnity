@@ -4,4 +4,7 @@
         <type fullname="WalletConnectSharp.Network.Models.JsonRpcPayload" preserve="all" />
         <type fullname="WalletConnectSharp.Network.Models.JsonRpcError" preserve="all" />
     </assembly>
+    <assembly fullname="WalletConnectSharp.Core">
+        <type fullname="WalletConnectSharp.Core.Models.Subscriber.JsonRpcSubscriptionParams" preserve="all" />
+    </assembly>
 </linker>
