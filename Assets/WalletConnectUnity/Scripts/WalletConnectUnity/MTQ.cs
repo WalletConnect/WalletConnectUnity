@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using UnityEngine;
 
-namespace WalletConnectUnity.Demo.Utils
+namespace WalletConnectUnity.Utils
 {
     /// <summary>
     /// Main thread actions dispatcher.
@@ -35,7 +35,13 @@ namespace WalletConnectUnity.Demo.Utils
 
         public void Invoke(Action fn) => this.pending.Enqueue(fn);
 
-        public static void Enqueue(Action a) => Instance.Invoke(a);
+        public static void Enqueue(Action a)
+        {
+            if (Instance == null)
+                return;
+            
+            Instance.Invoke(a);
+        } 
 
         private void Update()
         {

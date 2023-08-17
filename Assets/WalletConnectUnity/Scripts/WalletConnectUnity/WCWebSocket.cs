@@ -141,10 +141,14 @@ namespace WalletConnect
 
             try
             {
+                Debug.Log($"[WCWebSocket-{_context}] Sending request {JsonConvert.SerializeObject(requestPayload)}");
+                
                 await _socket.SendText(JsonConvert.SerializeObject(requestPayload));
             }
             catch (Exception e)
             {
+                Debug.LogError(e);
+                
                 OnError<T>(requestPayload, e);
             }
         }
@@ -181,8 +185,8 @@ namespace WalletConnect
 
         private void Awake()
         {
-            _delegator = new EventDelegator(this);
             _context = Guid.NewGuid();
+            _delegator = new EventDelegator(this);
         }
 
         private async Task<WebSocket> Register(string _url)
@@ -276,9 +280,11 @@ namespace WalletConnect
         {
             string json = System.Text.Encoding.UTF8.GetString(data);
             
+            Debug.Log($"[WCWebSocket-{_context}] Got payload {json}");
+            
             if (string.IsNullOrWhiteSpace(json)) return;
             
-            //Debug.Log($"[{Name}] Got payload {json}");
+            Debug.Log($"[WCWebsocket-{_context}] Triggering payload event with JSON {json}");
 
             Events.Trigger(WebsocketConnectionEvents.Payload, json);
         }
@@ -329,6 +335,8 @@ namespace WalletConnect
 
             //Trigger the payload event, converting the new JsonRpcResponse object to JSON string
             Events.Trigger(WebsocketConnectionEvents.Payload, JsonConvert.SerializeObject(payload));
+            
+            Debug.LogError(e);
         }
 
     }

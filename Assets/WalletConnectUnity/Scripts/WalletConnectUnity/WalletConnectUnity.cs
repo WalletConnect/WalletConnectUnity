@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
 using UnityBinder;
 using UnityEngine;
+using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Models;
+using WalletConnectSharp.Crypto;
 using WalletConnectSharp.Storage;
 
 namespace WalletConnect
@@ -23,6 +25,7 @@ namespace WalletConnect
         public string BaseContext = "unity-game";
         
         private bool _initialized = false;
+        private bool _initializing = false;
 
         [BindComponent]
         private WCWebSocketBuilder _builder;
@@ -60,26 +63,41 @@ namespace WalletConnect
 
         internal async Task InitCore()
         {
-            if (_initialized)
+            if (_initialized || _initializing)
                 return;
-            
-            _initialized = true;
-            
-            var storage = new FileSystemStorage(Application.persistentDataPath + "/walletconnect.json");
 
-            if (_builder == null)
-                _builder = GetComponent<WCWebSocketBuilder>();
+            _initializing = true;
 
-            Core = new WalletConnectCore(new CoreOptions()
+            try
             {
-                Name = ProjectName,
-                ProjectId = ProjectId,
-                BaseContext = BaseContext,
-                Storage = storage,
-                ConnectionBuilder = _builder,
-            });
+                WCLogger.Logger = new WCUnityLogger();
+                
+                var storage = new FileSystemStorage(Application.persistentDataPath + "/walletconnect.json");
+                var keychain = new KeyChain(storage);
 
-            await Core.Start();
+                var crypto = new WCUnityCrypto(keychain);
+
+                if (_builder == null)
+                    _builder = GetComponent<WCWebSocketBuilder>();
+
+                Core = new WalletConnectCore(new CoreOptions()
+                {
+                    Name = ProjectName,
+                    ProjectId = ProjectId,
+                    BaseContext = BaseContext,
+                    Storage = storage,
+                    ConnectionBuilder = _builder,
+                    CryptoModule = crypto,
+                });
+
+                await Core.Start();
+
+                _initialized = true;
+            }
+            finally
+            {
+                _initializing = false;
+            }
         }
     }
 }

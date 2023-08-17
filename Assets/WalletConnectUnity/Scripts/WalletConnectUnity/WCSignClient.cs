@@ -2,9 +2,13 @@ using System;
 using System.Threading.Tasks;
 using UnityBinder;
 using UnityEngine;
+using UnityEngine.Scripting;
+using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core;
+using WalletConnectSharp.Core.Controllers;
 using WalletConnectSharp.Core.Interfaces;
 using WalletConnectSharp.Events;
+using WalletConnectSharp.Events.Model;
 using WalletConnectSharp.Network.Models;
 using WalletConnectSharp.Sign;
 using WalletConnectSharp.Sign.Interfaces;
@@ -23,10 +27,11 @@ namespace WalletConnect
         public static WCSignClient Instance => _currentInstance;
         
         private bool _initialized = false;
+        private bool _initializing = false;
         [BindComponent]
         private WalletConnectUnity WalletConnectUnity;
         
-        protected WalletConnectSignClient SignClient { get; private set; }
+        public WalletConnectSignClient SignClient { get; private set; }
 
         public event EventHandler<ConnectedData> OnConnect;
 
@@ -64,24 +69,36 @@ namespace WalletConnect
             }
         }
 
-        private async Task InitSignClient()
+        public async Task InitSignClient()
         {
-            if (_initialized)
+            if (_initialized || _initializing)
                 return;
 
-            _initialized = true;
-
-            await WalletConnectUnity.InitCore();
-            
-            SignClient = await WalletConnectSignClient.Init(new SignClientOptions()
+            _initializing = true;
+            try
             {
-                BaseContext = WalletConnectUnity.BaseContext,
-                Core = WalletConnectUnity.Core,
-                Metadata = WalletConnectUnity.ClientMetadata,
-                Name = WalletConnectUnity.ProjectName,
-                ProjectId = WalletConnectUnity.ProjectId,
-                Storage = WalletConnectUnity.Core.Storage,
-            });
+                await WalletConnectUnity.InitCore();
+
+                SignClient = await WalletConnectSignClient.Init(new SignClientOptions()
+                {
+                    BaseContext = WalletConnectUnity.BaseContext,
+                    Core = WalletConnectUnity.Core,
+                    Metadata = WalletConnectUnity.ClientMetadata,
+                    Name = WalletConnectUnity.ProjectName,
+                    ProjectId = WalletConnectUnity.ProjectId,
+                    Storage = WalletConnectUnity.Core.Storage,
+                });
+
+                _initialized = true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
+            finally
+            {
+                _initializing = false;
+            }
         }
 
         public string Name => SignClient.Name;
@@ -99,6 +116,7 @@ namespace WalletConnect
         public int Version => SignClient.Version;
         public async Task<ConnectedData> Connect(ConnectOptions options)
         {
+            WCLogger.Log("Test");
             var connectData = await SignClient.Connect(options);
 
             if (connectData == null)
@@ -195,5 +213,23 @@ namespace WalletConnect
         { 
             SignClient.HandleEventMessageType<T>(requestCallback, responseCallback);
         }
+        
+        #if !UNITY_MONO
+        [Preserve]
+        void SetupAOT()
+        {
+            // Reference all required models
+            // This is required so AOT code is generated for these functions
+            var historyFactory = new JsonRpcHistoryFactory(null);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPropose, SessionProposeResponse>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionSettle, Boolean>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionUpdate, Boolean>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionExtend, Boolean>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionDelete, Boolean>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPing, Boolean>().GetType().FullName);
+            EventManager<string, GenericEvent<string>>.InstanceOf(null).PropagateEvent(null, null);
+            throw new InvalidOperationException("This method is only for AOT code generation.");
+        }
+        #endif
     }
 }

@@ -11,6 +11,7 @@ using WalletConnect;
 using WalletConnectSharp.Sign.Models;
 using WalletConnectSharp.Sign.Models.Engine;
 using WalletConnectUnity.Demo.Utils;
+using WalletConnectUnity.Utils;
 
 public class WCQRCodeHandler : BindableMonoBehavior
 {
