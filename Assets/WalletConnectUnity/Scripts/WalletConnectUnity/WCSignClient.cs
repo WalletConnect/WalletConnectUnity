@@ -21,8 +21,7 @@ namespace WalletConnect
         private static WCSignClient _currentInstance;
 
         public static WCSignClient Instance => _currentInstance;
-        
-        private bool _initialized = false;
+
         [BindComponent]
         private WalletConnectUnity WalletConnectUnity;
         
@@ -34,7 +33,11 @@ namespace WalletConnect
 
         public bool ConnectOnAwake => WalletConnectUnity.ConnectOnAwake;
         public bool ConnectOnStart => WalletConnectUnity.ConnectOnStart;
-        
+
+        public bool SetDefaultSessionOnApproval = true;
+
+        private TaskCompletionSource<bool> initTask = null;
+
         protected override async void Awake()
         {
             base.Awake();
@@ -64,12 +67,15 @@ namespace WalletConnect
             }
         }
 
-        private async Task InitSignClient()
+        public async Task InitSignClient()
         {
-            if (_initialized)
+            if (initTask != null)
+            {
+                await initTask.Task;
                 return;
+            }
 
-            _initialized = true;
+            initTask = new TaskCompletionSource<bool>();
 
             await WalletConnectUnity.InitCore();
             
@@ -82,8 +88,12 @@ namespace WalletConnect
                 ProjectId = WalletConnectUnity.ProjectId,
                 Storage = WalletConnectUnity.Core.Storage,
             });
+            
+            initTask.SetResult(true);
         }
 
+        public SessionStruct DefaultSession;
+        
         public string Name => SignClient.Name;
         public string Context => SignClient.Context;
         public EventDelegator Events => SignClient.Events;
@@ -110,14 +120,22 @@ namespace WalletConnect
             connectData.Approval = connectData.Approval.ContinueWith(task =>
             {
                 var sessionResult = task.Result;
-
-                if (OnSessionApproved != null)
-                    OnSessionApproved(this, sessionResult);
+                
+                OnSessionApproval(sessionResult);
 
                 return sessionResult;
             });
 
             return connectData;
+        }
+
+        internal void OnSessionApproval(SessionStruct session)
+        {
+            if (OnSessionApproved != null)
+                OnSessionApproved(this, session);
+
+            if (SetDefaultSessionOnApproval)
+                DefaultSession = session;
         }
 
         public Task<ProposalStruct> Pair(string uri)
@@ -156,9 +174,21 @@ namespace WalletConnect
             return SignClient.UpdateSession(topic, namespaces);
         }
 
+        public Task<IAcknowledgement> UpdateSession(Namespaces namespaces)
+        {
+            ValidateDefaultSessionNotNull();
+            return UpdateSession(DefaultSession.Topic, namespaces);
+        }
+
         public Task<IAcknowledgement> Extend(string topic)
         {
             return SignClient.Extend(topic);
+        }
+
+        public Task<IAcknowledgement> Extend()
+        {
+            ValidateDefaultSessionNotNull();
+            return Extend(DefaultSession.Topic);
         }
 
         public Task<TR> Request<T, TR>(string topic, T data, string chainId = null, long? expiry = null)
@@ -166,9 +196,21 @@ namespace WalletConnect
             return SignClient.Request<T, TR>(topic, data, chainId, expiry);
         }
 
+        public Task<TR> Request<T, TR>(T data, string chainId = null, long? expiry = null)
+        {
+            ValidateDefaultSessionNotNull();
+            return Request<T, TR>(DefaultSession.Topic, data, chainId, expiry);
+        }
+
         public Task Respond<T, TR>(string topic, JsonRpcResponse<TR> response)
         {
             return SignClient.Respond<T, TR>(topic, response);
+        }
+
+        public Task Respond<T, TR>(JsonRpcResponse<TR> response)
+        {
+            ValidateDefaultSessionNotNull();
+            return Respond<T, TR>(DefaultSession.Topic, response);
         }
 
         public Task Emit<T>(string topic, EventData<T> eventData, string chainId = null)
@@ -176,14 +218,32 @@ namespace WalletConnect
             return SignClient.Emit<T>(topic, eventData, chainId);
         }
 
+        public Task Emit<T>(EventData<T> eventData, string chainId = null)
+        {
+            ValidateDefaultSessionNotNull();
+            return Emit<T>(eventData, chainId);
+        }
+
         public Task Ping(string topic)
         {
             return SignClient.Ping(topic);
         }
 
+        public Task Ping()
+        {
+            ValidateDefaultSessionNotNull();
+            return Ping(DefaultSession.Topic);
+        }
+
         public Task Disconnect(string topic, Error reason = null)
         {
             return SignClient.Disconnect(topic, reason);
+        }
+
+        public Task Disconnect(Error reason = null)
+        {
+            ValidateDefaultSessionNotNull();
+            return Disconnect(DefaultSession.Topic, reason);
         }
 
         public SessionStruct[] Find(RequiredNamespaces requiredNamespaces)
@@ -194,6 +254,14 @@ namespace WalletConnect
         public void HandleEventMessageType<T>(Func<string, JsonRpcRequest<SessionEvent<T>>, Task> requestCallback, Func<string, JsonRpcResponse<bool>, Task> responseCallback)
         { 
             SignClient.HandleEventMessageType<T>(requestCallback, responseCallback);
+        }
+
+        private void ValidateDefaultSessionNotNull()
+        {
+            if (string.IsNullOrWhiteSpace(DefaultSession.Topic))
+            {
+                throw new Exception("No default session set. Set DefaultSession before invoking this method");
+            }
         }
     }
 }

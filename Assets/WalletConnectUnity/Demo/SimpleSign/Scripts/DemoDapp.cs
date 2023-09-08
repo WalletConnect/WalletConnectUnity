@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using TMPro;
 using UnityBinder;
 using UnityEngine;
+using UnityEngine.Scripting;
 using WalletConnect;
 using WalletConnectSharp.Common.Utils;
 using WalletConnectSharp.Network.Models;
@@ -53,6 +54,11 @@ public class DemoDapp : BindableMonoBehavior
     public class EthSendTransaction : List<Transaction>
     {
         public EthSendTransaction(params Transaction[] transactions) : base(transactions)
+        {
+        }
+
+        [Preserve] //Needed for JSON.NET serialization
+        public EthSendTransaction()
         {
         }
     }
