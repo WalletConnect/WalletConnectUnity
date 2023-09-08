@@ -160,7 +160,7 @@ MonoBehaviour:
     VerifyUrl: 
   ConnectOnAwake: 1
   ConnectOnStart: 0
-  EnableCoreLogging: 1
+  EnableCoreLogging: 0
   BaseContext: unity-game
   StorageType: 1
 --- !u!114 &2565653752300045186
