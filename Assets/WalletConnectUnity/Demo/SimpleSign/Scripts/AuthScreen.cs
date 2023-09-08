@@ -1,7 +1,7 @@
 ﻿using UnityBinder;
 using UnityEngine;
 using WalletConnect;
-using WalletConnectUnity.Demo.Utils;
+using WalletConnectUnity.Utils;
 
 namespace WalletConnectUnity.Demo.SimpleSign
 {

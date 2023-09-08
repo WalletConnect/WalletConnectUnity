@@ -2,6 +2,7 @@
 using UnityEngine;
 using WalletConnectSharp.Network;
 using WalletConnectSharp.Network.Interfaces;
+using WalletConnectUnity.Utils;
 
 namespace WalletConnect
 {
@@ -9,10 +10,20 @@ namespace WalletConnect
     {
         public Task<IJsonRpcConnection> CreateConnection(string url)
         {
-            var websocket = gameObject.AddComponent<WCWebSocket>();
-            websocket.Url = url;
+            TaskCompletionSource<IJsonRpcConnection> taskCompletionSource =
+                new TaskCompletionSource<IJsonRpcConnection>();
+            
+            MTQ.Enqueue(() =>
+            {
+                Debug.Log("Building websocket with URL " + url);
+                var websocket = gameObject.AddComponent<WCWebSocket>();
+                websocket.Url = url;
+                
+                taskCompletionSource.TrySetResult(websocket);
+            });
 
-            return Task.FromResult<IJsonRpcConnection>(websocket);
+            
+            return taskCompletionSource.Task;
         }
     }
 }

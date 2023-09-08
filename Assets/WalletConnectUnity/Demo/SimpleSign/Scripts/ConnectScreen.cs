@@ -6,6 +6,7 @@ using WalletConnect;
 using WalletConnectSharp.Sign.Models;
 using WalletConnectSharp.Sign.Models.Engine;
 using WalletConnectUnity.Demo.Utils;
+using WalletConnectUnity.Utils;
 
 namespace WalletConnectUnity.Demo.SimpleSign
 {
@@ -31,6 +32,9 @@ namespace WalletConnectUnity.Demo.SimpleSign
 
         public async void OnConnect()
         {
+            if (WC.SignClient == null)
+                await WC.InitSignClient();
+            
             var chains = BlockchainList.SelectedChains;
 
             if (chains.Length == 0)
@@ -62,7 +66,6 @@ namespace WalletConnectUnity.Demo.SimpleSign
                     "eth_sign",
                     "personal_sign",
                     "eth_signTypedData",
-                    "eth_getBalance",
                 };
 
                 var events = new string[]

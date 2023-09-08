@@ -7,12 +7,11 @@ using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Models;
 using WalletConnectSharp.Storage;
 using WalletConnectSharp.Storage.Interfaces;
-using ILogger = WalletConnectSharp.Common.Logging.ILogger;
 
 namespace WalletConnect
 {
     [RequireComponent(typeof(WCWebSocketBuilder))]
-    public class WalletConnectUnity : BindableMonoBehavior, ILogger
+    public class WalletConnectUnity : BindableMonoBehavior
     {
         private static WalletConnectUnity _instance;
 
@@ -26,7 +25,6 @@ namespace WalletConnect
         public bool ConnectOnStart;
         public bool EnableCoreLogging;
         public string BaseContext = "unity-game";
-
         public WCStorageType StorageType;
 
         [BindComponent]
@@ -77,26 +75,37 @@ namespace WalletConnect
 
             var storage = BuildStorage();
 
-            if (_builder == null)
-                _builder = GetComponent<WCWebSocketBuilder>();
-
             if (EnableCoreLogging)
-                WCLogger.Logger = this;
-
-            Core = new WalletConnectCore(new CoreOptions()
+                WCLogger.Logger = new WCUnityLogger();
+            try
             {
-                Name = ProjectName,
-                ProjectId = ProjectId,
-                BaseContext = BaseContext,
-                Storage = storage,
-                ConnectionBuilder = _builder,
-            });
+                if (_builder == null)
+                    _builder = GetComponent<WCWebSocketBuilder>();
 
-            await Core.Start();
-            
-            initTask.SetResult(true);
+                Core = new WalletConnectCore(new CoreOptions()
+                {
+                    Name = ProjectName,
+                    ProjectId = ProjectId,
+                    BaseContext = BaseContext,
+                    Storage = storage,
+                    ConnectionBuilder = _builder,
+                    //CryptoModule = crypto,
+                });
+
+                await Core.Start();
+
+                initTask.SetResult(true);
+            }
+            catch (Exception e)
+            {
+                initTask.SetException(e);
+            }
+            finally
+            {
+                initTask.TrySetResult(false);
+            }
         }
-
+        
         public IKeyValueStorage BuildStorage()
         {
             switch (StorageType)
@@ -110,21 +119,6 @@ namespace WalletConnect
                 default:
                     throw new Exception("Invalid value");
             }
-        }
-
-        public void Log(string message)
-        {
-            Debug.Log(message);
-        }
-
-        public void LogError(string message)
-        {
-            Debug.LogError(message);
-        }
-
-        public void LogError(Exception e)
-        {
-            Debug.LogException(e);
         }
     }
 }

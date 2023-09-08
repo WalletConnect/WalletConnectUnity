@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/WalletConnectUnity/Demo/SimpleSign/SimpleUnityDapp.unity
+    guid: 5a20d2dca0fe94c4eaa9de937627cb64
   m_configObjects: {}
