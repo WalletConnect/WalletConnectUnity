@@ -78,6 +78,10 @@ namespace WalletConnect
                 await initTask.Task;
                 return;
             }
+
+            if (SignClient != null)
+                return;
+            
             initTask = new TaskCompletionSource<bool>();
 
             try

@@ -71,6 +71,9 @@ namespace WalletConnect
                 return;
             }
 
+            if (Core != null)
+                return;
+
             initTask = new TaskCompletionSource<bool>();
 
             var storage = BuildStorage();

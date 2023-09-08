@@ -52,40 +52,26 @@ namespace WalletConnect
         {
             if (ResumeOnStart)
             {
-                await ResumeSession();
+                await ResumeFirstSession();
             }
         }
 
-        public async Task<bool> ResumeSession()
+        public async Task<bool> ResumeSession(SessionStruct session)
         {
             // Ensure we are initialized
             await _walletConnect.InitSignClient();
+            
+            Debug.Log("Restoring session with " + session.Peer.Metadata.Name);
 
-            // Find the first session, and check if it's still active
-            var sessions = _walletConnect.Session.Values;
-            if (sessions.Length == 0)
+            if (session.Expiry != null && Clock.IsExpired((long)session.Expiry))
             {
-                NoSessions();
-                return false;
-            }
-            else if (sessions.Length > 1)
-            {
-                Debug.LogWarning("Multiple sessions found, will attempt the first one found");
-            }
-
-            var firstSession = sessions.First();
-
-            Debug.Log("Restoring session with " + firstSession.Peer.Metadata.Name);
-
-            if (firstSession.Expiry != null && Clock.IsExpired((long)firstSession.Expiry))
-            {
-                Debug.LogWarning("The session with " + firstSession.Peer.Metadata.Name + " has expired");
+                Debug.LogWarning("The session with " + session.Peer.Metadata.Name + " has expired");
                 if (AutoAttemptExtendSession)
                 {
                     Debug.Log("Attempting session extend...");
                     try
                     {
-                        var ack = await _walletConnect.Extend(firstSession.Topic);
+                        var ack = await _walletConnect.Extend(session.Topic);
 
                         await ack.Acknowledged();
                     }
@@ -106,9 +92,47 @@ namespace WalletConnect
                 }
             }
             
-            SessionResume(firstSession);
+            SessionResume(session);
 
             return true;
+        }
+
+        public async Task<bool> ResumeFirstSession()
+        {
+            // Find the first session, and check if it's still active
+            var sessions = _walletConnect.Session.Values;
+            if (sessions.Length == 0)
+            {
+                NoSessions();
+                return false;
+            }
+            else if (sessions.Length > 1)
+            {
+                Debug.LogWarning("Multiple sessions found, will attempt the first one found");
+            }
+
+            var firstSession = sessions.First();
+
+            return await ResumeSession(firstSession);
+        }
+
+        public async Task<bool> ResumeAnySession()
+        {
+            var sessions = _walletConnect.Session.Values;
+            if (sessions.Length == 0)
+            {
+                NoSessions();
+                return false;
+            }
+
+            foreach (var session in sessions)
+            {
+                var result = await ResumeSession(session);
+                if (result)
+                    return true;
+            }
+
+            return false;
         }
 
         protected void SessionResume(SessionStruct session)
