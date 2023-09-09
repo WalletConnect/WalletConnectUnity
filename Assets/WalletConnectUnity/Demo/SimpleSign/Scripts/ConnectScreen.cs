@@ -18,6 +18,18 @@ namespace WalletConnectUnity.Demo.SimpleSign
         [Inject]
         private WCSignClient WC;
 
+        private void Start()
+        {
+            WC.OnSessionApproved += WCOnOnSessionApproved;
+        }
+
+        private void WCOnOnSessionApproved(object sender, SessionStruct e) => MTQ.Enqueue(() =>
+        {
+            // Enable auth example canvas and disable outselves
+            gameObject.SetActive(false);
+            AuthScreen.SetActive(true); 
+        });
+
         public async void OnConnect()
         {
             if (WC.SignClient == null)
@@ -91,10 +103,6 @@ namespace WalletConnectUnity.Demo.SimpleSign
                 MTQ.Enqueue(() =>
                 {
                     Debug.Log($"Connection approved, URI: {connectData.Uri}");
-                
-                    // Enable auth example canvas and disable outselves
-                    gameObject.SetActive(false);
-                    AuthScreen.SetActive(true); 
                 });
             }
             catch (Exception e)

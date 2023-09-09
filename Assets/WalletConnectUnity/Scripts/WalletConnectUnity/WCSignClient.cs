@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityBinder;
 using UnityEngine;
+using UnityEngine.Scripting;
 using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core;
+using WalletConnectSharp.Core.Controllers;
 using WalletConnectSharp.Core.Interfaces;
-using WalletConnectSharp.Core.Models.Relay;
 using WalletConnectSharp.Events;
 using WalletConnectSharp.Events.Model;
 using WalletConnectSharp.Network.Models;
@@ -26,8 +26,6 @@ namespace WalletConnect
 
         public static WCSignClient Instance => _currentInstance;
         
-        private bool _initialized = false;
-        private bool _initializing = false;
         [BindComponent]
         private WalletConnectUnity WalletConnectUnity;
         
@@ -40,6 +38,9 @@ namespace WalletConnect
         public bool ConnectOnAwake => WalletConnectUnity.ConnectOnAwake;
         public bool ConnectOnStart => WalletConnectUnity.ConnectOnStart;
 
+        public bool SetDefaultSessionOnApproval = true;
+
+        private TaskCompletionSource<bool> initTask = null;
         protected override async void Awake()
         {
             base.Awake();
@@ -71,10 +72,17 @@ namespace WalletConnect
 
         public async Task InitSignClient()
         {
-            if (_initialized || _initializing)
+            if (initTask != null)
+            {
+                await initTask.Task;
                 return;
+            }
 
-            _initializing = true;
+            if (SignClient != null)
+                return;
+            
+            initTask = new TaskCompletionSource<bool>();
+
             try
             {
                 await WalletConnectUnity.InitCore();
@@ -88,19 +96,24 @@ namespace WalletConnect
                     ProjectId = WalletConnectUnity.ProjectId,
                     Storage = WalletConnectUnity.Core.Storage,
                 });
-
-                _initialized = true;
+                
+                initTask.SetResult(true);
             }
             catch (Exception e)
             {
                 Debug.LogError(e);
+                
+                initTask.SetException(e);
             }
             finally
             {
-                _initializing = false;
+                // Just in case we get here by cosmic ray
+                initTask.TrySetResult(false);
             }
         }
 
+        public SessionStruct DefaultSession;
+        
         public string Name => SignClient.Name;
         public string Context => SignClient.Context;
         public EventDelegator Events => SignClient.Events;
@@ -132,9 +145,8 @@ namespace WalletConnect
                 await ogApproval;
                 
                 var sessionResult = ogApproval.Result;
-
-                if (OnSessionApproved != null)
-                    OnSessionApproved(this, sessionResult);
+                
+                OnSessionApproval(sessionResult);
 
                 return sessionResult;
             }
@@ -146,6 +158,15 @@ namespace WalletConnect
             WalletConnectUnity.DefaultWallet.OpenDeeplink(connectData, true);
 
             return connectData;
+        }
+
+        internal void OnSessionApproval(SessionStruct session)
+        {
+            if (OnSessionApproved != null)
+                OnSessionApproved(this, session);
+
+            if (SetDefaultSessionOnApproval)
+                DefaultSession = session;
         }
 
         public Task<ProposalStruct> Pair(string uri)
@@ -184,9 +205,21 @@ namespace WalletConnect
             return SignClient.UpdateSession(topic, namespaces);
         }
 
+        public Task<IAcknowledgement> UpdateSession(Namespaces namespaces)
+        {
+            ValidateDefaultSessionNotNull();
+            return UpdateSession(DefaultSession.Topic, namespaces);
+        }
+
         public Task<IAcknowledgement> Extend(string topic)
         {
             return SignClient.Extend(topic);
+        }
+
+        public Task<IAcknowledgement> Extend()
+        {
+            ValidateDefaultSessionNotNull();
+            return Extend(DefaultSession.Topic);
         }
 
         public Task<TR> Request<T, TR>(string topic, T data, string chainId = null, long? expiry = null)
@@ -194,9 +227,21 @@ namespace WalletConnect
             return SignClient.Request<T, TR>(topic, data, chainId, expiry);
         }
 
+        public Task<TR> Request<T, TR>(T data, string chainId = null, long? expiry = null)
+        {
+            ValidateDefaultSessionNotNull();
+            return Request<T, TR>(DefaultSession.Topic, data, chainId, expiry);
+        }
+
         public Task Respond<T, TR>(string topic, JsonRpcResponse<TR> response)
         {
             return SignClient.Respond<T, TR>(topic, response);
+        }
+
+        public Task Respond<T, TR>(JsonRpcResponse<TR> response)
+        {
+            ValidateDefaultSessionNotNull();
+            return Respond<T, TR>(DefaultSession.Topic, response);
         }
 
         public Task Emit<T>(string topic, EventData<T> eventData, string chainId = null)
@@ -204,14 +249,32 @@ namespace WalletConnect
             return SignClient.Emit<T>(topic, eventData, chainId);
         }
 
+        public Task Emit<T>(EventData<T> eventData, string chainId = null)
+        {
+            ValidateDefaultSessionNotNull();
+            return Emit<T>(eventData, chainId);
+        }
+
         public Task Ping(string topic)
         {
             return SignClient.Ping(topic);
         }
 
+        public Task Ping()
+        {
+            ValidateDefaultSessionNotNull();
+            return Ping(DefaultSession.Topic);
+        }
+
         public Task Disconnect(string topic, Error reason = null)
         {
             return SignClient.Disconnect(topic, reason);
+        }
+
+        public Task Disconnect(Error reason = null)
+        {
+            ValidateDefaultSessionNotNull();
+            return Disconnect(DefaultSession.Topic, reason);
         }
 
         public SessionStruct[] Find(RequiredNamespaces requiredNamespaces)
@@ -223,5 +286,31 @@ namespace WalletConnect
         { 
             SignClient.HandleEventMessageType<T>(requestCallback, responseCallback);
         }
+        
+        private void ValidateDefaultSessionNotNull()
+        {
+            if (string.IsNullOrWhiteSpace(DefaultSession.Topic))
+            {
+                throw new Exception("No default session set. Set DefaultSession before invoking this method");
+            }
+        }
+        
+        #if !UNITY_MONO
+        [Preserve]
+        void SetupAOT()
+        {
+            // Reference all required models
+            // This is required so AOT code is generated for these generic functions
+            var historyFactory = new JsonRpcHistoryFactory(null);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPropose, SessionProposeResponse>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionSettle, Boolean>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionUpdate, Boolean>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionExtend, Boolean>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionDelete, Boolean>().GetType().FullName);
+            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPing, Boolean>().GetType().FullName);
+            EventManager<string, GenericEvent<string>>.InstanceOf(null).PropagateEvent(null, null);
+            throw new InvalidOperationException("This method is only for AOT code generation.");
+        }
+        #endif
     }
 }

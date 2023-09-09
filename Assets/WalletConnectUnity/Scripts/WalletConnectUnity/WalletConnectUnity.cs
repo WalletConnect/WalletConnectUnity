@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -19,6 +18,7 @@ using WalletConnectSharp.Events.Model;
 using WalletConnectSharp.Sign.Models.Engine.Methods;
 using WalletConnectSharp.Storage;
 using WalletConnectUnity.Models;
+using WalletConnectSharp.Storage.Interfaces;
 
 namespace WalletConnect
 {
@@ -28,22 +28,22 @@ namespace WalletConnect
         private static WalletConnectUnity _instance;
 
         public static WalletConnectUnity Instance => _instance;
-        
+
         public string ProjectName;
         public string ProjectId;
         public Metadata ClientMetadata;
         
         public bool ConnectOnAwake;
         public bool ConnectOnStart;
+        public bool EnableCoreLogging;
         public string BaseContext = "unity-game";
 
         public bool AutoDownloadWalletData = true;
         public bool AutoDownloadWalletImages = false;
         public bool AlwaysUseDeeplink = false;
         public string DefaultWalletId = "c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96";
-        
-        private bool _initialized = false;
-        private bool _initializing = false;
+
+        public WCStorageType StorageType;
 
         public List<string> OpenWalletMethods = new List<string>();
 
@@ -67,6 +67,8 @@ namespace WalletConnect
         [BindComponent]
         private WCWebSocketBuilder _builder;
         public WalletConnectCore Core { get; private set; }
+
+        private TaskCompletionSource<bool> initTask;
 
         protected override async void Awake()
         {
@@ -100,21 +102,29 @@ namespace WalletConnect
 
         internal async Task InitCore()
         {
-            if (_initialized || _initializing)
+            if (initTask != null)
+            {
+                await initTask.Task;
+                return;
+            }
+
+            if (Core != null)
                 return;
 
-            _initializing = true;
+            initTask = new TaskCompletionSource<bool>();
 
+            if (AutoDownloadWalletData)
+            {
+                StartCoroutine(FetchWalletList(AutoDownloadWalletImages));
+            }
+
+            var storage = BuildStorage();
+
+            if (EnableCoreLogging)
+                WCLogger.Logger = new WCUnityLogger();
             try
             {
                 WCLogger.Logger = new WCUnityLogger();
-
-                var path = Application.persistentDataPath + "/walletconnect.json";
-                File.Delete(path);
-                var storage = new FileSystemStorage(path);
-                //var keychain = new KeyChain(storage);
-
-                //var crypto = new WCUnityCrypto(keychain);
 
                 if (_builder == null)
                     _builder = GetComponent<WCWebSocketBuilder>();
@@ -137,16 +147,30 @@ namespace WalletConnect
                    Core.MessageHandler.Events.ListenFor<MessageEvent>($"request_{method}", OnMethodCallback);
                 }
 
-                _initialized = true;
+                initTask.SetResult(true);
+            }
+            catch (Exception e)
+            {
+                initTask.SetException(e);
             }
             finally
             {
-                _initializing = false;
+                initTask.TrySetResult(false);
             }
-
-            if (AutoDownloadWalletData)
+        }
+        
+        public IKeyValueStorage BuildStorage()
+        {
+            switch (StorageType)
             {
-                StartCoroutine(FetchWalletList(AutoDownloadWalletImages));
+                case WCStorageType.Disk:
+                    var path = Application.persistentDataPath + "/walletconnect.json";
+                    Debug.Log("Using storage location: " + path);
+                    return new FileSystemStorage(Application.persistentDataPath + "/walletconnect.json");
+                case WCStorageType.None:
+                    return new InMemoryStorage();
+                default:
+                    throw new Exception("Invalid value");
             }
         }
 

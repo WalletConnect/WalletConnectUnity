@@ -18,7 +18,7 @@ namespace WalletConnect
                 Debug.Log("Building websocket with URL " + url);
                 var websocket = gameObject.AddComponent<WCWebSocket>();
                 websocket.Url = url;
-
+                
                 taskCompletionSource.TrySetResult(websocket);
             });
 
