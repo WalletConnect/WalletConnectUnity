@@ -1,12 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityBinder;
 using UnityEngine;
-using UnityEngine.Scripting;
 using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core;
-using WalletConnectSharp.Core.Controllers;
 using WalletConnectSharp.Core.Interfaces;
+using WalletConnectSharp.Core.Models.Relay;
 using WalletConnectSharp.Events;
 using WalletConnectSharp.Events.Model;
 using WalletConnectSharp.Network.Models;
@@ -39,7 +39,7 @@ namespace WalletConnect
 
         public bool ConnectOnAwake => WalletConnectUnity.ConnectOnAwake;
         public bool ConnectOnStart => WalletConnectUnity.ConnectOnStart;
-        
+
         protected override async void Awake()
         {
             base.Awake();
@@ -125,15 +125,25 @@ namespace WalletConnect
             if (OnConnect != null)
                 OnConnect(this, connectData);
 
-            connectData.Approval = connectData.Approval.ContinueWith(task =>
+            Task<SessionStruct> ogApproval = connectData.Approval;
+
+            async Task<SessionStruct> ApprovalWrapper()
             {
-                var sessionResult = task.Result;
+                await ogApproval;
+                
+                var sessionResult = ogApproval.Result;
 
                 if (OnSessionApproved != null)
                     OnSessionApproved(this, sessionResult);
 
                 return sessionResult;
-            });
+            }
+
+            connectData.Approval = ApprovalWrapper();
+
+            if (!WalletConnectUnity.UseDeeplink || WalletConnectUnity.DefaultWallet == null) return connectData;
+            
+            WalletConnectUnity.DefaultWallet.OpenDeeplink(connectData, true);
 
             return connectData;
         }
@@ -213,23 +223,5 @@ namespace WalletConnect
         { 
             SignClient.HandleEventMessageType<T>(requestCallback, responseCallback);
         }
-        
-        #if !UNITY_MONO
-        [Preserve]
-        void SetupAOT()
-        {
-            // Reference all required models
-            // This is required so AOT code is generated for these generic functions
-            var historyFactory = new JsonRpcHistoryFactory(null);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPropose, SessionProposeResponse>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionSettle, Boolean>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionUpdate, Boolean>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionExtend, Boolean>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionDelete, Boolean>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPing, Boolean>().GetType().FullName);
-            EventManager<string, GenericEvent<string>>.InstanceOf(null).PropagateEvent(null, null);
-            throw new InvalidOperationException("This method is only for AOT code generation.");
-        }
-        #endif
     }
 }

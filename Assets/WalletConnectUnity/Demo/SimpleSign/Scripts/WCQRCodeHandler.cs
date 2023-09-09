@@ -48,6 +48,8 @@ public class WCQRCodeHandler : BindableMonoBehavior
     [SerializeField]
     private SignClientAuthorizedEventArgs onSignClientAuthorizedWithArgs = new SignClientAuthorizedEventArgs();
 
+    private ConnectedData currentConnectData;
+
     protected override void Awake()
     {
         base.Awake();
@@ -108,9 +110,6 @@ public class WCQRCodeHandler : BindableMonoBehavior
         QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
         UnityQRCode qrCode = new UnityQRCode(qrCodeData);
 
-        // Copy the URL to the clipboard to allow for manual connection in wallet apps that support it
-        GUIUtility.systemCopyBuffer = url;
-        
         // Create the QR code as a Texture2D. Note: "pixelsPerModule" means the size of each black-or-white block in the
         // QR code image. For example, a size of 2 will give us a 138x138 image (too small!), while 20 will give us a
         // 1380x1380 image (too big!). Here we'll use a value of 10 which gives us a 690x690 pixel image.
@@ -124,5 +123,12 @@ public class WCQRCodeHandler : BindableMonoBehavior
         var qrCodeSprite = Sprite.Create(qrCodeAsTexture2D, new Rect(0, 0, qrCodeAsTexture2D.width, qrCodeAsTexture2D.height),
             new Vector2(0.5f, 0.5f), 100f);
         QRCodeImage.sprite = qrCodeSprite;
+        currentConnectData = data;
+    }
+
+    public void CopyURI()
+    {
+        // Copy the URL to the clipboard to allow for manual connection in wallet apps that support it
+        GUIUtility.systemCopyBuffer = currentConnectData.Uri;
     }
 }

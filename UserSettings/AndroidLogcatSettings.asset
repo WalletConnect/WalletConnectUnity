@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "1B091FDEE007SK",
+    "m_SelectedDeviceId": "32141FDH30001Q",
     "m_SelectedPackage": {
-        "deviceId": "1B091FDEE007SK",
-        "name": "com.DefaultCompany.WalletConnectUnity",
-        "processId": 24201,
+        "deviceId": "32141FDH30001Q",
+        "name": "com.walletconnect.WalletConnectUnity",
+        "processId": 9110,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -127,6 +127,42 @@
             "name": "com.DefaultCompany.WalletConnectUnity",
             "processId": 24201,
             "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 19406,
+            "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 22786,
+            "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 25752,
+            "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 28653,
+            "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 923,
+            "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 9110,
+            "exited": false
         }
     ],
     "m_Tags": {
@@ -180,7 +216,7 @@
         "Behavior": 0
     },
     "m_FilterOptions": {
-        "m_Filter": "",
+        "m_Filter": "opening",
         "m_UseRegularExpressions": false,
         "m_MatchCase": false
     },
