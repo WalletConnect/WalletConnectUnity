@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "32141FDH30001Q",
         "name": "com.walletconnect.WalletConnectUnity",
-        "processId": 9110,
+        "processId": 739,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -163,6 +163,12 @@
             "name": "com.walletconnect.WalletConnectUnity",
             "processId": 9110,
             "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 739,
+            "exited": false
         }
     ],
     "m_Tags": {
@@ -216,7 +222,7 @@
         "Behavior": 0
     },
     "m_FilterOptions": {
-        "m_Filter": "opening",
+        "m_Filter": "",
         "m_UseRegularExpressions": false,
         "m_MatchCase": false
     },

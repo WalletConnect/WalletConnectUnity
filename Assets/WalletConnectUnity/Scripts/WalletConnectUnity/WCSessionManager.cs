@@ -99,6 +99,9 @@ namespace WalletConnect
 
         public async Task<bool> ResumeFirstSession()
         {
+            // Ensure we are initialized
+            await _walletConnect.InitSignClient();
+            
             // Find the first session, and check if it's still active
             var sessions = _walletConnect.Session.Values;
             if (sessions.Length == 0)
@@ -118,6 +121,9 @@ namespace WalletConnect
 
         public async Task<bool> ResumeAnySession()
         {
+            // Ensure we are initialized
+            await _walletConnect.InitSignClient();
+            
             var sessions = _walletConnect.Session.Values;
             if (sessions.Length == 0)
             {

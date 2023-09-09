@@ -180,11 +180,13 @@ namespace WalletConnect
             OpenDefaultWallet();
         }
 
-        public void OpenDefaultWallet()
+        public async void OpenDefaultWallet()
         {
             if (DefaultWallet == null)
                 throw new Exception("No default wallet set");
-            
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
             DefaultWallet.OpenWallet();
         }
         
