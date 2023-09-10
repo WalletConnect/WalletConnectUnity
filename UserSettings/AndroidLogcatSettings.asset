@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "32141FDH30001Q",
         "name": "com.walletconnect.WalletConnectUnity",
-        "processId": 15901,
+        "processId": 27728,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -131,37 +131,43 @@
         {
             "deviceId": "32141FDH30001Q",
             "name": "com.walletconnect.WalletConnectUnity",
-            "processId": 8003,
-            "exited": true
-        },
-        {
-            "deviceId": "32141FDH30001Q",
-            "name": "com.walletconnect.WalletConnectUnity",
-            "processId": 10029,
-            "exited": true
-        },
-        {
-            "deviceId": "32141FDH30001Q",
-            "name": "com.walletconnect.WalletConnectUnity",
-            "processId": 11966,
-            "exited": true
-        },
-        {
-            "deviceId": "32141FDH30001Q",
-            "name": "com.walletconnect.WalletConnectUnity",
-            "processId": 13680,
-            "exited": true
-        },
-        {
-            "deviceId": "32141FDH30001Q",
-            "name": "com.walletconnect.WalletConnectUnity",
             "processId": 14030,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "32141FDH30001Q",
             "name": "com.walletconnect.WalletConnectUnity",
             "processId": 15901,
+            "exited": true
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 16569,
+            "exited": true
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 17286,
+            "exited": true
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 22870,
+            "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 26342,
+            "exited": false
+        },
+        {
+            "deviceId": "32141FDH30001Q",
+            "name": "com.walletconnect.WalletConnectUnity",
+            "processId": 27728,
             "exited": false
         }
     ],

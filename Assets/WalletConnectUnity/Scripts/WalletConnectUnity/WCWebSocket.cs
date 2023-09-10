@@ -48,6 +48,8 @@ namespace WalletConnect
             set => url = value;
         }
 
+        public bool IsPaused { get; private set; }
+
         /// <summary>
         /// The name of this websocket connection module
         /// </summary>
@@ -349,6 +351,10 @@ namespace WalletConnect
 
             Debug.LogError(e);
         }
-        
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            IsPaused = pauseStatus;
+        }
     }
 }
