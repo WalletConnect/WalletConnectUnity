@@ -5,12 +5,10 @@ using QRCoder.Unity;
 using UnityBinder;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using WalletConnect;
 using WalletConnectSharp.Sign.Models;
 using WalletConnectSharp.Sign.Models.Engine;
-using WalletConnectUnity.Demo.Utils;
 using WalletConnectUnity.Utils;
 
 public class WCQRCodeHandler : BindableMonoBehavior
@@ -60,6 +58,8 @@ public class WCQRCodeHandler : BindableMonoBehavior
 
     private void SignClientOnOnSessionApproved(object sender, SessionStruct e)
     {
+        if (WalletConnect.WalletConnectUnity.Instance.UseDeeplink) return;
+        
         // TODO Perhaps ensure we are using Unity's Sync context inside WalletConnectSharp
         MTQ.Enqueue(() =>
         {
@@ -71,6 +71,8 @@ public class WCQRCodeHandler : BindableMonoBehavior
 
     private void SignClientOnOnConnect(object sender, ConnectedData e)
     {
+        if (WalletConnect.WalletConnectUnity.Instance.UseDeeplink) return;
+        
         if (loader == null) {
             GenerateQrCode(e);
         }

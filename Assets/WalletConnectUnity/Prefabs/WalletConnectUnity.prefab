@@ -179,9 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4852243708c24a4089f2ed6baf110a87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SetDefaultSessionOnApproval: 1
   OpenWalletMethods:
   - eth_sendTransaction
-  SetDefaultSessionOnApproval: 1
 --- !u!114 &2565653752300045191
 MonoBehaviour:
   m_ObjectHideFlags: 0

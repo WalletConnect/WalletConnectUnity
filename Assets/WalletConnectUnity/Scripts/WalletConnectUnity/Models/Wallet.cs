@@ -62,9 +62,13 @@ namespace WalletConnectUnity.Models
         [JsonProperty("updatedAt")]
         public DateTime UpdatedAt;
 
-        public void OpenDeeplink(ConnectedData data, bool useNative)
+        public void OpenDeeplink(ConnectedData data, bool useNative = false)
         {
             string uri;
+            #if UNITY_ANDROID
+            uri = data.Uri; // Android OS should handle wc: protocol 
+            #elif UNITY_IOS
+            // on iOS, we need to use one of the wallet links
             WalletLink linkData;
             linkData = Application.isMobilePlatform ? this.Mobile : this.Desktop;
             
@@ -87,6 +91,8 @@ namespace WalletConnectUnity.Models
                 throw new Exception("Got empty URI when attempting to create WC deeplink");
             
             Debug.Log("Opening URL " + uri);
+            #endif
+           
             Application.OpenURL(uri);
         }
         

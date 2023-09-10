@@ -45,8 +45,6 @@ namespace WalletConnect
 
         public WCStorageType StorageType;
 
-        public List<string> OpenWalletMethods = new List<string>();
-
         public bool UseDeeplink => AlwaysUseDeeplink || Application.isMobilePlatform;
 
         public Wallet DefaultWallet
@@ -140,12 +138,6 @@ namespace WalletConnect
                 });
 
                 await Core.Start();
-                
-                // Setup events
-                foreach (var method in OpenWalletMethods)
-                {
-                   Core.MessageHandler.Events.ListenFor<MessageEvent>($"request_{method}", OnMethodCallback);
-                }
 
                 initTask.SetResult(true);
             }
@@ -158,7 +150,7 @@ namespace WalletConnect
                 initTask.TrySetResult(false);
             }
         }
-        
+
         public IKeyValueStorage BuildStorage()
         {
             switch (StorageType)
@@ -172,12 +164,6 @@ namespace WalletConnect
                 default:
                     throw new Exception("Invalid value");
             }
-        }
-
-
-        private void OnMethodCallback(object sender, GenericEvent<MessageEvent> e)
-        {
-            OpenDefaultWallet();
         }
 
         public async void OpenDefaultWallet()
@@ -331,6 +317,28 @@ namespace WalletConnect
                 DefaultWalletId = defaultWalletId;
             else
                 throw new KeyNotFoundException($"No wallet by the name of {walletName} could be found");
+        }
+        
+        public void FindAndSetDefaultWallet(Metadata peer, bool tryFetchWallets = true)
+        {
+            if (SupportedWallets.Count == 0)
+            {
+                if (!tryFetchWallets) throw new Exception("No wallets to search");
+                
+                StartCoroutine(FetchWalletList(callback: () => FindAndSetDefaultWallet(peer, tryFetchWallets: false)));
+                return;
+
+            }
+
+            var nativeUrl = peer.Redirect.Native.Replace("//", "");
+            
+            var defaultWalletId = SupportedWallets.FirstOrDefault(t => t.Value.Mobile.NativeProtocol == nativeUrl || t.Value.Desktop.NativeProtocol == nativeUrl)
+                .Key;
+
+            if (defaultWalletId != null)
+                DefaultWalletId = defaultWalletId;
+            else
+                throw new KeyNotFoundException($"No wallet by the name of {peer.Name} could be found");
         }
 
         public Dictionary<string,Wallet> SupportedWallets { get; set; }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityBinder;
 using UnityEngine;
@@ -7,6 +8,7 @@ using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Controllers;
 using WalletConnectSharp.Core.Interfaces;
+using WalletConnectSharp.Core.Models.Relay;
 using WalletConnectSharp.Events;
 using WalletConnectSharp.Events.Model;
 using WalletConnectSharp.Network.Models;
@@ -41,6 +43,9 @@ namespace WalletConnect
         public bool SetDefaultSessionOnApproval = true;
 
         private TaskCompletionSource<bool> initTask = null;
+        
+        public List<string> OpenWalletMethods = new List<string>();
+        
         protected override async void Awake()
         {
             base.Awake();
@@ -129,7 +134,7 @@ namespace WalletConnect
         public int Version => SignClient.Version;
         public async Task<ConnectedData> Connect(ConnectOptions options)
         {
-            WCLogger.Log("Test");
+            WCLogger.Log("Starting connect");
             var connectData = await SignClient.Connect(options);
 
             if (connectData == null)
@@ -142,8 +147,10 @@ namespace WalletConnect
 
             async Task<SessionStruct> ApprovalWrapper()
             {
+                WCLogger.Log("Waiting for approval from wallet");
                 await ogApproval;
                 
+                WCLogger.Log("Got approval");
                 var sessionResult = ogApproval.Result;
                 
                 OnSessionApproval(sessionResult);
@@ -155,7 +162,7 @@ namespace WalletConnect
 
             if (!WalletConnectUnity.UseDeeplink || WalletConnectUnity.DefaultWallet == null) return connectData;
             
-            WalletConnectUnity.DefaultWallet.OpenDeeplink(connectData, true);
+            WalletConnectUnity.DefaultWallet.OpenDeeplink(connectData);
 
             return connectData;
         }
@@ -167,6 +174,8 @@ namespace WalletConnect
 
             if (SetDefaultSessionOnApproval)
                 DefaultSession = session;
+            
+            WalletConnectUnity.FindAndSetDefaultWallet(session.Peer.Metadata);
         }
 
         public Task<ProposalStruct> Pair(string uri)
@@ -224,6 +233,13 @@ namespace WalletConnect
 
         public Task<TR> Request<T, TR>(string topic, T data, string chainId = null, long? expiry = null)
         {
+            var method = RpcMethodAttribute.MethodForType<T>();
+            if (OpenWalletMethods.Contains(method))
+            {
+                Core.Relayer.Events.ListenForOnce<object>(RelayerEvents.Publish,
+                    (_, _) => { WalletConnectUnity.OpenDefaultWallet(); });
+            }
+
             return SignClient.Request<T, TR>(topic, data, chainId, expiry);
         }
 
