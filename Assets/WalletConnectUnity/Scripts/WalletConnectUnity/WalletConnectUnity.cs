@@ -12,7 +12,6 @@ using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Controllers;
 using WalletConnectSharp.Core.Models;
-using WalletConnectSharp.Core.Models.Relay;
 using WalletConnectSharp.Events;
 using WalletConnectSharp.Events.Model;
 using WalletConnectSharp.Sign.Models.Engine.Methods;
@@ -342,5 +341,10 @@ namespace WalletConnect
         }
 
         public Dictionary<string,Wallet> SupportedWallets { get; set; }
+
+        private void OnDestroy()
+        {
+            Core?.Dispose();
+        }
     }
 }

@@ -328,5 +328,14 @@ namespace WalletConnect
             throw new InvalidOperationException("This method is only for AOT code generation.");
         }
         #endif
+        public void Dispose()
+        {
+            SignClient?.Dispose();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
+        }
     }
 }
