@@ -64,7 +64,7 @@ namespace WalletConnectUnity.Models
 
         public void OpenDeeplink(ConnectedData data, bool useNative = false)
         {
-            string uri;
+            string uri = string.Empty;
             #if UNITY_ANDROID
             uri = data.Uri; // Android OS should handle wc: protocol 
             #elif UNITY_IOS
