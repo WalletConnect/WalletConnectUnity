@@ -25,7 +25,7 @@ namespace WalletConnectUnity.Demo.SimpleSign
 
         private void WCOnOnSessionApproved(object sender, SessionStruct e) => MTQ.Enqueue(() =>
         {
-            // Enable auth example canvas and disable outselves
+            // Enable auth example canvas and disable ourself
             gameObject.SetActive(false);
             AuthScreen.SetActive(true); 
         });
