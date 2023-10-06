@@ -52,7 +52,7 @@ namespace WalletConnectUnity.Demo.SimpleSign
             // Connect Sign Client
             Debug.Log("Connecting sign client..");
 
-            var requiriedNamespaces = new RequiredNamespaces();
+            var requiredNamespaces = new RequiredNamespaces();
 
             if (chains.Any(c => c.ChainNamespace == Chain.EvmNamespace))
             {
@@ -75,7 +75,7 @@ namespace WalletConnectUnity.Demo.SimpleSign
 
                 var chainIds = eipChains.Select(c => c.FullChainId).ToArray();
                 
-                requiriedNamespaces.Add(Chain.EvmNamespace, new ProposedNamespace()
+                requiredNamespaces.Add(Chain.EvmNamespace, new ProposedNamespace()
                 {
                     Chains = chainIds,
                     Events = events,
@@ -87,7 +87,7 @@ namespace WalletConnectUnity.Demo.SimpleSign
 
             var dappConnectOptions = new ConnectOptions()
             {
-                RequiredNamespaces = requiriedNamespaces
+                RequiredNamespaces = requiredNamespaces
             };
 
             var connectData = await WC.Connect(dappConnectOptions);
