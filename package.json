@@ -1,0 +1,15 @@
+{
+  "name": "com.walletconnect.unity",
+  "version": "2.1.0",
+  "displayName": "WalletConnect Unity",
+  "unity": "2021.3",
+  "keywords": [
+    "wallet",
+    "walletconnect",
+    "walletconnectsharp",
+    "walletconnectunity"
+  ],
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.0"
+  }
+}

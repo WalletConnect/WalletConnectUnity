@@ -1,0 +1,27 @@
+{
+    "name": "WalletConnect.Unity",
+    "rootNamespace": "WalletConnect.Unity",
+    "references": [
+        "GUID:e181ab38670b14921ba9a24ddfe1634c"
+    ],
+    "includePlatforms": [
+        "Android",
+        "Editor",
+        "iOS",
+        "LinuxStandalone64",
+        "CloudRendering",
+        "macOSStandalone",
+        "tvOS",
+        "WSA",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
