@@ -9,7 +9,7 @@ and Web3Wallet Client.
 
 ## Installation
 
-*To use WalletConnectUnity, you would need Unity2019.4.28f1 or above.* 
+*To use WalletConnectUnity, you would need Unity 2021.3 or above.* 
 
 After making a new project in Unity, you will need to download WalletConnectUnity from this repo by cloning it, forking it, or downloading as a zip file. Take the contents of the Assets folder in the repo and place it in your Unity Project.
 
