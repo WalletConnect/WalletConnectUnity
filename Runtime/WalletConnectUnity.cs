@@ -19,7 +19,8 @@ namespace WalletConnect.Unity
 {
     public class WalletConnectUnity : IWalletConnectUnity
     {
-        public static IWalletConnectUnity Instance { get; } = new WalletConnectUnity();
+        private static readonly Lazy<IWalletConnectUnity> LazyInstance = new(() => new WalletConnectUnity());
+        public static IWalletConnectUnity Instance { get; } = LazyInstance.Value;
         
         public ISignClient SignClient { get; private set; }
 
