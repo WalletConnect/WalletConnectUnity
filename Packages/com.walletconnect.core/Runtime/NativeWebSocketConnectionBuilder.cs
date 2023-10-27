@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using WalletConnectSharp.Network;
 using WalletConnectSharp.Network.Interfaces;
 
-namespace WalletConnect.Unity
+namespace WalletConnectUnity.Core
 {
     public class NativeWebSocketConnectionBuilder : IConnectionBuilder
     {

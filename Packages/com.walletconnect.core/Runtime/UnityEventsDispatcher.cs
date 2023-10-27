@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using System.Collections;
-using WalletConnect.Unity.Utils;
+using WalletConnectUnity.Core.Utils;
 
-namespace WalletConnect.Unity
+namespace WalletConnectUnity.Core
 {
     internal sealed class UnityEventsDispatcher : MonoBehaviour
     {

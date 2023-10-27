@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace WalletConnect.Unity.Editor
+namespace WalletConnectUnity.Core.Editor
 {
     internal sealed class PackageInitialization : AssetPostprocessor
     {

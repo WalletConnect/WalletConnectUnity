@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace WalletConnect.Unity.Utils
+namespace WalletConnectUnity.Core.Utils
 {
     public class WaitForNthFrame : CustomYieldInstruction
     {

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using WalletConnectSharp.Network;
 
-namespace WalletConnect.Unity
+namespace WalletConnectUnity.Core
 {
     public class UnityRelayUrlBuilder : RelayUrlBuilder
     {

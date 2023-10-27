@@ -3,13 +3,12 @@ using System.IO;
 using NativeWebSocket;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using UnityEngine;
 using WalletConnectSharp.Common;
 using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Network;
 using WalletConnectSharp.Network.Models;
 
-namespace WalletConnect.Unity
+namespace WalletConnectUnity.Core
 {
     public sealed class WebSocketConnection : IModule, IJsonRpcConnection
     {
@@ -42,7 +41,11 @@ namespace WalletConnect.Unity
             Url = url;
         }
 
-        Task IJsonRpcConnection.Open() => Register();
+        Task IJsonRpcConnection.Open()
+        {
+            Register();
+            return Task.CompletedTask;
+        }
 
         Task IJsonRpcConnection.Open<T>(T options)
         {
@@ -56,7 +59,8 @@ namespace WalletConnect.Unity
                 Url = newUrl;
             }
 
-            return Register();
+            Register();
+            return Task.CompletedTask;
         }
 
         async Task IJsonRpcConnection.Close()
@@ -120,7 +124,7 @@ namespace WalletConnect.Unity
             }
         }
         
-        private async Task Register()
+        private void Register()
         {
             if (!Validation.IsWsUrl(Url))
                 throw new ArgumentException($"Provided URL is not compatible with WebSocket connection: {Url}");

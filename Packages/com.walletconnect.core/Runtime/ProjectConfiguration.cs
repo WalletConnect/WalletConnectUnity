@@ -2,7 +2,7 @@ using System.Text;
 using UnityEngine;
 using WalletConnectSharp.Core;
 
-namespace WalletConnect.Unity
+namespace WalletConnectUnity.Core
 {
     [CreateAssetMenu(fileName = "WalletConnectProjectConfig", menuName = "WalletConnect/Project Configuration")]
     public sealed class ProjectConfiguration : ScriptableObject

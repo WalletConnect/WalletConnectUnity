@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using ILogger = WalletConnectSharp.Common.Logging.ILogger;
 
-namespace WalletConnect.Unity
+namespace WalletConnectUnity.Core
 {
     public class Logger : ILogger
     {

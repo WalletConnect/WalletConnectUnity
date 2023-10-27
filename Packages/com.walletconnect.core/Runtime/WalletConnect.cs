@@ -15,12 +15,12 @@ using WalletConnectSharp.Sign.Models.Engine.Methods;
 using WalletConnectSharp.Storage;
 using WalletConnectSharp.Storage.Interfaces;
 
-namespace WalletConnect.Unity
+namespace WalletConnectUnity.Core
 {
-    public class WalletConnectUnity : IWalletConnectUnity
+    public class WalletConnect : IWalletConnect
     {
-        private static readonly Lazy<IWalletConnectUnity> LazyInstance = new(() => new WalletConnectUnity());
-        public static IWalletConnectUnity Instance { get; } = LazyInstance.Value;
+        private static readonly Lazy<IWalletConnect> LazyInstance = new(() => new WalletConnect());
+        public static IWalletConnect Instance { get; } = LazyInstance.Value;
         
         public ISignClient SignClient { get; private set; }
 
@@ -47,7 +47,7 @@ namespace WalletConnect.Unity
         
         private SessionStruct _activeSession;
 
-        public async Task<IWalletConnectUnity> InitializeAsync()
+        public async Task<IWalletConnect> InitializeAsync()
         {
             try
             {

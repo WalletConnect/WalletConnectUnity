@@ -1,7 +1,7 @@
 {
-  "name": "com.walletconnect.unity",
+  "name": "com.walletconnect.core",
   "version": "2.1.0",
-  "displayName": "WalletConnect Unity",
+  "displayName": "WalletConnectUnity Core",
   "unity": "2021.3",
   "keywords": [
     "wallet",

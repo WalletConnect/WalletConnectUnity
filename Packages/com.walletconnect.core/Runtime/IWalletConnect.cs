@@ -4,9 +4,9 @@ using WalletConnectSharp.Sign.Interfaces;
 using WalletConnectSharp.Sign.Models;
 using WalletConnectSharp.Sign.Models.Engine;
 
-namespace WalletConnect.Unity
+namespace WalletConnectUnity.Core
 {
-    public interface IWalletConnectUnity
+    public interface IWalletConnect
     {
         public ISignClient SignClient { get; }
         
@@ -18,7 +18,7 @@ namespace WalletConnect.Unity
         
         public event EventHandler<SessionStruct> ActiveSessionChanged; 
 
-        public Task<IWalletConnectUnity> InitializeAsync();
+        public Task<IWalletConnect> InitializeAsync();
 
         public Task<bool> TryResumeSessionAsync();
         
