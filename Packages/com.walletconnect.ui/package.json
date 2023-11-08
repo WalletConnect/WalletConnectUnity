@@ -1,0 +1,10 @@
+{
+  "name": "com.walletconnect.ui",
+  "version": "1.0.0",
+  "displayName": "WalletConnectUnity UI",
+  "unity": "2021.3",
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.0",
+    "com.unity.ugui": "1.0.0"
+  }
+}
