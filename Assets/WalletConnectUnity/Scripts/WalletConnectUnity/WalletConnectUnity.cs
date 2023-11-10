@@ -12,8 +12,6 @@ using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core;
 using WalletConnectSharp.Core.Controllers;
 using WalletConnectSharp.Core.Models;
-using WalletConnectSharp.Events;
-using WalletConnectSharp.Events.Model;
 using WalletConnectSharp.Sign.Models.Engine.Methods;
 using WalletConnectSharp.Storage;
 using WalletConnectUnity.Models;
@@ -189,7 +187,6 @@ namespace WalletConnect
             Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionExtend, Boolean>().GetType().FullName);
             Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionDelete, Boolean>().GetType().FullName);
             Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPing, Boolean>().GetType().FullName);
-            EventManager<string, GenericEvent<string>>.InstanceOf(null).PropagateEvent(null, null);
             throw new InvalidOperationException("This method is only for AOT code generation.");
         }
 #endif

@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityBinder;
 using UnityEngine;
-using UnityEngine.Scripting;
 using WalletConnectSharp.Common.Logging;
+using WalletConnectSharp.Common.Utils;
 using WalletConnectSharp.Core;
-using WalletConnectSharp.Core.Controllers;
 using WalletConnectSharp.Core.Interfaces;
-using WalletConnectSharp.Core.Models.Relay;
-using WalletConnectSharp.Events;
-using WalletConnectSharp.Events.Model;
+using WalletConnectSharp.Core.Models.Pairing;
+using WalletConnectSharp.Core.Models.Publisher;
 using WalletConnectSharp.Network.Models;
 using WalletConnectSharp.Sign;
 using WalletConnectSharp.Sign.Interfaces;
@@ -101,6 +99,22 @@ namespace WalletConnect
                     ProjectId = WalletConnectUnity.ProjectId,
                     Storage = WalletConnectUnity.Core.Storage,
                 });
+
+                SignClient.SessionExpired += SessionExpired;
+                SignClient.PairingExpired += PairingExpired;
+                SignClient.SessionProposed += SessionProposed;
+                SignClient.SessionConnected += SessionConnected;
+                SignClient.SessionConnectionErrored += SessionConnectionErrored;
+                SignClient.SessionUpdateRequest += SessionUpdateRequest;
+                SignClient.SessionExtendRequest += SessionExtendRequest;
+                SignClient.SessionUpdated += SessionUpdated;
+                SignClient.SessionExtended += SessionExtended;
+                SignClient.SessionPinged += SessionPinged;
+                SignClient.SessionDeleted += SessionDeleted;
+                SignClient.SessionRejected += SessionRejected;
+                SignClient.SessionApproved += SessionApproved;
+                SignClient.PairingPinged += PairingPinged;
+                SignClient.PairingDeleted += PairingDeleted;
                 
                 initTask.SetResult(true);
             }
@@ -121,9 +135,24 @@ namespace WalletConnect
         
         public string Name => SignClient.Name;
         public string Context => SignClient.Context;
-        public EventDelegator Events => SignClient.Events;
         public PendingRequestStruct[] PendingSessionRequests => SignClient.PendingSessionRequests;
+        public event EventHandler<SessionStruct> SessionExpired;
+        public event EventHandler<PairingEvent> PairingExpired;
+        public event EventHandler<SessionProposalEvent> SessionProposed;
+        public event EventHandler<SessionStruct> SessionConnected;
+        public event EventHandler<Exception> SessionConnectionErrored;
+        public event EventHandler<SessionUpdateEvent> SessionUpdateRequest;
+        public event EventHandler<SessionEvent> SessionExtendRequest;
+        public event EventHandler<SessionEvent> SessionUpdated;
+        public event EventHandler<SessionEvent> SessionExtended;
+        public event EventHandler<SessionEvent> SessionPinged;
+        public event EventHandler<SessionEvent> SessionDeleted;
+        public event EventHandler<SessionStruct> SessionRejected;
+        public event EventHandler<SessionStruct> SessionApproved;
+        public event EventHandler<PairingEvent> PairingPinged;
+        public event EventHandler<PairingEvent> PairingDeleted;
         public Metadata Metadata => SignClient.Metadata;
+        public IAddressProvider AddressProvider => SignClient.AddressProvider;
         public ICore Core => SignClient.Core;
         public IEngine Engine => SignClient.Engine;
         public ISession Session => SignClient.Session;
@@ -132,6 +161,7 @@ namespace WalletConnect
         public SignClientOptions Options => SignClient.Options;
         public string Protocol => SignClient.Protocol;
         public int Version => SignClient.Version;
+        
         public async Task<ConnectedData> Connect(ConnectOptions options)
         {
             WCLogger.Log("Starting connect");
@@ -166,11 +196,15 @@ namespace WalletConnect
 
             return connectData;
         }
+        
+        public TypedEventHandler<T, TR> SessionRequestEvents<T, TR>()
+        {
+            return SignClient.SessionRequestEvents<T, TR>();
+        }
 
         internal void OnSessionApproval(SessionStruct session)
         {
-            if (OnSessionApproved != null)
-                OnSessionApproved(this, session);
+            OnSessionApproved?.Invoke(this, session);
 
             if (SetDefaultSessionOnApproval)
                 DefaultSession = session;
@@ -236,8 +270,14 @@ namespace WalletConnect
             var method = RpcMethodAttribute.MethodForType<T>();
             if (OpenWalletMethods.Contains(method))
             {
-                Core.Relayer.Events.ListenForOnce<object>(RelayerEvents.Publish,
-                    (_, _) => { WalletConnectUnity.OpenDefaultWallet(); });
+                Core.Relayer.Publisher.ListenOnce<PublishParams>(nameof(IPublisher.OnPublishedMessage),
+                    (sender, args) =>
+                    {
+                        if (args.Topic != topic)
+                            return;
+
+                        WalletConnectUnity.OpenDefaultWallet();
+                    });
             }
 
             return SignClient.Request<T, TR>(topic, data, chainId, expiry);
@@ -311,23 +351,6 @@ namespace WalletConnect
             }
         }
         
-        #if !UNITY_MONO
-        [Preserve]
-        void SetupAOT()
-        {
-            // Reference all required models
-            // This is required so AOT code is generated for these generic functions
-            var historyFactory = new JsonRpcHistoryFactory(null);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPropose, SessionProposeResponse>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionSettle, Boolean>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionUpdate, Boolean>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionExtend, Boolean>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionDelete, Boolean>().GetType().FullName);
-            Debug.Log(historyFactory.JsonRpcHistoryOfType<SessionPing, Boolean>().GetType().FullName);
-            EventManager<string, GenericEvent<string>>.InstanceOf(null).PropagateEvent(null, null);
-            throw new InvalidOperationException("This method is only for AOT code generation.");
-        }
-        #endif
         public void Dispose()
         {
             SignClient?.Dispose();
