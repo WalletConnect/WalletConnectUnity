@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using WalletConnectUnity.Core;
+using WalletConnectUnity.Core.Networking;
 
 namespace WalletConnectUnity.UI
 {
@@ -56,25 +57,18 @@ namespace WalletConnectUnity.UI
         {
             _isLoading = true;
 
-            using var uwr =
-                UnityWebRequestTexture.GetTexture(_uri);
+            using var uwr = UnityWebRequestTexture.GetTexture(_uri, true);
 
-            var projectConfig = ProjectConfiguration.Load();
-            uwr.SetRequestHeader("x-project-id", projectConfig.Id);
-            // TODO: use unity sdk type
-            // uwr.SetRequestHeader("x-sdk-type", "unity");
-            uwr.SetRequestHeader("x-sdk-type", "w3m");
-            // TODO: version
-            uwr.SetRequestHeader("x-sdk-version", "1.2.3");
+            uwr.SetWalletConnectRequestHeaders()
+                .SetRequestHeader("accept", "image/jpeg,image/png");
 
             yield return uwr.SendWebRequest();
 
-            Debug.Log("Load remote sprite complete");
             if (uwr.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"[WalletConnectUnity] Failed to load remote sprite: {uwr.error}");
-                Debug.Log(uwr.downloadHandler.error);
-                Debug.Log(uwr.GetResponseHeader("Content-Type"));
+                Debug.LogError(
+                    $"[WalletConnectUnity] Failed to load remote sprite: {uwr.error}. DownloadHandler error: {uwr.downloadHandler.error}"
+                );
             }
             else
             {
