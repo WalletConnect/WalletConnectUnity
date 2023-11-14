@@ -7,15 +7,31 @@ using TMPro;
 using UnityBinder;
 using UnityEngine;
 using UnityEngine.Scripting;
+using UnityEngine.UI;
 using WalletConnect;
 using WalletConnectSharp.Common.Utils;
 using WalletConnectSharp.Network.Models;
 using WalletConnectSharp.Sign.Models;
-using WalletConnectUnity.Demo.Utils;
 
 public class DemoDapp : BindableMonoBehavior
 {
+    [Inject]
+    private WCSignClient _wc;
+
+    [SerializeField] private TextMeshProUGUI balanceText;
+    [SerializeField] private TextMeshProUGUI addressText;
+    [SerializeField] private Button _signButton;
+    [SerializeField] private Button _signOutButton;
+    
     public const string EthereumChainId = "eip155";
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        _signButton.onClick.AddListener(SendSignRequest);
+        _signOutButton.onClick.AddListener(SignOut);
+    }
 
     [RpcMethod("eth_getBalance"), RpcRequestOptions(Clock.ONE_MINUTE, 99998)]
     public class EthGetBalance : List<string>
@@ -62,13 +78,6 @@ public class DemoDapp : BindableMonoBehavior
         {
         }
     }
-
-    [Inject]
-    private WCSignClient _wc;
-
-    public TextMeshProUGUI balanceText;
-
-    public TextMeshProUGUI addressText;
     
     // Start is called before the first frame update
     void Start()
@@ -121,6 +130,17 @@ public class DemoDapp : BindableMonoBehavior
         var result = await _wc.Request<EthSendTransaction, string>(session.Topic, request, chainId);
         
         Debug.Log("Got result from request: " + result);
+    }
+
+    public async void SignOut()
+    {
+        _signButton.interactable = false;
+        _signOutButton.interactable = false;
+        
+        await _wc.Disconnect();
+        
+        _signButton.interactable = true;
+        _signOutButton.interactable = true;
     }
 
     private IEnumerator CheckBalanceTask()

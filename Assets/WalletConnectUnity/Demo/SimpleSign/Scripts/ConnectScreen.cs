@@ -5,7 +5,6 @@ using UnityEngine;
 using WalletConnect;
 using WalletConnectSharp.Sign.Models;
 using WalletConnectSharp.Sign.Models.Engine;
-using WalletConnectUnity.Demo.Utils;
 using WalletConnectUnity.Utils;
 
 namespace WalletConnectUnity.Demo.SimpleSign
@@ -21,6 +20,12 @@ namespace WalletConnectUnity.Demo.SimpleSign
         private void Start()
         {
             WC.OnSessionApproved += WCOnOnSessionApproved;
+
+            WC.SessionDeleted += (sender, @event) =>
+            {
+                gameObject.SetActive(true);
+                AuthScreen.SetActive(false);
+            };
         }
 
         private void WCOnOnSessionApproved(object sender, SessionStruct e) => MTQ.Enqueue(() =>
