@@ -270,14 +270,16 @@ namespace WalletConnect
             var method = RpcMethodAttribute.MethodForType<T>();
             if (OpenWalletMethods.Contains(method))
             {
-                Core.Relayer.Publisher.ListenOnce<PublishParams>(nameof(IPublisher.OnPublishedMessage),
-                    (sender, args) =>
+                EventUtils.ListenOnce<PublishParams>((sender, args) =>
                     {
                         if (args.Topic != topic)
                             return;
 
                         WalletConnectUnity.OpenDefaultWallet();
-                    });
+                    },
+                    handler => Core.Relayer.Publisher.OnPublishedMessage += handler,
+                    handler => Core.Relayer.Publisher.OnPublishedMessage -= handler
+                );
             }
 
             return SignClient.Request<T, TR>(topic, data, chainId, expiry);

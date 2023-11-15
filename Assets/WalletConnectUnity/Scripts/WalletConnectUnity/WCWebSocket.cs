@@ -193,15 +193,15 @@ namespace WalletConnect
             if (_registering)
             {
                 var registeringTask = new TaskCompletionSource<WebSocket>(TaskCreationOptions.None);
-                
-                this.ListenOnce(nameof(ErrorReceived), (object _, Exception exception) =>
+
+                ErrorReceived.ListenOnce((_, exception) =>
                 {
                     registeringTask.SetException(exception);
                 });
-
-                this.ListenOnce(nameof(Opened), (object _, object socket) =>
+                
+                Opened.ListenOnce((_, socket) =>
                 {
-                    registeringTask.SetResult(socket as WebSocket);
+                    registeringTask.SetResult((WebSocket)socket);
                 });
 
                 await registeringTask.Task;
