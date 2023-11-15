@@ -163,17 +163,6 @@ namespace WalletConnect
             }
         }
 
-        public async void OpenDefaultWallet()
-        {
-            if (DefaultWallet == null)
-                throw new Exception("No default wallet set");
-
-            await Task.Delay(TimeSpan.FromSeconds(2));
-
-            DefaultWallet.OpenWallet();
-        }
-        
-
 #if !UNITY_MONO
         [Preserve]
         void SetupAOT()

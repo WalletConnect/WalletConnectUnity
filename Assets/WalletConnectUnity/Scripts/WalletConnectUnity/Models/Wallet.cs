@@ -62,7 +62,7 @@ namespace WalletConnectUnity.Models
         [JsonProperty("updatedAt")]
         public DateTime UpdatedAt;
 
-        public void OpenDeeplink(ConnectedData data, bool useNative = false)
+        public void OpenSessionProposalDeepLink(ConnectedData data, bool useNative = false)
         {
             string uri = string.Empty;
             #if UNITY_ANDROID
@@ -94,19 +94,6 @@ namespace WalletConnectUnity.Models
             #endif
            
             Application.OpenURL(uri);
-        }
-        
-        public void OpenWallet()
-        {
-            WalletLink linkData;
-            linkData = Application.isMobilePlatform ? this.Mobile : this.Desktop;
-            
-            var universalUrl = linkData.UniversalUrl;
-
-            if (string.IsNullOrWhiteSpace(universalUrl))
-                throw new Exception("Got empty URI when attempting to create WC deeplink");
-            
-            Application.OpenURL(universalUrl);
         }
     }
 }

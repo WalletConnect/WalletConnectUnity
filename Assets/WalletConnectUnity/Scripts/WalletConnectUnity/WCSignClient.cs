@@ -192,7 +192,7 @@ namespace WalletConnect
 
             if (!WalletConnectUnity.UseDeeplink || WalletConnectUnity.DefaultWallet == null) return connectData;
             
-            WalletConnectUnity.DefaultWallet.OpenDeeplink(connectData);
+            WalletConnectUnity.DefaultWallet.OpenSessionProposalDeepLink(connectData);
 
             return connectData;
         }
@@ -268,6 +268,7 @@ namespace WalletConnect
         public Task<TR> Request<T, TR>(string topic, T data, string chainId = null, long? expiry = null)
         {
             var method = RpcMethodAttribute.MethodForType<T>();
+#if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
             if (OpenWalletMethods.Contains(method))
             {
                 EventUtils.ListenOnce<PublishParams>((sender, args) =>
@@ -275,13 +276,15 @@ namespace WalletConnect
                         if (args.Topic != topic)
                             return;
 
-                        WalletConnectUnity.OpenDefaultWallet();
+                        var session = SignClient.Session.Get(args.Topic);
+                        if (session.Peer.Metadata is { Redirect: not null })
+                            Application.OpenURL(session.Peer.Metadata.Redirect.Native);
                     },
                     handler => Core.Relayer.Publisher.OnPublishedMessage += handler,
                     handler => Core.Relayer.Publisher.OnPublishedMessage -= handler
                 );
             }
-
+#endif
             return SignClient.Request<T, TR>(topic, data, chainId, expiry);
         }
 
