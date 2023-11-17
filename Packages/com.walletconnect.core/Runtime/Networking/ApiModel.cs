@@ -19,14 +19,14 @@ namespace WalletConnectUnity.Core.Networking
         public string Platform { get; set; }
     }
 
-    public struct GetWalletsResponse
+    public class GetWalletsResponse
     {
         [JsonProperty("count")] public int Count { get; set; }
 
         [JsonProperty("data")] public Wallet[] Data { get; set; }
     }
 
-    public struct Wallet
+    public class Wallet
     {
         [JsonProperty("id")] public string Id { get; set; }
 

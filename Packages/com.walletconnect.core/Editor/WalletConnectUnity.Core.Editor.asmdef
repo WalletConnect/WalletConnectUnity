@@ -1,0 +1,20 @@
+{
+    "name": "WalletConnectUnity.Core.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e181ab38670b14921ba9a24ddfe1634c",
+        "GUID:04376767bc1f3b428aefa3d20743e819",
+        "GUID:4a34382dd43244a8f8e5cd6843ccb943"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

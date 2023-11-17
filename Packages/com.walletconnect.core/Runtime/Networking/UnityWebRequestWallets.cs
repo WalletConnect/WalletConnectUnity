@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace WalletConnectUnity.Core.Networking
@@ -46,7 +45,7 @@ namespace WalletConnectUnity.Core.Networking
 #if UNITY_ANDROID
             "android";
 #elif UNITY_IOS
-                "ios";
+            "ios";
 #else
             null;
 #endif
@@ -58,7 +57,7 @@ namespace WalletConnectUnity.Core.Networking
             _excludedWalletIds = excludedWalletIds;
         }
 
-        public UnityWebRequest GetWallets(int page, int entries)
+        public UnityWebRequest GetWallets(int page, int entries, string search = null)
         {
             var queryParams = new UrlQueryParams
             {
@@ -70,7 +69,8 @@ namespace WalletConnectUnity.Core.Networking
                 Exclude = _excludedWalletIds is { Length: > 0 }
                     ? string.Join(",", _excludedWalletIds)
                     : null,
-                Platform = Platform
+                Platform = Platform,
+                Search = search,
             };
 
             return UnityWebRequestWallets.GetWallets(_url, in queryParams);

@@ -22,7 +22,10 @@ namespace WalletConnectUnity.Core
             {
                 if (_instance != null) return _instance;
 
-                var go = new GameObject("[WalletConnect] UnityEventsDispatcher");
+                var go = new GameObject("[WalletConnect] UnityEventsDispatcher")
+                {
+                    hideFlags = HideFlags.HideAndDontSave
+                };
                 DontDestroyOnLoad(go);
 
                 _instance = go.AddComponent<UnityEventsDispatcher>();
