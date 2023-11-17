@@ -14,6 +14,7 @@ namespace WalletConnectUnity.UI
 
         private bool _isLoading;
         private Sprite _sprite;
+        private bool _isLoaded;
 
         private readonly HashSet<Image> _subscribedImages = new();
 
@@ -32,10 +33,10 @@ namespace WalletConnectUnity.UI
 
         public void SubscribeImage(Image image)
         {
-            if (_sprite == null && !_isLoading)
+            if (!_isLoaded && !_isLoading)
                 UnityEventsDispatcher.Instance.StartCoroutine(LoadRemoteSprite());
 
-            if (_sprite != null)
+            if (_isLoaded)
                 UpdateImage(image);
 
             _subscribedImages.Add(image);
@@ -72,9 +73,15 @@ namespace WalletConnectUnity.UI
             }
             else
             {
+                // While UnityWebRequest creates texture in the background (on other thread), some finishing work is done on main thread.
+                // Skipping a few frames here to let Unity finish its work to reduce CPU spikes.
+                for (var i = 0; i < 5; i++)
+                    yield return null;
+
                 var tex = DownloadHandlerTexture.GetContent(uwr);
                 _sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height),
                     new Vector2(0.5f, 0.5f), 100.0f);
+                _isLoaded = true;
 
                 foreach (var image in _subscribedImages)
                     UpdateImage(image);

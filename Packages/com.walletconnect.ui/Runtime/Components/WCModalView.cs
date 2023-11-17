@@ -13,6 +13,8 @@ namespace WalletConnectUnity.UI
 
         protected WCModal parentModal;
 
+        public bool IsActive => _canvas.enabled;
+
         public virtual float GetRequiredHeight()
         {
             return _rootTransform.rect.height;

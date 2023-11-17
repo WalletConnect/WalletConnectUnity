@@ -31,10 +31,10 @@ namespace WalletConnectUnity.UI
                 _canvasGroup.alpha = 0;
             }
 
-            _coroutine = StartCoroutine(ShowAsync(type, text));
+            _coroutine = StartCoroutine(ShowCoroutine(type, text));
         }
 
-        public IEnumerator ShowAsync(Type type, string text)
+        private IEnumerator ShowCoroutine(Type type, string text)
         {
             var config = _configs[type];
 
