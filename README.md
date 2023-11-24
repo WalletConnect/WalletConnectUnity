@@ -1,30 +1,74 @@
 
 # WalletConnectUnity
-This project is an extension of WalletConnectSharp that brings WalletConnect to Unity. This project has been built using Unity 2021.3.22f1 (LTS). 
+This repository is a monorepo of packages that extend [WalletConnectSharp](https://github.com/WalletConnect/WalletConnectSharp) and brings WalletConnect to Unity.
 
-This project includes a simple demo scene for using the Sign Client. Two additional demo scenes will be added for using the Auth Client
-and Web3Wallet Client.
+### Packages
+* **Core** - a high-level, Unity-friendly extension of [WalletConnectSharp](https://github.com/WalletConnect/WalletConnectSharp). While WalletConnectSharp can still be accessed for advanced use cases, the Core package offers several benefits.
+  - Automatic active session management, option to resume session from storage
+  - Deep linking support
+  - IL2CPP support
+  - Lightweight `IJsonRpcConnection` implementation
+  - QR Code generation utility
+  - API to load wallets data and visual assets
+* **Modal** - a no-frills modal for wallet connections
+* **UI** - collection of uGUI prefabs, sprites, and UI scripts used by the Modal
 
-#### :warning: **This is beta software**: This software is currently in beta and under development. Please proceed with caution, and open a new issue if you encounter a bug :warning:
+### Supported Platforms
+* Unity Editor 2021.3 or above
+* Android
+* iOS
+* macOS
+* Windows
+* WebGL (soon)
+
+#### :warning: **This is beta software**: This software is currently in beta and under development. Please proceed with caution, and open a new issue if you encounter a bug. Older versions of  WalletConnectUnity are available under `legacy/*` branches :warning:
 
 ## Installation
 
-*To use WalletConnectUnity, you would need Unity 2021.3 or above.* 
+<details open>
+  <summary>Install via Git URL</summary>
+ 
+  0. Open the add ➕  menu in the Package Manager’s toolbar
+  1. Select `Add package from git URL...`
+  2. Enter the package URL. Note that when installing via a git URL, the package manager won't install git dependencies automatically. Follow the error messages from the console and add all necessary packages manually
+     - **WalletConnectModal**: `https://github.com/WalletConnect/WalletConnectUnity.git?path=Packages/com.walletconnect.modal`
+     - **WalletConnectUnity UI**: `https://github.com/WalletConnect/WalletConnectUnity.git?path=Packages/com.walletconnect.ui`
+     - **WalletConnectUnity Core**: `https://github.com/WalletConnect/WalletConnectUnity.git?path=Packages/com.walletconnect.core`
+  3. Press `Add` button
+</details>
 
-After making a new project in Unity, you will need to download WalletConnectUnity from this repo by cloning it, forking it, or downloading as a zip file. Take the contents of the Assets folder in the repo and place it in your Unity Project.
-
-Once imported in your Unity Project, create a game object in your scene named Wallet Connect and attach the `WCSignClient` component to the your new game object. You can configure both the connection settings and app details in the `WalletConnectUnity` component that comes
-attached with `WCSignClient`.
+<details>
+  <summary>Install via OpenUPM</summary>
+ 
+  COMING SOON
+</details>
 
 ## Usage
+0. Set up in  project id and metadata `WalletConnectProjectConfig` ScriptableAsset (created automatically located at `Assets/WalletConnectUnity/Resources/WalletConnectProjectConfig.asset`, do NOT move it outside of `Resources` directory).
+1. Initialize `WalletConnect` and connect wallet:
+```csharp
+// Initialize singleton
+await WalletConnect.Instance.InitializeAsync();
 
-To use WalletConnect in your Unity project, simply create an empty GameObject in your Scene and attach the `WCSignClient` component to your GameObject. Attaching this script will automatically attach any required components as well, such
-as `WalletConnectUnity`
+// Or handle instancing manually
+var walletConnectUnity = new WalletConnect();
+await walletConnectUnity.InitializeAsync();
 
-![example](https://i.imgur.com/g6DsfoQ.png)
 
-### Options
-* Project Name - The name of your project. This will be used inside the relay server.
+// Try resume last session
+var sessionResumed = await WalletConnect.Instance.TryResumeSessionAsync();              
+if (!sessionResumed)                                                                         
+{                                                                                            
+    var connectedData = await WalletConnect.Instance.ConnectAsync(connectOptions);
+
+    // Use connectedData.Uri to generate QR code
+
+    // Wait for wallet approval
+    await connectedData.Approval;                                                            
+}                                                                                            
+```
+
+### WalletConnectProjectConfig Fields
 * Project Id - The id of your project. This will be used inside the relay server.
 * Client Metadata
   * Name - The name of your app. This will be used inside the authentication request.
@@ -32,11 +76,4 @@ as `WalletConnectUnity`
   * Url - The url of your app. This will be used inside the authentication request.
   * Icons - The icons of your app. This will be used inside the authentication request.
   * Very Url - The verification URL of your app. Currently used but not enforced
-* Connect On Awake - If true, the client will automatically connect to the relay server on awake.
-* Connect On Start - If true, the client will automatically connect to the relay server on start.
-* Base Context - The base context string to use for logging.
-
-## API
-
-To access the current WalletConnect object in any Scene, you can do `WCSignClient.Instance`. This object will include a reference to the `WalletConnectSignClient` object, the Connection URL and all API functions. For reference on how to use the `WalletConnectSignClient` object, see [WalletConnectSharp](https://github.com/WalletConnect/WalletConnectSharp) for more details. 
 
