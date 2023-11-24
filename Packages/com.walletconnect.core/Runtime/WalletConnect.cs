@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
 using WalletConnectSharp.Common.Logging;
+using WalletConnectSharp.Common.Utils;
+using WalletConnectSharp.Core.Models.Publisher;
 using WalletConnectSharp.Sign;
 using WalletConnectSharp.Sign.Interfaces;
 using WalletConnectSharp.Sign.Models;
 using WalletConnectSharp.Sign.Models.Engine;
+using WalletConnectSharp.Sign.Models.Engine.Events;
 using WalletConnectSharp.Sign.Models.Engine.Methods;
 using WalletConnectSharp.Storage;
 using WalletConnectSharp.Storage.Interfaces;
@@ -22,13 +25,31 @@ namespace WalletConnectUnity.Core
 
         public ISignClient SignClient { get; private set; }
 
-        public SessionStruct ActiveSession => SignClient.AddressProvider.DefaultSession;
+        public Linker Linker { get; private set; }
+
+        public SessionStruct ActiveSession
+        {
+            get => _activeSession;
+            private set
+            {
+                _activeSession = value;
+                if (!string.IsNullOrWhiteSpace(value.Topic))
+                {
+                    ActiveSessionChanged?.Invoke(this, value);
+                }
+            }
+        }
 
         public bool IsInitialized { get; private set; }
 
         public bool IsConnected => !string.IsNullOrWhiteSpace(ActiveSession.Topic);
 
         private readonly SemaphoreSlim _initializationSemaphore = new(1, 1);
+
+        public event EventHandler<SessionStruct> ActiveSessionChanged;
+
+        private SessionStruct _activeSession;
+        protected bool disposed;
 
         public async Task<IWalletConnect> InitializeAsync()
         {
@@ -66,6 +87,12 @@ namespace WalletConnectUnity.Core
                     ConnectionBuilder = new NativeWebSocketConnectionBuilder()
                 });
 
+                SignClient.SessionConnected += OnSessionConnected;
+                SignClient.SessionUpdated += OnSessionUpdated;
+                SignClient.SessionDeleted += OnSessionDeleted;
+
+                Linker = new Linker(this);
+
                 IsInitialized = true;
 
                 return this;
@@ -87,32 +114,54 @@ namespace WalletConnectUnity.Core
             if (string.IsNullOrWhiteSpace(session.Topic))
                 return false;
 
+            if (!session.Expiry.HasValue || Clock.IsExpired(session.Expiry.Value))
+            {
+                var acknowledgement = await SignClient.Extend(session.Topic);
+                await acknowledgement.Acknowledged();
+            }
 
-            // TODO: finish
-            SignClient.AddressProvider.DefaultSession = session;
-
-            var acknowledgement = await SignClient.Extend(session.Topic);
-            await acknowledgement.Acknowledged();
+            ActiveSession = session;
 
             return true;
         }
 
         public Task<ConnectedData> ConnectAsync(ConnectOptions options)
         {
-            // TODO: wrap and handle deep link
             return SignClient.Connect(options);
         }
 
         public Task<TResponse> RequestAsync<TRequestData, TResponse>(TRequestData data)
         {
             ThrowIfNoActiveSession();
-            return SignClient.Request<TRequestData, TResponse>(ActiveSession.Topic, data);
+
+            var activeSessionTopic = ActiveSession.Topic;
+
+#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+            Linker.OpenSessionRequestDeepLinkAfterMessageFromSession(activeSessionTopic);
+#endif
+
+            return SignClient.Request<TRequestData, TResponse>(activeSessionTopic, data);
         }
 
         public Task DisconnectAsync()
         {
             ThrowIfNoActiveSession();
             return SignClient.Disconnect(ActiveSession.Topic, new SessionDelete());
+        }
+
+        private void OnSessionConnected(object sender, SessionStruct session)
+        {
+            ActiveSession = session;
+        }
+
+        private void OnSessionUpdated(object sender, SessionEvent sessionEvent)
+        {
+            ActiveSession = SignClient.Session.Values.First(s => s.Topic == sessionEvent.Topic);
+        }
+
+        private void OnSessionDeleted(object sender, SessionEvent _)
+        {
+            ActiveSession = default;
         }
 
         private static IKeyValueStorage BuildStorage()
@@ -126,6 +175,27 @@ namespace WalletConnectUnity.Core
         {
             if (!IsInitialized || string.IsNullOrWhiteSpace(ActiveSession.Topic))
                 throw new Exception("No active session");
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed) return;
+
+            if (disposing)
+            {
+                SignClient?.Dispose();
+                Linker?.Dispose();
+
+                _initializationSemaphore?.Dispose();
+            }
+
+            disposed = true;
         }
     }
 }
