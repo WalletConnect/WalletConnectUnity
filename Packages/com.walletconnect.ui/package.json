@@ -4,6 +4,7 @@
   "displayName": "WalletConnectUnity UI",
   "unity": "2021.3",
   "dependencies": {
+    "com.walletconnect.core": "3.0.0",
     "com.unity.textmeshpro": "3.0.0",
     "com.unity.ugui": "1.0.0"
   }

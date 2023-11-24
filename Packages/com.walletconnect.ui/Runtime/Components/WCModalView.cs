@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +9,8 @@ namespace WalletConnectUnity.UI
         private Canvas _canvas;
 
         [SerializeField] private RectTransform _rootTransform;
+
+        [SerializeField] private string _title;
 
         protected WCModal parentModal;
 
@@ -30,6 +31,8 @@ namespace WalletConnectUnity.UI
         {
             _canvas.enabled = false;
         }
+
+        public virtual string GetTitle() => _title;
 
         protected virtual IEnumerator ShowAfterEffectRoutine(IEnumerator effectCoroutine)
         {

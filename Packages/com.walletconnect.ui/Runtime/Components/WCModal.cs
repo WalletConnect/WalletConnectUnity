@@ -34,7 +34,7 @@ namespace WalletConnectUnity.UI
             _hasGlobalBackground = _globalBackgroundCanvas != null;
         }
 
-        public void OpenView(WCModalView view, string modalTitle, WCModal modal = null, object parameters = null)
+        public void OpenView(WCModalView view, WCModal modal = null, object parameters = null)
         {
             if (_viewsStack.Count == 0)
                 EnableModal();
@@ -48,7 +48,7 @@ namespace WalletConnectUnity.UI
             var resizeCoroutine = ResizeModalRoutine(view.GetRequiredHeight());
             view.Show(modal, resizeCoroutine, parameters);
 
-            Header.Title = modalTitle;
+            Header.Title = view.GetTitle();
             Header.LeftButtonActive = _viewsStack.Count > 1;
         }
 
@@ -68,6 +68,7 @@ namespace WalletConnectUnity.UI
             if (_viewsStack.Count > 0)
             {
                 var nextView = _viewsStack.Peek();
+                Header.Title = nextView.GetTitle();
                 var resizeCoroutine = ResizeModalRoutine(nextView.GetRequiredHeight());
                 nextView.Show(this, resizeCoroutine);
             }

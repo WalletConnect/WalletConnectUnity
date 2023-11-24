@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Common.Utils;
-using WalletConnectSharp.Core.Models.Publisher;
 using WalletConnectSharp.Sign;
 using WalletConnectSharp.Sign.Interfaces;
 using WalletConnectSharp.Sign.Models;
