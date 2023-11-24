@@ -23,6 +23,9 @@ namespace WalletConnectUnity.UI
 
         public bool IsOpen => _rootCanvas.enabled;
 
+        public event EventHandler Opened;
+        public event EventHandler Closed;
+
         private readonly Stack<WCModalView> _viewsStack = new();
         private bool _hasGlobalBackground;
 
@@ -42,7 +45,7 @@ namespace WalletConnectUnity.UI
             modal ??= this;
 
             _viewsStack.Push(view);
-            var resizeCoroutine = ResizeModalRoutine(CalculateModalHeight(view.GetRequiredHeight()));
+            var resizeCoroutine = ResizeModalRoutine(view.GetRequiredHeight());
             view.Show(modal, resizeCoroutine, parameters);
 
             Header.Title = modalTitle;
@@ -65,7 +68,7 @@ namespace WalletConnectUnity.UI
             if (_viewsStack.Count > 0)
             {
                 var nextView = _viewsStack.Peek();
-                var resizeCoroutine = ResizeModalRoutine(CalculateModalHeight(nextView.GetRequiredHeight()));
+                var resizeCoroutine = ResizeModalRoutine(nextView.GetRequiredHeight());
                 nextView.Show(this, resizeCoroutine);
             }
             else
@@ -84,28 +87,26 @@ namespace WalletConnectUnity.UI
 
             _viewsStack.Clear();
             DisableModal();
+
+            Closed?.Invoke(this, EventArgs.Empty);
         }
 
-        private IEnumerator ResizeModalRoutine(float targetHeight)
+        public IEnumerator ResizeModalRoutine(float targetHeight)
         {
+            var heightWithHeader = targetHeight + Header.Height;
             var originalHeight = _rootTransform.sizeDelta.y;
             var elapsedTime = 0f;
             var duration = .25f; // TODO: serialize this
 
             while (elapsedTime < duration)
             {
-                var lerp = Mathf.Lerp(originalHeight, targetHeight, elapsedTime / duration);
+                var lerp = Mathf.Lerp(originalHeight, heightWithHeader, elapsedTime / duration);
                 _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, lerp);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, targetHeight);
-        }
-
-        private float CalculateModalHeight(float viewHeight)
-        {
-            return viewHeight + Header.Height;
+            _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, heightWithHeader);
         }
 
         private void EnableModal()
@@ -125,6 +126,8 @@ namespace WalletConnectUnity.UI
 
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = true;
+
+            Opened?.Invoke(this, EventArgs.Empty);
         }
 
         private void DisableModal()
