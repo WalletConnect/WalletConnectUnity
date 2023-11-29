@@ -7,18 +7,17 @@ namespace WalletConnectUnity.UI
     {
         [Header("Scene References")] [SerializeField]
         private Canvas _canvas;
-
-        [SerializeField] private RectTransform _rootTransform;
-
+        
         [SerializeField] private string _title;
-
+        [SerializeField] protected RectTransform rootTransform;
+        
         protected WCModal parentModal;
 
         public bool IsActive => _canvas.enabled;
 
         public virtual float GetRequiredHeight()
         {
-            return _rootTransform.rect.height;
+            return rootTransform.rect.height;
         }
 
         public virtual void Show(WCModal modal, IEnumerator effectCoroutine, object options = null)
@@ -44,7 +43,7 @@ namespace WalletConnectUnity.UI
         public void Reset()
         {
             _canvas = GetComponent<Canvas>();
-            _rootTransform = GetComponent<RectTransform>();
+            rootTransform = GetComponent<RectTransform>();
         }
 #endif
     }

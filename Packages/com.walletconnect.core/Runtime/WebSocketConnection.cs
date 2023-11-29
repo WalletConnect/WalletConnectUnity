@@ -262,7 +262,8 @@ namespace WalletConnectUnity.Core
 
         public async void Dispose()
         {
-            await _socket.Close();
+            if (_socket != null)
+                await _socket.Close();
         }
     }
 }

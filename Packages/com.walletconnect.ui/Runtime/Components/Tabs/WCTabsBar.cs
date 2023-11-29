@@ -110,7 +110,7 @@ namespace WalletConnectUnity.UI
                 .Where(button => button.IsVisible)
                 .Sum(button => button.RootTransform.sizeDelta.x);
 
-            const float padding = 14;
+            const float padding = 10;
 
             _mainBackground.sizeDelta = new Vector2(totalTabsWidth + padding, _mainBackground.sizeDelta.y);
         }

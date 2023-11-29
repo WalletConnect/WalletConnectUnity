@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
@@ -27,6 +28,13 @@ namespace WalletConnectUnity.Modal.Views
         {
             if (string.IsNullOrWhiteSpace(Uri)) return;
 
+            StartCoroutine(OpenSessionProposalDeepLinkRoutine());
+        }
+        
+        private IEnumerator OpenSessionProposalDeepLinkRoutine()
+        {
+            // Skip one frame to not block the UI rendering
+            yield return null;
             Linker.OpenSessionProposalDeepLink(Uri, Wallet);
         }
     }

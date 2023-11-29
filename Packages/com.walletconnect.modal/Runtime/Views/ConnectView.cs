@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using WalletConnectUnity.Core.Networking;
+using WalletConnectUnity.Core.Utils;
 using WalletConnectUnity.UI;
 
 namespace WalletConnectUnity.Modal.Views
@@ -13,52 +17,79 @@ namespace WalletConnectUnity.Modal.Views
         [SerializeField] private RectTransform _listRootTransform;
         [SerializeField] private ApprovalView _approvalView;
         [SerializeField] private WalletSearchView _walletSearchView;
+        
+        [Header("QR Code")]
+        [SerializeField] private bool _showQrCodeOnDesktop = true;
+        [SerializeField] private RectTransform _qrCodeArea;
+        [SerializeField] private GameObject _qrWalletIcon;
+        [SerializeField] private RawImage _qrCodeRawImage;
+        [SerializeField] private Color _qrCodeWaitColor = Color.gray;
+
+        [Header("Settings"), SerializeField] private ushort _itemsCounts = 5;
+
+        [Header("Asset References"), SerializeField] private Sprite _wcLogoSprite;
+        [SerializeField] private Sprite _allWalletsSprite;
+        [SerializeField] private Sprite _copyIconSprite;
         [SerializeField] private WCListSelect _listSelectPrefab;
 
-        [SerializeField, Space] private ushort _itemsCounts = 5;
-
-        [SerializeField, Space] private Sprite _wcLogoSprite;
-        [SerializeField] private Sprite _allWalletsSprite;
-
         private readonly List<WCListSelect> _listItems = new(5);
+        
+        protected string Uri { get; private set; }
 
-        public override void Show(WCModal modal, IEnumerator effectCoroutine, object options = null)
+        private void Awake()
+        {
+#if (!UNITY_IOS && !UNITY_ANDROID)
+            // Resize to fit the QR code
+            if (_showQrCodeOnDesktop)
+            {
+                _qrCodeArea.gameObject.SetActive(true);
+
+                var sizeDelta = rootTransform.sizeDelta;
+                var newY = sizeDelta.y + _qrCodeArea.rect.height;
+                rootTransform.sizeDelta = new Vector2(sizeDelta.x, newY);
+            }
+#endif
+        }
+
+        public override async void Show(WCModal modal, IEnumerator effectCoroutine, object options = null)
         {
             if (_listItems.Count == 0)
                 for (var i = 0; i < _itemsCounts; i++)
                     _listItems.Add(Instantiate(_listSelectPrefab, _listRootTransform));
-
-
+            
             StartCoroutine(RefreshWalletsCoroutine());
-
+            
+            modal.Header.SetCustomLeftButton(_copyIconSprite, OnCopyLinkClick);
+            
             base.Show(modal, effectCoroutine, options);
+
+#if (!UNITY_IOS && !UNITY_ANDROID)
+            await ShowQrCodeAndCopyButtonAsync();
+#endif
         }
 
         public override void Hide()
         {
             base.Hide();
             StopAllCoroutines();
+            
+            parentModal.Header.RemoveCustomLeftButton();
+            
+            _qrCodeRawImage.texture = null;
+            _qrCodeRawImage.color = _qrCodeWaitColor;
+            _qrWalletIcon.SetActive(false);
         }
 
+        private void OnCopyLinkClick()
+        {
+            parentModal.Header.Snackbar.Show(WCSnackbar.Type.Success, "Link copied");
+            GUIUtility.systemCopyBuffer = Uri;
+        }
+        
         private IEnumerator RefreshWalletsCoroutine()
         {
             var index = 0;
             var totalWallets = _itemsCounts - 1; // the last item is "All Wallets" button
-
-#if !UNITY_ANDROID && !UNITY_IOS
-            _listItems[index].Initialize(new WCListSelect.Params
-            {
-                title = "WalletConnect",
-                sprite = _wcLogoSprite,
-                onClick = () =>
-                {
-                    parentModal.OpenView(_approvalView, parameters: new ApprovalView.Params());
-                }
-                // TODO: add "qr code" tag
-            });
-
-            index++;
-#endif
 
             // TODO: show one recent wallet
 
@@ -107,6 +138,18 @@ namespace WalletConnectUnity.Modal.Views
                     parentModal.OpenView(_walletSearchView);
                 }
             });
+        }
+        
+        private async Task ShowQrCodeAndCopyButtonAsync()
+        {
+            var connectedData = await WalletConnectModal.ConnectionController.GetConnectionDataAsync();
+            Uri = connectedData.Uri;
+            
+            var texture = QRCode.EncodeTexture(Uri);
+            _qrCodeRawImage.texture = texture;
+            _qrCodeRawImage.color = Color.white;
+            
+            _qrWalletIcon.SetActive(true);
         }
     }
 }

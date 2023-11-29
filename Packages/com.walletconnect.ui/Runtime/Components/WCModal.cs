@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace WalletConnectUnity.UI
 {
@@ -10,15 +11,15 @@ namespace WalletConnectUnity.UI
     {
         [Header("Scene References")] [SerializeField]
         private Canvas _rootCanvas;
-
+        [SerializeField] private CanvasScaler _rootCanvasScaler;
         [SerializeField] private Canvas _globalBackgroundCanvas;
-
         [SerializeField] private RectTransform _rootTransform;
-
+        
         [field: SerializeField] public WCModalHeader Header { get; private set; }
-
-
-        [Header("Settings")] [SerializeField] private TransformConfig _mobileTransformConfig;
+        
+        [Header("Settings")] 
+        [SerializeField] private bool _constantStandaloneSize = true;
+        [SerializeField] private TransformConfig _mobileTransformConfig;
         [SerializeField] private TransformConfig _desktopTransformConfig;
 
         public bool IsOpen => _rootCanvas.enabled;
@@ -32,6 +33,18 @@ namespace WalletConnectUnity.UI
         private void Awake()
         {
             _hasGlobalBackground = _globalBackgroundCanvas != null;
+
+#if UNITY_STANDALONE
+            if (_constantStandaloneSize)
+            {
+                _rootCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+            
+                if (Screen.dpi != 0)
+                    _rootCanvasScaler.scaleFactor = Screen.dpi / 130f;
+                else
+                    _rootCanvasScaler.scaleFactor = 1f;
+            }
+#endif
         }
 
         public void OpenView(WCModalView view, WCModal modal = null, object parameters = null)
@@ -45,11 +58,11 @@ namespace WalletConnectUnity.UI
             modal ??= this;
 
             _viewsStack.Push(view);
+            
             var resizeCoroutine = ResizeModalRoutine(view.GetRequiredHeight());
             view.Show(modal, resizeCoroutine, parameters);
 
             Header.Title = view.GetTitle();
-            Header.LeftButtonActive = _viewsStack.Count > 1;
         }
 
         public void CloseView()
@@ -58,12 +71,6 @@ namespace WalletConnectUnity.UI
 
             var currentView = _viewsStack.Pop();
             currentView.Hide();
-
-            if (_viewsStack.Count == 1)
-            {
-                Header.Title = "WalletConnect";
-                Header.LeftButtonActive = false;
-            }
 
             if (_viewsStack.Count > 0)
             {
@@ -121,10 +128,7 @@ namespace WalletConnectUnity.UI
             );
 
             _rootCanvas.enabled = true;
-
-            Header.Title = "WalletConnect";
-            Header.LeftButtonActive = false;
-
+            
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = true;
 

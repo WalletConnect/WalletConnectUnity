@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -14,23 +15,23 @@ namespace WalletConnectUnity.UI
         [field: SerializeField] private TMP_Text TitleText { get; set; }
 
         [field: SerializeField] private Button LeftButton { get; set; }
+        
+        [field: SerializeField] private Image LeftButtonImage { get; set; }
 
         [field: SerializeField] private Button RightButton { get; set; }
 
         [field: SerializeField, Space] private WCModal Modal { get; set; }
 
         public float Height => RootTransform.rect.height;
+        
+        private bool _leftButtonCustom;
+        private Action _leftButtonAction;
+        private Sprite _leftButtonDefaultSprite;
 
         public string Title
         {
             get => TitleText.text;
             set => TitleText.text = value;
-        }
-
-        public bool LeftButtonActive
-        {
-            get => LeftButton.gameObject.activeSelf;
-            set => LeftButton.gameObject.SetActive(value);
         }
 
         private void Awake()
@@ -44,11 +45,36 @@ namespace WalletConnectUnity.UI
 
             LeftButton.onClick.AddListener(OnLeftButtonClicked);
             RightButton.onClick.AddListener(OnRightButtonClicked);
+            
+            _leftButtonDefaultSprite = LeftButtonImage.sprite;
+        }
+
+        public void SetCustomLeftButton(Sprite sprite, Action onClick)
+        {
+            _leftButtonCustom = true;
+            _leftButtonAction = onClick;
+            
+            LeftButtonImage.sprite = sprite;
+        }
+        
+        public void RemoveCustomLeftButton()
+        {
+            _leftButtonCustom = false;
+            _leftButtonAction = null;
+            
+            LeftButtonImage.sprite = _leftButtonDefaultSprite;
         }
 
         private void OnLeftButtonClicked()
         {
-            Modal.CloseView();
+            if (_leftButtonCustom)
+            {
+                _leftButtonAction?.Invoke();
+            }
+            else
+            {
+                Modal.CloseView();
+            }
         }
 
         private void OnRightButtonClicked()
