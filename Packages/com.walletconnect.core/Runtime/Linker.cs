@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core.Models.Publisher;
@@ -32,11 +31,8 @@ namespace WalletConnectUnity.Core
         {
             if (string.IsNullOrWhiteSpace(uri))
                 throw new ArgumentException($"[Linker] Uri cannot be empty.");
-
-#if UNITY_ANDROID
-            // Android OS should handle wc: protocol, don't need to change anything
-#elif UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN
-            uri = WebUtility.UrlEncode(uri);
+            
+            uri = System.Uri.EscapeDataString(uri);
             
             var link = Application.isMobilePlatform ? wallet.MobileLink : wallet.DesktopLink;
 
@@ -47,12 +43,11 @@ namespace WalletConnectUnity.Core
             if (!link.EndsWith("//"))
                 link = $"{link}//";
             
-            uri = $"{link}wc?uri={uri}";
-#endif
+            var url =  $"{link}wc?uri={uri}";
             
-            Debug.Log($"[Linker] Opening URL {uri}");
+            Debug.Log($"[Linker] Opening URL {url}");
             
-            Application.OpenURL(uri);
+            Application.OpenURL(url);
         }
 
         public static void OpenSessionRequestDeepLink(in SessionStruct session)
