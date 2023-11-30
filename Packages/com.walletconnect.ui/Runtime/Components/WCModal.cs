@@ -29,6 +29,8 @@ namespace WalletConnectUnity.UI
 
         private readonly Stack<WCModalView> _viewsStack = new();
         private bool _hasGlobalBackground;
+        
+        private Coroutine _backInputCoroutine;
 
         private void Awake()
         {
@@ -95,6 +97,9 @@ namespace WalletConnectUnity.UI
 
             _viewsStack.Clear();
             DisableModal();
+            
+            if (_backInputCoroutine != null)
+                StopCoroutine(_backInputCoroutine);
 
             Closed?.Invoke(this, EventArgs.Empty);
         }
@@ -131,6 +136,8 @@ namespace WalletConnectUnity.UI
             
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = true;
+            
+            _backInputCoroutine = StartCoroutine(BackInputRoutine());
 
             Opened?.Invoke(this, EventArgs.Empty);
         }
@@ -149,6 +156,26 @@ namespace WalletConnectUnity.UI
             _rootTransform.anchorMax = config.anchorMax;
             _rootTransform.sizeDelta = config.sizeDelta;
             _rootTransform.pivot = config.pivot;
+        }
+        
+        private IEnumerator BackInputRoutine()
+        {
+            while (_rootCanvas.enabled)
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    if (_viewsStack.Count > 0)
+                    {
+                        CloseView();
+                    }
+                    else
+                    {
+                        CloseModal();
+                    }
+                }
+
+                yield return null;
+            }
         }
 
         [Serializable]
