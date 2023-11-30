@@ -12,5 +12,12 @@
   "dependencies": {
     "com.walletconnect.core": "3.0.0",
     "com.walletconnect.ui": "1.0.0"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Modal Sample",
+      "description": "A sample dApp demonstrating how to select a network, use the modal, sign messages and transactions, and disconnect sessions.",
+      "path": "Samples~/Modal Sample"
+    }
+  ]
 }
