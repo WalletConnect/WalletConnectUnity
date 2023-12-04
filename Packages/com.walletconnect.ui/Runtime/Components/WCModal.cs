@@ -11,15 +11,14 @@ namespace WalletConnectUnity.UI
     {
         [Header("Scene References")] [SerializeField]
         private Canvas _rootCanvas;
+
         [SerializeField] private CanvasScaler _rootCanvasScaler;
         [SerializeField] private Canvas _globalBackgroundCanvas;
         [SerializeField] private RectTransform _rootTransform;
-        
+
         [field: SerializeField] public WCModalHeader Header { get; private set; }
-        
-        [Header("Settings")] 
-        [SerializeField] private bool _constantStandaloneSize = true;
-        [SerializeField] private TransformConfig _mobileTransformConfig;
+
+        [Header("Settings")] [SerializeField] private TransformConfig _mobileTransformConfig;
         [SerializeField] private TransformConfig _desktopTransformConfig;
 
         public bool IsOpen => _rootCanvas.enabled;
@@ -29,24 +28,14 @@ namespace WalletConnectUnity.UI
 
         private readonly Stack<WCModalView> _viewsStack = new();
         private bool _hasGlobalBackground;
-        
+
         private Coroutine _backInputCoroutine;
 
         private void Awake()
         {
             _hasGlobalBackground = _globalBackgroundCanvas != null;
 
-#if UNITY_STANDALONE
-            if (_constantStandaloneSize)
-            {
-                _rootCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
-            
-                if (Screen.dpi != 0)
-                    _rootCanvasScaler.scaleFactor = Screen.dpi / 130f;
-                else
-                    _rootCanvasScaler.scaleFactor = 1f;
-            }
-#endif
+            HandleConstantPhysicalSize();
         }
 
         public void OpenView(WCModalView view, WCModal modal = null, object parameters = null)
@@ -60,7 +49,7 @@ namespace WalletConnectUnity.UI
             modal ??= this;
 
             _viewsStack.Push(view);
-            
+
             var resizeCoroutine = ResizeModalRoutine(view.GetRequiredHeight());
             view.Show(modal, resizeCoroutine, parameters);
 
@@ -97,7 +86,7 @@ namespace WalletConnectUnity.UI
 
             _viewsStack.Clear();
             DisableModal();
-            
+
             if (_backInputCoroutine != null)
                 StopCoroutine(_backInputCoroutine);
 
@@ -122,6 +111,20 @@ namespace WalletConnectUnity.UI
             _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, heightWithHeader);
         }
 
+        private void HandleConstantPhysicalSize()
+        {
+            float targetDPI = 160;
+
+#if (UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS))
+            targetDPI = 96;
+#endif
+
+            if (Screen.dpi != 0)
+                _rootCanvasScaler.scaleFactor = Screen.dpi / targetDPI;
+            else
+                _rootCanvasScaler.scaleFactor = 1f;
+        }
+
         private void EnableModal()
         {
             ApplyTransformConfig(
@@ -133,10 +136,10 @@ namespace WalletConnectUnity.UI
             );
 
             _rootCanvas.enabled = true;
-            
+
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = true;
-            
+
             _backInputCoroutine = StartCoroutine(BackInputRoutine());
 
             Opened?.Invoke(this, EventArgs.Empty);
@@ -157,7 +160,7 @@ namespace WalletConnectUnity.UI
             _rootTransform.sizeDelta = config.sizeDelta;
             _rootTransform.pivot = config.pivot;
         }
-        
+
         private IEnumerator BackInputRoutine()
         {
             while (_rootCanvas.enabled)
