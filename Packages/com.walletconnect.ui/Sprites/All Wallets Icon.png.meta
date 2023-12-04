@@ -105,7 +105,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 512
     resizeAlgorithm: 0
-    textureFormat: 53
+    textureFormat: 51
     textureCompression: 1
     compressionQuality: 100
     crunchedCompression: 0
@@ -117,7 +117,7 @@ TextureImporter:
     buildTarget: iPhone
     maxTextureSize: 512
     resizeAlgorithm: 0
-    textureFormat: 53
+    textureFormat: 51
     textureCompression: 1
     compressionQuality: 100
     crunchedCompression: 0
