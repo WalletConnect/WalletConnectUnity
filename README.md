@@ -74,6 +74,7 @@ To install packages via OpenUPM, you need to have [Node.js](https://nodejs.org/e
 ## Usage
 0. Set up in  project id and metadata `WalletConnectProjectConfig` ScriptableAsset (created automatically located at `Assets/WalletConnectUnity/Resources/WalletConnectProjectConfig.asset`, do NOT move it outside of `Resources` directory).
 1. Initialize `WalletConnect` and connect wallet:
+
 ```csharp
 // Initialize singleton
 await WalletConnect.Instance.InitializeAsync();
