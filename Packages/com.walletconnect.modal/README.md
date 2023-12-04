@@ -20,13 +20,12 @@
 ## Usage
 
 0. Install WalletConnectUnity Modal package. If installing as Git URL, also install UI and Core packages.
-1. Import the sample from the WalletConnectModal package.
-2. Add Name (can be anything) and your Project ID to
+1. Add Name (can be anything) and your Project ID to
    the `Assets/WalletConnectUnity/Resources/WalletConnectProjectConfig` asset.
     - If you don't have Project ID, you can create one in [WalletConnect Cloud](https://cloud.walletconnect.com).
 
-3. Drag and drop `WalletConnectModal` prefab from `WalletConnectUnity Modal` package to your scene.
-4. Open modal after initialization
+2. Drag and drop `WalletConnectModal` prefab from `WalletConnectUnity Modal` package to the first scene in your game.
+3. Open modal after initialization
     - By default Modal will initialize itself asynchronously on Awake. During initialization it will also try to connect
       to the last
       session.

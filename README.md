@@ -97,7 +97,7 @@ if (!sessionResumed)
 ```
 
 ### WalletConnectProjectConfig Fields
-* Project Id - The id of your project. This will be used inside the relay server.
+* Id - The id of your project. This will be used inside the relay server.
 * Client Metadata
   * Name - The name of your app. This will be used inside the authentication request.
   * Description - The description of your app. This will be used inside the authentication request.
