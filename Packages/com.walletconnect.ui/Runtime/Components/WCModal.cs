@@ -9,17 +9,26 @@ namespace WalletConnectUnity.UI
     [AddComponentMenu("WalletConnect/UI/WC Modal")]
     public class WCModal : MonoBehaviour
     {
-        [Header("Scene References")] [SerializeField]
-        private Canvas _rootCanvas;
+        [Header("Scene References")]
+        [SerializeField] private Canvas _rootCanvas;
 
         [SerializeField] private CanvasScaler _rootCanvasScaler;
         [SerializeField] private Canvas _globalBackgroundCanvas;
         [SerializeField] private RectTransform _rootTransform;
+        [SerializeField] private Image _modalMaskImage;
+        [SerializeField] private Image _modalBorderImage;
 
         [field: SerializeField] public WCModalHeader Header { get; private set; }
 
-        [Header("Settings")] [SerializeField] private TransformConfig _mobileTransformConfig;
+        [Header("Settings")]
+        [SerializeField] private TransformConfig _mobileTransformConfig;
+
         [SerializeField] private TransformConfig _desktopTransformConfig;
+
+        [Header("Asset References")]
+        [SerializeField] private Sprite _mobileModalMaskSprite;
+
+        [SerializeField] private Sprite _mobileModalBorderSprite;
 
         public bool IsOpen => _rootCanvas.enabled;
 
@@ -95,20 +104,25 @@ namespace WalletConnectUnity.UI
 
         public IEnumerator ResizeModalRoutine(float targetHeight)
         {
-            var heightWithHeader = targetHeight + Header.Height;
+            targetHeight = targetHeight + Header.Height;
+
+#if UNITY_ANDROID || UNITY_IOS
+            targetHeight += 20;
+#endif
+
             var originalHeight = _rootTransform.sizeDelta.y;
             var elapsedTime = 0f;
             var duration = .25f; // TODO: serialize this
 
             while (elapsedTime < duration)
             {
-                var lerp = Mathf.Lerp(originalHeight, heightWithHeader, elapsedTime / duration);
+                var lerp = Mathf.Lerp(originalHeight, targetHeight, elapsedTime / duration);
                 _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, lerp);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, heightWithHeader);
+            _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, targetHeight);
         }
 
         private void HandleConstantPhysicalSize()
@@ -134,6 +148,11 @@ namespace WalletConnectUnity.UI
                 _desktopTransformConfig
 #endif
             );
+
+#if UNITY_ANDROID || UNITY_IOS
+            _modalMaskImage.sprite = _mobileModalMaskSprite;
+            _modalBorderImage.sprite = _mobileModalBorderSprite;
+#endif
 
             _rootCanvas.enabled = true;
 

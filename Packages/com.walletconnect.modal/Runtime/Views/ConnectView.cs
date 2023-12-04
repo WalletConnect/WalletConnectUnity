@@ -17,9 +17,8 @@ namespace WalletConnectUnity.Modal.Views
         [SerializeField] private RectTransform _listRootTransform;
         [SerializeField] private ApprovalView _approvalView;
         [SerializeField] private WalletSearchView _walletSearchView;
-        
-        [Header("QR Code")]
-        [SerializeField] private bool _showQrCodeOnDesktop = true;
+
+        [Header("QR Code")] [SerializeField] private bool _showQrCodeOnDesktop = true;
         [SerializeField] private RectTransform _qrCodeArea;
         [SerializeField] private GameObject _qrWalletIcon;
         [SerializeField] private RawImage _qrCodeRawImage;
@@ -27,13 +26,15 @@ namespace WalletConnectUnity.Modal.Views
 
         [Header("Settings"), SerializeField] private ushort _itemsCounts = 5;
 
-        [Header("Asset References"), SerializeField] private Sprite _wcLogoSprite;
+        [Header("Asset References"), SerializeField]
+        private Sprite _wcLogoSprite;
+
         [SerializeField] private Sprite _allWalletsSprite;
         [SerializeField] private Sprite _copyIconSprite;
         [SerializeField] private WCListSelect _listSelectPrefab;
 
         private readonly List<WCListSelect> _listItems = new(5);
-        
+
         protected string Uri { get; private set; }
 
         private void Awake()
@@ -56,11 +57,11 @@ namespace WalletConnectUnity.Modal.Views
             if (_listItems.Count == 0)
                 for (var i = 0; i < _itemsCounts; i++)
                     _listItems.Add(Instantiate(_listSelectPrefab, _listRootTransform));
-            
+
             StartCoroutine(RefreshWalletsCoroutine());
-            
+
             modal.Header.SetCustomLeftButton(_copyIconSprite, OnCopyLinkClick);
-            
+
             base.Show(modal, effectCoroutine, options);
 
 #if (!UNITY_IOS && !UNITY_ANDROID)
@@ -72,9 +73,9 @@ namespace WalletConnectUnity.Modal.Views
         {
             base.Hide();
             StopAllCoroutines();
-            
+
             parentModal.Header.RemoveCustomLeftButton();
-            
+
             _qrCodeRawImage.texture = null;
             _qrCodeRawImage.color = _qrCodeWaitColor;
             _qrWalletIcon.SetActive(false);
@@ -85,7 +86,7 @@ namespace WalletConnectUnity.Modal.Views
             parentModal.Header.Snackbar.Show(WCSnackbar.Type.Success, "Link copied");
             GUIUtility.systemCopyBuffer = Uri;
         }
-        
+
         private IEnumerator RefreshWalletsCoroutine()
         {
             var index = 0;
@@ -123,7 +124,7 @@ namespace WalletConnectUnity.Modal.Views
                             walletIconRemoteSprite = remoteSprite,
                             walletData = wallet
                         });
-                    }
+                    },
                 });
             }
 
@@ -131,24 +132,22 @@ namespace WalletConnectUnity.Modal.Views
             // "All Wallets" button
             _listItems[totalWallets].Initialize(new WCListSelect.Params
             {
-                title = "All Wallets",
+                title = "All wallets",
                 sprite = _allWalletsSprite,
-                onClick = () =>
-                {
-                    parentModal.OpenView(_walletSearchView);
-                }
+                onClick = () => { parentModal.OpenView(_walletSearchView); },
+                borderColor = new Color(0.2784f, 0.6313f, 1, 0.08f)
             });
         }
-        
+
         private async Task ShowQrCodeAndCopyButtonAsync()
         {
             var connectedData = await WalletConnectModal.ConnectionController.GetConnectionDataAsync();
             Uri = connectedData.Uri;
-            
+
             var texture = QRCode.EncodeTexture(Uri);
             _qrCodeRawImage.texture = texture;
             _qrCodeRawImage.color = Color.white;
-            
+
             _qrWalletIcon.SetActive(true);
         }
     }
