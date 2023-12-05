@@ -104,10 +104,10 @@ namespace WalletConnectUnity.UI
 
         public IEnumerator ResizeModalRoutine(float targetHeight)
         {
-            targetHeight = targetHeight + Header.Height;
+            targetHeight = targetHeight + Header.Height + 12;
 
 #if UNITY_ANDROID || UNITY_IOS
-            targetHeight += 20;
+            targetHeight += 8;
 #endif
 
             var originalHeight = _rootTransform.sizeDelta.y;

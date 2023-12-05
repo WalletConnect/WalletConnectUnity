@@ -24,7 +24,10 @@ namespace WalletConnectUnity.Modal.Views
         [SerializeField] private RawImage _qrCodeRawImage;
         [SerializeField] private Color _qrCodeWaitColor = Color.gray;
 
-        [Header("Settings"), SerializeField] private ushort _itemsCounts = 5;
+        [Header("Settings")]
+        [SerializeField] private ushort _walletsCounts = 5; // don't change in runtime
+
+        [SerializeField] private bool _showAllWalletsButton = true;
 
         [Header("Asset References"), SerializeField]
         private Sprite _wcLogoSprite;
@@ -39,25 +42,34 @@ namespace WalletConnectUnity.Modal.Views
 
         private void Awake()
         {
+            if (_listItems.Count == 0)
+                for (var i = 0; i < _walletsCounts; i++)
+                    _listItems.Add(Instantiate(_listSelectPrefab, _listRootTransform));
+
+            if (_showAllWalletsButton)
+                _listItems.Add(Instantiate(_listSelectPrefab, _listRootTransform));
+
+            var sizeDelta = rootTransform.sizeDelta;
+            sizeDelta = new Vector2(sizeDelta.x, sizeDelta.y + _listItems.Count * 64);
+
+            rootTransform.sizeDelta = sizeDelta;
+
 #if (!UNITY_IOS && !UNITY_ANDROID)
             // Resize to fit the QR code
             if (_showQrCodeOnDesktop)
             {
                 _qrCodeArea.gameObject.SetActive(true);
 
-                var sizeDelta = rootTransform.sizeDelta;
                 var newY = sizeDelta.y + _qrCodeArea.rect.height;
-                rootTransform.sizeDelta = new Vector2(sizeDelta.x, newY);
+                sizeDelta = new Vector2(sizeDelta.x, newY);
             }
 #endif
+
+            rootTransform.sizeDelta = sizeDelta;
         }
 
         public override async void Show(WCModal modal, IEnumerator effectCoroutine, object options = null)
         {
-            if (_listItems.Count == 0)
-                for (var i = 0; i < _itemsCounts; i++)
-                    _listItems.Add(Instantiate(_listSelectPrefab, _listRootTransform));
-
             StartCoroutine(RefreshWalletsCoroutine());
 
             modal.Header.SetCustomLeftButton(_copyIconSprite, OnCopyLinkClick);
@@ -90,53 +102,59 @@ namespace WalletConnectUnity.Modal.Views
         private IEnumerator RefreshWalletsCoroutine()
         {
             var index = 0;
-            var totalWallets = _itemsCounts - 1; // the last item is "All Wallets" button
 
             // TODO: show one recent wallet
 
             // ReSharper disable once UselessBinaryOperation
-            var walletsToLoad = totalWallets - index;
-            using var uwr = WalletConnectModal.WalletsRequestsFactory.GetWallets(1, walletsToLoad);
+            var walletsToLoad = _walletsCounts - index;
 
-            yield return uwr.SendWebRequest();
-
-            if (uwr.result != UnityWebRequest.Result.Success)
+            if (walletsToLoad != 0)
             {
-                Debug.LogError($"[WalletConnectUnity] Failed to get wallets: {uwr.error}", this);
-                yield break;
+                using var uwr = WalletConnectModal.WalletsRequestsFactory.GetWallets(1, walletsToLoad);
+
+                yield return uwr.SendWebRequest();
+
+                if (uwr.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError($"[WalletConnectUnity] Failed to get wallets: {uwr.error}", this);
+                    yield break;
+                }
+
+                var response = JsonConvert.DeserializeObject<GetWalletsResponse>(uwr.downloadHandler.text);
+
+                for (var i = index; i < _walletsCounts; i++)
+                {
+                    var wallet = response.Data[i - index];
+
+                    var remoteSprite =
+                        RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
+                    _listItems[i].Initialize(new WCListSelect.Params
+                    {
+                        title = wallet.Name,
+                        remoteSprite = remoteSprite,
+                        onClick = () =>
+                        {
+                            parentModal.OpenView(_approvalView, parameters: new ApprovalView.Params
+                            {
+                                walletIconRemoteSprite = remoteSprite,
+                                walletData = wallet
+                            });
+                        },
+                    });
+                }
             }
 
-            var response = JsonConvert.DeserializeObject<GetWalletsResponse>(uwr.downloadHandler.text);
-
-            for (var i = index; i < totalWallets; i++)
+            if (_showAllWalletsButton)
             {
-                var wallet = response.Data[i - index];
-
-                var remoteSprite = RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
-                _listItems[i].Initialize(new WCListSelect.Params
+                // "All Wallets" button
+                _listItems[_walletsCounts].Initialize(new WCListSelect.Params
                 {
-                    title = wallet.Name,
-                    remoteSprite = remoteSprite,
-                    onClick = () =>
-                    {
-                        parentModal.OpenView(_approvalView, parameters: new ApprovalView.Params
-                        {
-                            walletIconRemoteSprite = remoteSprite,
-                            walletData = wallet
-                        });
-                    },
+                    title = "All wallets",
+                    sprite = _allWalletsSprite,
+                    onClick = () => { parentModal.OpenView(_walletSearchView); },
+                    borderColor = new Color(0.2784f, 0.6313f, 1, 0.08f)
                 });
             }
-
-
-            // "All Wallets" button
-            _listItems[totalWallets].Initialize(new WCListSelect.Params
-            {
-                title = "All wallets",
-                sprite = _allWalletsSprite,
-                onClick = () => { parentModal.OpenView(_walletSearchView); },
-                borderColor = new Color(0.2784f, 0.6313f, 1, 0.08f)
-            });
         }
 
         private async Task ShowQrCodeAndCopyButtonAsync()
