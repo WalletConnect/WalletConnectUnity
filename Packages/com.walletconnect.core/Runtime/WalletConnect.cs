@@ -165,6 +165,15 @@ namespace WalletConnectUnity.Core
 
         private static IKeyValueStorage BuildStorage()
         {
+#if UNITY_WEBGL
+            var currentSyncContext = SynchronizationContext.Current;
+            if (currentSyncContext.GetType().FullName != "UnityEngine.UnitySynchronizationContext")
+                throw new Exception(
+                    $"[WalletConnectUnity] SynchronizationContext is not of type UnityEngine.UnitySynchronizationContext. Current type is <i>{currentSyncContext.GetType().FullName}</i>. When targeting WebGL, Make sure to initialize WalletConnect from the main thread.");
+
+            return new PlayerPrefsStorage(currentSyncContext);
+#endif
+
             var path = $"{Application.persistentDataPath}/WalletConnect/storage.json";
             WCLogger.Log($"[WalletConnectUnity] Using storage path <i>{path}</i>");
             return new FileSystemStorage(path);
