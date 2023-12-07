@@ -17,7 +17,7 @@ Older versions of  WalletConnectUnity are available under `legacy/*` branches
 * iOS
 * macOS
 * Windows
-* WebGL (soon)
+* WebGL ([experimental](#webgl-usage))
 
 ## Installation
 <details>
@@ -105,6 +105,16 @@ if (!sessionResumed)
   * Url - The url of your app. This will be used inside the authentication request.
   * Icons - The icons of your app. This will be used inside the authentication request.
   * Very Url - The verification URL of your app. Currently used but not enforced
+
+### WebGL Usage
+Due to WebGL's single-threaded nature, certain asynchronous operations like `Task.Run`, `Task.ContinueWith`, `Task.Delay`, and `ConfigureAwait(false)` are not natively supported. 
+
+To enable these operations in WebGL builds, an additional third-party package, [WebGLThreadingPatcher](https://github.com/VolodymyrBS/WebGLThreadingPatcher), is required. This package modifies the Unity WebGL build to delegate work to the `SynchronizationContext`, allowing these operations to be executed on the same thread without blocking the main application. Please note that all tasks are still executed on a single thread, and any blocking calls will freeze the entire application.
+
+The [WebGLThreadingPatcher](https://github.com/VolodymyrBS/WebGLThreadingPatcher) package can be added via git URL:
+```
+https://github.com/VolodymyrBS/WebGLThreadingPatcher.git
+```
 
 ## Sample
 * [WalletConnect Modal Sample](https://github.com/WalletConnect/WalletConnectUnity/tree/main/Packages/com.walletconnect.modal/Samples~/Modal%20Sample#readme)

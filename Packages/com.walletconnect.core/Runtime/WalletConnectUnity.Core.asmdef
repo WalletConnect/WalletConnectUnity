@@ -13,6 +13,7 @@
         "macOSStandalone",
         "tvOS",
         "WSA",
+        "WebGL",
         "WindowsStandalone32",
         "WindowsStandalone64"
     ],
