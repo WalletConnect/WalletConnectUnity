@@ -6,8 +6,10 @@ This repository is a monorepo of packages that extend [WalletConnectSharp](https
 | Package | Description                                                                                                                                                                                                                                                                                                                                                                              | OpenUPM |
 |---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
 | Core | High-level, Unity-friendly extension of [WalletConnectSharp](https://github.com/WalletConnect/WalletConnectSharp)<br>- Automatic active session management<br>- Option to resume session from storage<br>- Deep linking support<br>- IL2CPP support<br>- Lightweight `IJsonRpcConnection` implementation<br>- QR Code generation utility<br>- API to load wallets data and visual assets | [![openupm](https://img.shields.io/npm/v/com.walletconnect.core?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.walletconnect.core/) |
-| Modal | Simplest and most minimal way to connect your players with WalletConnect                                                                                                                                                                                                                                                                                                                 | [![openupm](https://img.shields.io/npm/v/com.walletconnect.modal?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.walletconnect.modal/) |
+| Modal (beta) | Simplest and most minimal way to connect your players with WalletConnect                                                                                                                                                                                                                                                                                                                 | [![openupm](https://img.shields.io/npm/v/com.walletconnect.modal?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.walletconnect.modal/) |
 | UI | This is a technical package that provides UI for WalletConnect Modal. It is not intended to be used directly, but rather as a dependency of WalletConnect Modal.                                                                                                                                                                                                                         | [![openupm](https://img.shields.io/npm/v/com.walletconnect.ui?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.walletconnect.ui/) |
+
+Older versions of  WalletConnectUnity are available under `legacy/*` branches
 
 ### Supported Platforms
 * Unity Editor 2021.3 or above
@@ -16,8 +18,6 @@ This repository is a monorepo of packages that extend [WalletConnectSharp](https
 * macOS
 * Windows
 * WebGL ([experimental](#webgl-usage))
-
-#### :warning: **This is beta software**: This software is currently in beta and under development. Please proceed with caution, and open a new issue if you encounter a bug. Older versions of  WalletConnectUnity are available under `legacy/*` branches :warning:
 
 ## Installation
 <details>
@@ -115,3 +115,6 @@ The [WebGLThreadingPatcher](https://github.com/VolodymyrBS/WebGLThreadingPatcher
 ```
 https://github.com/VolodymyrBS/WebGLThreadingPatcher.git
 ```
+
+## Sample
+* [WalletConnect Modal Sample](https://github.com/WalletConnect/WalletConnectUnity/tree/main/Packages/com.walletconnect.modal/Samples~/Modal%20Sample#readme)

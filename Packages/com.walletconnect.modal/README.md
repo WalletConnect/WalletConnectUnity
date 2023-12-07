@@ -109,3 +109,7 @@ WalletConnectModal.Ready += (sender, args) =>
     };
 };
 ```
+
+## Sample
+
+- [WalletConnect Modal Sample](https://github.com/WalletConnect/WalletConnectUnity/tree/main/Packages/com.walletconnect.modal/Samples~/Modal%20Sample#readme)
