@@ -68,7 +68,7 @@ namespace WalletConnectUnity.UI
             if (uwr.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError(
-                    $"[WalletConnectUnity] Failed to load remote sprite: {uwr.error}. DownloadHandler error: {uwr.downloadHandler.error}"
+                    $"[WalletConnectUnity] Failed to load remote sprite: {uwr.error}. URI: [{_uri}]. DownloadHandler error: {uwr.downloadHandler.error}"
                 );
             }
             else
