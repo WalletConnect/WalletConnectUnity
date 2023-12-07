@@ -5,14 +5,15 @@
 
 ## Supported Platforms
 
-* Android, iOS
-* Windows, macOS
+- Android, iOS
+- Windows, macOS
+- WebGL ([read this first](https://github.com/WalletConnect/WalletConnectUnity#webgl-usage))
 
 ## Prerequisites
 
-* Unity 2021.3 or above
-* IL2CPP code stripping level: Minimal (or lower)
-* Project created in [WalletConnect Cloud](https://cloud.walletconnect.com)
+- Unity 2021.3 or above
+- IL2CPP code stripping level: Minimal (or lower)
+- Project created in [WalletConnect Cloud](https://cloud.walletconnect.com)
 
 ## How to Use
 
@@ -20,5 +21,5 @@
 1. Import the sample from the Modal package.
 2. Add Name (can be anything) and your Project ID to
    the `Assets/WalletConnectUnity/Resources/WalletConnectProjectConfig` asset.
-    - If you don't have Project ID, you can create one in [WalletConnect Cloud](https://cloud.walletconnect.com).
+   - If you don't have Project ID, you can create one in [WalletConnect Cloud](https://cloud.walletconnect.com).
 3. Run `Modal Sample/Scenes/WalletConnectModal Sample.unity` scene.
