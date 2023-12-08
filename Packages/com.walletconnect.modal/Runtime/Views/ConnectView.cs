@@ -159,8 +159,13 @@ namespace WalletConnectUnity.Modal.Views
 
         private async Task ShowQrCodeAndCopyButtonAsync()
         {
+            WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
+
             var connectedData = await WalletConnectModal.ConnectionController.GetConnectionDataAsync();
+
             Uri = connectedData.Uri;
+
+            WCLoadingAnimator.Instance.UnsubscribeGraphic(_qrCodeRawImage);
 
             var texture = QRCode.EncodeTexture(Uri);
             _qrCodeRawImage.texture = texture;
