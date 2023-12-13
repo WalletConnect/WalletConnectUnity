@@ -38,10 +38,10 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          commit-message: Update WalletConnectSharp
-          title: Update WalletConnectSharp
+          commit-message: Update WalletConnectSharp to ${{ github.event.client_payload.tag_name }}
+          title: Update WalletConnectSharp to ${{ github.event.client_payload.tag_name }}
           body: |
-            This PR updates WalletConnectSharp to the latest release version
+            This PR updates WalletConnectSharp to the ${{ github.event.client_payload.tag_name }} release.
           branch: chore/update-walletconnectsharp
           delete-branch: true
           reviewers: skibitsky
