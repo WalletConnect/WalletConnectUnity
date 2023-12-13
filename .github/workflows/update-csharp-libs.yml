@@ -25,8 +25,7 @@ jobs:
           workflow: release.yml
           workflow_conclusion: success
           name: build-artifacts
-          repo: walletconnectsharp
-          owner: walletconnect
+          repo: walletconnect/walletconnectsharp
           token: ${{ secrets.PAT }}
 
       - name: Extract DLLs
