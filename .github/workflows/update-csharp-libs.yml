@@ -45,3 +45,5 @@ jobs:
           branch: chore/update-walletconnectsharp
           delete-branch: true
           reviewers: skibitsky
+          add-paths: |
+            Packages
