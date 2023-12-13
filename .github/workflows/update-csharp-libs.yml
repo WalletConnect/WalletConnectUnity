@@ -33,7 +33,7 @@ jobs:
           EXCLUDED_DLLS: "Microsoft.Bcl.AsyncInterfaces.dll,Microsoft.CSharp.dll,Newtonsoft.Json.dll,System.Buffers.dll,System.Memory.dll,System.Numerics.Vectors.dll,System.Runtime.CompilerServices.Unsafe.dll,System.Runtime.InteropServices.WindowsRuntime.dll,System.Security.Cryptography.Cng.dll,System.Text.Encodings.Web.dll,System.Text.Json.dll,System.Threading.Tasks.Extensions.dll"
         run: |
           chmod +x ./.github/workflows/scripts/move-libs.csx
-          ./.github/workflows/scripts/move-libs.csx ./temp/extracted-dlls/WalletConnectSharp.Sign/bin/Release/netstandard2.1
+          ./.github/workflows/scripts/move-libs.csx ./WalletConnectSharp.Sign/bin/Release/netstandard2.1
           
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
