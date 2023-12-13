@@ -28,11 +28,6 @@ jobs:
           repo: walletconnect/walletconnectsharp
           token: ${{ secrets.PAT }}
 
-      - name: Extract DLLs
-        run: |
-          mkdir -p ./temp/extracted-dlls
-          unzip build-artifacts.zip -d ./temp/extracted-dlls
-
       - name: Move DLLs
         env:
           EXCLUDED_DLLS: "Microsoft.Bcl.AsyncInterfaces.dll,Microsoft.CSharp.dll,Newtonsoft.Json.dll,System.Buffers.dll,System.Memory.dll,System.Numerics.Vectors.dll,System.Runtime.CompilerServices.Unsafe.dll,System.Runtime.InteropServices.WindowsRuntime.dll,System.Security.Cryptography.Cng.dll,System.Text.Encodings.Web.dll,System.Text.Json.dll,System.Threading.Tasks.Extensions.dll"
