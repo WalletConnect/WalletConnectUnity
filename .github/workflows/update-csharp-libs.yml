@@ -1,0 +1,52 @@
+name: Update C# Libraries
+
+on:
+  repository_dispatch:
+    types: [new-release]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+          cache: true
+        run: dotnet tool install -g dotnet-script
+
+      - name: Download build artifacts
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: release.yml
+          workflow_conclusion: success
+          name: build-artifacts
+          repo: walletconnectsharp
+          owner: walletconnect
+          token: ${{ secrets.PAT }}
+
+      - name: Extract DLLs
+        run: |
+          mkdir -p ./temp/extracted-dlls
+          unzip build-artifacts.zip -d ./temp/extracted-dlls
+
+      - name: Move DLLs
+        env:
+          EXCLUDED_DLLS: "Microsoft.Bcl.AsyncInterfaces.dll,Microsoft.CSharp.dll,Newtonsoft.Json.dll,System.Buffers.dll,System.Memory.dll,System.Numerics.Vectors.dll,System.Runtime.CompilerServices.Unsafe.dll,System.Runtime.InteropServices.WindowsRuntime.dll,System.Security.Cryptography.Cng.dll,System.Text.Encodings.Web.dll,System.Text.Json.dll,System.Threading.Tasks.Extensions.dll"
+        run: |
+          chmod +x ./.github/workflows/scripts/move-libs.csx
+          ./.github/workflows/scripts/move-libs.csx ./temp/extracted-dlls/WalletConnectSharp.Sign/bin/Release/netstandard2.1
+          
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update WalletConnectSharp
+          title: Update WalletConnectSharp
+          body: |
+            This PR updates WalletConnectSharp to the latest release version
+          branch: chore/update-walletconnectsharp
+          delete-branch: true
+          reviewers: skibitsky
