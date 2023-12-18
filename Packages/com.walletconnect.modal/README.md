@@ -18,6 +18,9 @@
 > This is a beta version of WalletConnect Modal. The prefab structure may change, refrain from creating prefab variants
 > until the release.
 
+## Documentation
+* [WalletConnect Modal](https://docs.walletconnect.com/advanced/walletconnectmodal/about?platform=unity)
+
 ## Usage
 
 0. Install WalletConnectUnity Modal package. If installing as Git URL, also install UI and Core packages.
