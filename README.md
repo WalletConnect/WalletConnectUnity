@@ -19,6 +19,9 @@ Older versions of  WalletConnectUnity are available under `legacy/*` branches
 * Windows
 * WebGL ([experimental](#webgl-usage))
 
+### Documentation
+* [WalletConnect Modal](https://docs.walletconnect.com/advanced/walletconnectmodal/about?platform=unity)
+
 ## Installation
 <details>
   <summary>Install via OpenUPM CLI</summary>
