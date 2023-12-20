@@ -93,7 +93,10 @@ if (!sessionResumed)
 {                                                                                            
     var connectedData = await WalletConnect.Instance.ConnectAsync(connectOptions);
 
-    // Use connectedData.Uri to generate QR code
+    // Create QR code texture
+    var texture = WalletConnectUnity.Core.Utils.QRCode.EncodeTexture(connectedData.Uri);
+    
+    // ... Display QR code texture
 
     // Wait for wallet approval
     await connectedData.Approval;                                                            
