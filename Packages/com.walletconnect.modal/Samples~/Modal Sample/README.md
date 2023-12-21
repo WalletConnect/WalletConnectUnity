@@ -19,7 +19,7 @@
 
 0. Instal WalletConnectUnity Modal package. If installing as Git URL, also install UI and Core packages.
 1. Import the sample from the Modal package.
-2. Add Name (can be anything) and your Project ID to
-   the `Assets/WalletConnectUnity/Resources/WalletConnectProjectConfig` asset.
-   - If you don't have Project ID, you can create one in [WalletConnect Cloud](https://cloud.walletconnect.com).
+2. Fill in the Project ID and Metadata fields in the `Assets/WalletConnectUnity/Resources/WalletConnectProjectConfig` asset.
+   - If you don’t have a Project ID, you can create one at [WalletConnect Cloud](https://cloud.walletconnect.com).
+   - The `Redirect` fields are optional. They are used to redirect the user back to your app after they approve or reject the session.
 3. Run `Modal Sample/Scenes/WalletConnectModal Sample.unity` scene.
