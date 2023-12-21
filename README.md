@@ -21,6 +21,8 @@ Older versions of  WalletConnectUnity are available under `legacy/*` branches
 
 ### Documentation
 * [WalletConnect Modal](https://docs.walletconnect.com/advanced/walletconnectmodal/about?platform=unity)
+* [Sign API](https://docs.walletconnect.com/api/sign/overview?platform=unity)
+* [Core API](https://docs.walletconnect.com/api/core/pairing?platform=unity)
 
 ## Installation
 <details>
