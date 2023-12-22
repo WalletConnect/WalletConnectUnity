@@ -5743,6 +5743,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5887124762246014067, guid: 04b38e7e6a8fc4d8d8f9fceeb8b5c514, type: 3}
+      propertyPath: m_text
+      value: Search wallet
+      objectReference: {fileID: 0}
     - target: {fileID: 5887124762839877154, guid: 04b38e7e6a8fc4d8d8f9fceeb8b5c514, type: 3}
       propertyPath: m_Color.a
       value: 0.050980393
@@ -7553,13 +7557,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4972032553078844409, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972032553165616433, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4972032553210203830, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4972032553456518853, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
       propertyPath: m_text
-      value: <sprite name="Icon Copy" tint=1/> Copy Link
+      value: <voffset=0.1em><size="10%"><sprite name="Icon Copy" tint=1/></size></voffset>
+        Copy link
       objectReference: {fileID: 0}
     - target: {fileID: 4972032553456518853, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
       propertyPath: m_spriteAsset
@@ -7588,6 +7601,10 @@ PrefabInstance:
     - target: {fileID: 4972032553456518874, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972032553510034043, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
@@ -10770,13 +10787,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4972032553078844409, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972032553165616433, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4972032553210203830, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4972032553456518853, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
       propertyPath: m_text
-      value: <sprite name="Icon Copy" tint=1/> Copy Link
+      value: <voffset=0.1em><size="10%"><sprite name="Icon Copy" tint=1/></size></voffset>
+        Copy link
       objectReference: {fileID: 0}
     - target: {fileID: 4972032553456518853, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
       propertyPath: m_spriteAsset
@@ -10805,6 +10831,10 @@ PrefabInstance:
     - target: {fileID: 4972032553456518874, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972032553510034043, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b930ac877c1044e1682e302bc11a8c27, type: 3}
