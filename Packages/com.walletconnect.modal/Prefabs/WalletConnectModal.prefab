@@ -4996,6 +4996,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7180608153501046979, guid: 86cd43d0e26df4a00888f096071c91a1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8079595783759352406, guid: 86cd43d0e26df4a00888f096071c91a1, type: 3}
       propertyPath: m_Name
       value: Modal
