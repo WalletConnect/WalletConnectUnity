@@ -23,7 +23,7 @@ namespace WalletConnectUnity.UI
         private ITabsController _controller;
         private WCTabButton _selectedTabButton;
 
-        private bool IsEnabled => gameObject.activeSelf;
+        private bool IsEnabled => RootTransform.gameObject.activeSelf;
 
         public void Initialize(ITabsController controller)
         {
@@ -53,7 +53,7 @@ namespace WalletConnectUnity.UI
                 _buttonToPageDictionary.Add(button, page);
             }
 
-            gameObject.SetActive(true);
+            RootTransform.gameObject.SetActive(true);
 
             StartCoroutine(ResizeMainBackground());
         }
@@ -71,7 +71,7 @@ namespace WalletConnectUnity.UI
 
             _buttonToPageDictionary.Clear();
 
-            gameObject.SetActive(false);
+            RootTransform.gameObject.SetActive(false);
         }
 
         public void OnButtonSelected(object tabButtonObj, EventArgs _)

@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 70b02f6d77ecf4aedb1b0de7b6d7c10c
+guid: f650b76b8d20e4293bb2b49afa3808c0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -49,7 +49,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -67,7 +67,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 2
@@ -105,7 +105,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 512
     resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: 52
     textureCompression: 1
     compressionQuality: 100
     crunchedCompression: 0
@@ -117,7 +117,7 @@ TextureImporter:
     buildTarget: iPhone
     maxTextureSize: 512
     resizeAlgorithm: 0
-    textureFormat: 50
+    textureFormat: 52
     textureCompression: 1
     compressionQuality: 100
     crunchedCompression: 0

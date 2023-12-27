@@ -95,15 +95,18 @@ namespace WalletConnectUnity.Modal.Views
 
         private IEnumerator ResizeModalAndEnablePageRoutine(WCTabPage page)
         {
-            const int padding = 8;
-            var newHeight = page.PageTransform.sizeDelta.y + _tabsBar.RootTransform.sizeDelta.y + padding;
+            var newHeight = page.PageTransform.sizeDelta.y;
+
+            if (_tabsBar.RootTransform.gameObject.activeSelf)
+                newHeight += _tabsBar.RootTransform.sizeDelta.y;
+
             yield return _modal.ResizeModalRoutine(newHeight);
 
             page.PageTransform.gameObject.SetActive(true);
 
             _isPageTransitionInProgress = false;
         }
-        
+
         private enum ConnectionType
         {
             QRCode = 1,
