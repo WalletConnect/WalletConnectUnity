@@ -9,18 +9,26 @@ namespace WalletConnectUnity.UI
     [AddComponentMenu("WalletConnect/UI/WC Modal")]
     public class WCModal : MonoBehaviour
     {
-        [Header("Scene References")] [SerializeField]
-        private Canvas _rootCanvas;
+        [Header("Scene References")]
+        [SerializeField] private Canvas _rootCanvas;
+
         [SerializeField] private CanvasScaler _rootCanvasScaler;
         [SerializeField] private Canvas _globalBackgroundCanvas;
         [SerializeField] private RectTransform _rootTransform;
-        
+        [SerializeField] private Image _modalMaskImage;
+        [SerializeField] private Image _modalBorderImage;
+
         [field: SerializeField] public WCModalHeader Header { get; private set; }
-        
-        [Header("Settings")] 
-        [SerializeField] private bool _constantStandaloneSize = true;
+
+        [Header("Settings")]
         [SerializeField] private TransformConfig _mobileTransformConfig;
+
         [SerializeField] private TransformConfig _desktopTransformConfig;
+
+        [Header("Asset References")]
+        [SerializeField] private Sprite _mobileModalMaskSprite;
+
+        [SerializeField] private Sprite _mobileModalBorderSprite;
 
         public bool IsOpen => _rootCanvas.enabled;
 
@@ -29,24 +37,14 @@ namespace WalletConnectUnity.UI
 
         private readonly Stack<WCModalView> _viewsStack = new();
         private bool _hasGlobalBackground;
-        
+
         private Coroutine _backInputCoroutine;
 
         private void Awake()
         {
             _hasGlobalBackground = _globalBackgroundCanvas != null;
 
-#if UNITY_STANDALONE
-            if (_constantStandaloneSize)
-            {
-                _rootCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
-            
-                if (Screen.dpi != 0)
-                    _rootCanvasScaler.scaleFactor = Screen.dpi / 130f;
-                else
-                    _rootCanvasScaler.scaleFactor = 1f;
-            }
-#endif
+            HandleConstantPhysicalSize();
         }
 
         public void OpenView(WCModalView view, WCModal modal = null, object parameters = null)
@@ -60,7 +58,7 @@ namespace WalletConnectUnity.UI
             modal ??= this;
 
             _viewsStack.Push(view);
-            
+
             var resizeCoroutine = ResizeModalRoutine(view.GetRequiredHeight());
             view.Show(modal, resizeCoroutine, parameters);
 
@@ -97,7 +95,7 @@ namespace WalletConnectUnity.UI
 
             _viewsStack.Clear();
             DisableModal();
-            
+
             if (_backInputCoroutine != null)
                 StopCoroutine(_backInputCoroutine);
 
@@ -106,20 +104,39 @@ namespace WalletConnectUnity.UI
 
         public IEnumerator ResizeModalRoutine(float targetHeight)
         {
-            var heightWithHeader = targetHeight + Header.Height;
+            targetHeight = targetHeight + Header.Height + 12;
+
+#if UNITY_ANDROID || UNITY_IOS
+            targetHeight += 8;
+#endif
+
             var originalHeight = _rootTransform.sizeDelta.y;
             var elapsedTime = 0f;
             var duration = .25f; // TODO: serialize this
 
             while (elapsedTime < duration)
             {
-                var lerp = Mathf.Lerp(originalHeight, heightWithHeader, elapsedTime / duration);
+                var lerp = Mathf.Lerp(originalHeight, targetHeight, elapsedTime / duration);
                 _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, lerp);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, heightWithHeader);
+            _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, targetHeight);
+        }
+
+        private void HandleConstantPhysicalSize()
+        {
+            float targetDPI = 160;
+
+#if (UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS))
+            targetDPI = 96;
+#endif
+
+            if (Screen.dpi != 0)
+                _rootCanvasScaler.scaleFactor = Screen.dpi / targetDPI;
+            else
+                _rootCanvasScaler.scaleFactor = 1f;
         }
 
         private void EnableModal()
@@ -132,11 +149,16 @@ namespace WalletConnectUnity.UI
 #endif
             );
 
+#if UNITY_ANDROID || UNITY_IOS
+            _modalMaskImage.sprite = _mobileModalMaskSprite;
+            _modalBorderImage.sprite = _mobileModalBorderSprite;
+#endif
+
             _rootCanvas.enabled = true;
-            
+
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = true;
-            
+
             _backInputCoroutine = StartCoroutine(BackInputRoutine());
 
             Opened?.Invoke(this, EventArgs.Empty);
@@ -157,7 +179,7 @@ namespace WalletConnectUnity.UI
             _rootTransform.sizeDelta = config.sizeDelta;
             _rootTransform.pivot = config.pivot;
         }
-        
+
         private IEnumerator BackInputRoutine()
         {
             while (_rootCanvas.enabled)

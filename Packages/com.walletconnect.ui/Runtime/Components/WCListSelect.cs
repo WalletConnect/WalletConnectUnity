@@ -7,8 +7,10 @@ namespace WalletConnectUnity.UI
 {
     public class WCListSelect : MonoBehaviour
     {
-        [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
+        [SerializeField] private Image _icon;
+        [SerializeField] private Image _iconBorder;
+        [SerializeField] private Color _defaultBorderColor;
 
         private WCModalView _targetView;
         private object _targetViewParameters;
@@ -27,6 +29,10 @@ namespace WalletConnectUnity.UI
             _title.text = parameters.title;
             _onClick = parameters.onClick;
             _remoteSprite = parameters.remoteSprite;
+
+            _iconBorder.color = parameters.borderColor == default
+                ? _defaultBorderColor
+                : parameters.borderColor;
 
             if (parameters.remoteSprite == null)
             {
@@ -63,6 +69,7 @@ namespace WalletConnectUnity.UI
             public Sprite sprite; // used if remoteSprite is null
             public string title;
             public Action onClick;
+            public Color borderColor;
         }
     }
 }

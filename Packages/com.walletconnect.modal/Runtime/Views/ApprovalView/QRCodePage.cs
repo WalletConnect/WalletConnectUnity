@@ -18,9 +18,13 @@ namespace WalletConnectUnity.Modal.Views
             RemoteSprite remoteWalletIcon,
             CancellationToken cancellationToken)
         {
-            await base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
+            WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
 
+            await base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
             var texture = QRCode.EncodeTexture(Uri);
+
+            WCLoadingAnimator.Instance.UnsubscribeGraphic(_qrCodeRawImage);
+
             _qrCodeRawImage.texture = texture;
         }
 

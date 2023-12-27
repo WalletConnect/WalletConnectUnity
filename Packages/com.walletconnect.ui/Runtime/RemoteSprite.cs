@@ -11,10 +11,12 @@ namespace WalletConnectUnity.UI
     public class RemoteSprite
     {
         private readonly string _uri;
+        private readonly WCLoadingAnimator _loadingAnimator;
 
         private bool _isLoading;
         private Sprite _sprite;
         private bool _isLoaded;
+
 
         private readonly HashSet<Image> _subscribedImages = new();
 
@@ -29,6 +31,7 @@ namespace WalletConnectUnity.UI
         {
             _uri = uri;
             UriSpritesMap.Add(uri, this);
+            _loadingAnimator = WCLoadingAnimator.Instance;
         }
 
         public void SubscribeImage(Image image)
@@ -37,7 +40,14 @@ namespace WalletConnectUnity.UI
                 UnityEventsDispatcher.Instance.StartCoroutine(LoadRemoteSprite());
 
             if (_isLoaded)
+            {
                 UpdateImage(image);
+            }
+            else
+            {
+                if (_loadingAnimator != null)
+                    _loadingAnimator.SubscribeGraphic(image);
+            }
 
             _subscribedImages.Add(image);
         }
@@ -50,6 +60,9 @@ namespace WalletConnectUnity.UI
 
         private void UpdateImage(Image image)
         {
+            if (_loadingAnimator != null)
+                _loadingAnimator.UnsubscribeGraphic(image);
+
             image.sprite = _sprite;
             image.color = Color.white;
         }
