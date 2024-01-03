@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Environment**
  - OS: [e.g. macOS 14.0]
  - Unity version [e.g. 2021.3.22f1]
- - WalletConnectUnity version/commit [e.g. 7ec66cd]
+ - Package name and version [e.g. WalletConnectUnity Modal v1.0.1]
 
 **Is this happening in Unity Editor or on a player like Android, iOS, Windows?**
 
