@@ -13,6 +13,11 @@ namespace WalletConnectUnity.Modal.Views
         [SerializeField] private RectTransform _viewRoot;
 
         [Space]
+        [SerializeField] private GameObject _walletIconRoot;
+
+        [SerializeField] private GameObject _fallbackWalletIconRoot;
+
+        [Space]
         [SerializeField] private RectTransform _qrCodeRoot;
 
         [SerializeField] private RawImage _qrCodeRawImage;
@@ -27,6 +32,10 @@ namespace WalletConnectUnity.Modal.Views
             WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
 
             ResizeQrCode();
+
+            var validWallet = remoteWalletIcon != null;
+            _walletIconRoot.SetActive(validWallet);
+            _fallbackWalletIconRoot.SetActive(!validWallet);
 
             await base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
             var texture = QRCode.EncodeTexture(Uri);

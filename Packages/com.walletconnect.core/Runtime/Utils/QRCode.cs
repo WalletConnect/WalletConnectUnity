@@ -23,7 +23,8 @@ namespace WalletConnectUnity.Core.Utils
             {
                 Height = height,
                 Width = width,
-                Margin = 3
+                Margin = 4,
+                QrVersion = 11
             };
 
             var writer = new BarcodeWriter
