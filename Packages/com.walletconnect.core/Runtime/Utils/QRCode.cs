@@ -22,7 +22,8 @@ namespace WalletConnectUnity.Core.Utils
             var qrCodeEncodingOptions = new QrCodeEncodingOptions
             {
                 Height = height,
-                Width = width
+                Width = width,
+                Margin = 3
             };
 
             var writer = new BarcodeWriter
