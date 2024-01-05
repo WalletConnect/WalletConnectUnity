@@ -681,13 +681,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 765b996198504f39bd91a24a690c25f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootCanvas: {fileID: 8874400621896884402}
+  _canvas: {fileID: 8874400621896884402}
+  _rectTransform: {fileID: 5754994667355743738}
+  _rootRectTransform: {fileID: 0}
   _rootCanvasScaler: {fileID: 0}
   _globalBackgroundCanvas: {fileID: 0}
-  _rootTransform: {fileID: 5754994667355743738}
   _modalMaskImage: {fileID: 0}
   _modalBorderImage: {fileID: 0}
   <Header>k__BackingField: {fileID: 4074294772630371118}
+  _mobileMaxHeightPercent: 0.9
   _mobileTransformConfig:
     anchorMin: {x: 0, y: 0}
     anchorMax: {x: 1, y: 0}

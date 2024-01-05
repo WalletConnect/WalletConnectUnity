@@ -10,17 +10,20 @@ namespace WalletConnectUnity.UI
     public class WCModal : MonoBehaviour
     {
         [Header("Scene References")]
-        [SerializeField] private Canvas _rootCanvas;
+        [SerializeField] private Canvas _canvas;
 
+        [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private RectTransform _rootRectTransform;
         [SerializeField] private CanvasScaler _rootCanvasScaler;
         [SerializeField] private Canvas _globalBackgroundCanvas;
-        [SerializeField] private RectTransform _rootTransform;
         [SerializeField] private Image _modalMaskImage;
         [SerializeField] private Image _modalBorderImage;
 
         [field: SerializeField] public WCModalHeader Header { get; private set; }
 
         [Header("Settings")]
+        [SerializeField, Range(0, 1)] private float _mobileMaxHeightPercent = 0.8f;
+
         [SerializeField] private TransformConfig _mobileTransformConfig;
 
         [SerializeField] private TransformConfig _desktopTransformConfig;
@@ -30,7 +33,7 @@ namespace WalletConnectUnity.UI
 
         [SerializeField] private Sprite _mobileModalBorderSprite;
 
-        public bool IsOpen => _rootCanvas.enabled;
+        public bool IsOpen => _canvas.enabled;
 
         public event EventHandler Opened;
         public event EventHandler Closed;
@@ -110,19 +113,22 @@ namespace WalletConnectUnity.UI
             targetHeight += 8;
 #endif
 
-            var originalHeight = _rootTransform.sizeDelta.y;
+            var rootTransformSizeDelta = _rectTransform.sizeDelta;
+            var originalHeight = rootTransformSizeDelta.y;
             var elapsedTime = 0f;
             var duration = .25f; // TODO: serialize this
+
+            targetHeight = Mathf.Min(targetHeight, _rootRectTransform.sizeDelta.y * _mobileMaxHeightPercent);
 
             while (elapsedTime < duration)
             {
                 var lerp = Mathf.Lerp(originalHeight, targetHeight, elapsedTime / duration);
-                _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, lerp);
+                _rectTransform.sizeDelta = new Vector2(rootTransformSizeDelta.x, lerp);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            _rootTransform.sizeDelta = new Vector2(_rootTransform.sizeDelta.x, targetHeight);
+            _rectTransform.sizeDelta = new Vector2(rootTransformSizeDelta.x, targetHeight);
         }
 
         private void HandleConstantPhysicalSize()
@@ -154,7 +160,7 @@ namespace WalletConnectUnity.UI
             _modalBorderImage.sprite = _mobileModalBorderSprite;
 #endif
 
-            _rootCanvas.enabled = true;
+            _canvas.enabled = true;
 
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = true;
@@ -166,7 +172,7 @@ namespace WalletConnectUnity.UI
 
         private void DisableModal()
         {
-            _rootCanvas.enabled = false;
+            _canvas.enabled = false;
 
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = false;
@@ -174,15 +180,15 @@ namespace WalletConnectUnity.UI
 
         private void ApplyTransformConfig(TransformConfig config)
         {
-            _rootTransform.anchorMin = config.anchorMin;
-            _rootTransform.anchorMax = config.anchorMax;
-            _rootTransform.sizeDelta = config.sizeDelta;
-            _rootTransform.pivot = config.pivot;
+            _rectTransform.anchorMin = config.anchorMin;
+            _rectTransform.anchorMax = config.anchorMax;
+            _rectTransform.sizeDelta = config.sizeDelta;
+            _rectTransform.pivot = config.pivot;
         }
 
         private IEnumerator BackInputRoutine()
         {
-            while (_rootCanvas.enabled)
+            while (_canvas.enabled)
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
