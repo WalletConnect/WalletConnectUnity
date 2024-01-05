@@ -4599,6 +4599,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8234168566968179978}
     - target: {fileID: 1057551043529833211, guid: 86cd43d0e26df4a00888f096071c91a1, type: 3}
+      propertyPath: _rootRectTransform
+      value: 
+      objectReference: {fileID: 8234168566968179980}
+    - target: {fileID: 1057551043529833211, guid: 86cd43d0e26df4a00888f096071c91a1, type: 3}
       propertyPath: _mobileModalMaskSprite
       value: 
       objectReference: {fileID: 21300000, guid: 66baf8ff3547348be98c8736a97e2536, type: 3}
