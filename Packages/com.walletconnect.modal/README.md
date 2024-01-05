@@ -1,6 +1,8 @@
 # WalletConnect Modal [beta]
 
-> Simplest and most minimal way to connect your users with WalletConnect
+> Simplest and most minimal way to connect your players with WalletConnect
+
+<img src="../../.github/media/modal-promo.webp" width="700">
 
 ## Supported Platforms
 
