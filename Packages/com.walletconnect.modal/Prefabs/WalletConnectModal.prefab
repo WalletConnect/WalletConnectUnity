@@ -3177,7 +3177,7 @@ MonoBehaviour:
   _qrWalletIcon: {fileID: 265089116}
   _qrCodeRawImage: {fileID: 875426365}
   _qrCodeWaitColor: {r: 0.49019608, g: 0.49019608, b: 0.49019608, a: 1}
-  _walletsCounts: 4
+  _walletsCounts: 3
   _showAllWalletsButton: 1
   _wcLogoSprite: {fileID: 21300000, guid: 007bee5d67a1045e09e93ca52bd94065, type: 3}
   _allWalletsSprite: {fileID: 21300000, guid: 70b02f6d77ecf4aedb1b0de7b6d7c10c, type: 3}

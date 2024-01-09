@@ -40,6 +40,7 @@ namespace WalletConnectUnity.UI
 
         private readonly Stack<WCModalView> _viewsStack = new();
         private bool _hasGlobalBackground;
+        private float _lastTargetHeight;
 
         private Coroutine _backInputCoroutine;
 
@@ -48,6 +49,11 @@ namespace WalletConnectUnity.UI
             _hasGlobalBackground = _globalBackgroundCanvas != null;
 
             HandleConstantPhysicalSize();
+
+#if UNITY_ANDROID || UNITY_IOS
+            // On mobile, resize the modal when the orientation changes
+            OrientationTracker.OrientationChanged += (_, _) => StartCoroutine(ResizeModalRoutine(_lastTargetHeight));
+#endif
         }
 
         public void OpenView(WCModalView view, WCModal modal = null, object parameters = null)
@@ -107,6 +113,8 @@ namespace WalletConnectUnity.UI
 
         public IEnumerator ResizeModalRoutine(float targetHeight)
         {
+            _lastTargetHeight = targetHeight;
+
             targetHeight = targetHeight + Header.Height + 12;
 
 #if UNITY_ANDROID || UNITY_IOS
@@ -162,6 +170,10 @@ namespace WalletConnectUnity.UI
 
             _canvas.enabled = true;
 
+#if UNITY_ANDROID || UNITY_IOS
+            OrientationTracker.Enable();
+#endif
+
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = true;
 
@@ -176,6 +188,10 @@ namespace WalletConnectUnity.UI
 
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = false;
+
+#if UNITY_ANDROID || UNITY_IOS
+            OrientationTracker.Disable();
+#endif
         }
 
         private void ApplyTransformConfig(TransformConfig config)

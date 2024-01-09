@@ -551,6 +551,7 @@ GameObject:
   - component: {fileID: 8915294605933165568}
   - component: {fileID: 4003900981913698091}
   - component: {fileID: 1057551043529833211}
+  - component: {fileID: 7999540736154346626}
   m_Layer: 0
   m_Name: Modal
   m_TagString: Untagged
@@ -702,6 +703,18 @@ MonoBehaviour:
     pivot: {x: 0.5, y: 0.5}
   _mobileModalMaskSprite: {fileID: 0}
   _mobileModalBorderSprite: {fileID: 0}
+--- !u!114 &7999540736154346626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8079595783759352406}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ce91489ebc4402be93fcddcf7e4f9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9078615697138471022
 GameObject:
   m_ObjectHideFlags: 0
