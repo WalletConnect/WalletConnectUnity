@@ -31,9 +31,9 @@ namespace WalletConnectUnity.Core
         {
             if (string.IsNullOrWhiteSpace(uri))
                 throw new ArgumentException($"[Linker] Uri cannot be empty.");
-            
+
             uri = System.Uri.EscapeDataString(uri);
-            
+
             var link = Application.isMobilePlatform ? wallet.MobileLink : wallet.DesktopLink;
 
             if (string.IsNullOrWhiteSpace(link))
@@ -42,11 +42,11 @@ namespace WalletConnectUnity.Core
 
             if (!link.EndsWith("//"))
                 link = $"{link}//";
-            
-            var url =  $"{link}wc?uri={uri}";
-            
+
+            var url = $"{link}wc?uri={uri}";
+
             Debug.Log($"[Linker] Opening URL {url}");
-            
+
             Application.OpenURL(url);
         }
 
@@ -80,14 +80,14 @@ namespace WalletConnectUnity.Core
 
         protected virtual void OnPublisherPublishedMessage(object sender, PublishParams publishParams)
         {
-            Debug.Log(
+            WCLogger.Log(
                 $"[Linker] OnPublisherPublishedMessage. Topic: {publishParams.Topic}. Topics in counter: {_sessionMessagesCounter.Count}");
             if (string.IsNullOrWhiteSpace(publishParams.Topic))
                 return;
 
             if (_sessionMessagesCounter.TryGetValue(publishParams.Topic, out var messageCount))
             {
-                Debug.Log($"[Linker] OnPublisherPublishedMessage. Message count: {messageCount}");
+                WCLogger.Log($"[Linker] OnPublisherPublishedMessage. Message count: {messageCount}");
                 if (messageCount != 0)
                 {
                     _sessionMessagesCounter[publishParams.Topic] = messageCount - 1;
@@ -98,7 +98,7 @@ namespace WalletConnectUnity.Core
 
         internal void OpenSessionRequestDeepLinkAfterMessageFromSession(string sessionTopic)
         {
-            Debug.Log($"[Linker] OpenSessionRequestDeepLinkAfterMessageFromSession. Topic: {sessionTopic}");
+            WCLogger.Log($"[Linker] OpenSessionRequestDeepLinkAfterMessageFromSession. Topic: {sessionTopic}");
             if (_sessionMessagesCounter.TryGetValue(sessionTopic, out var messageCount))
             {
                 _sessionMessagesCounter[sessionTopic] = messageCount + 1;
