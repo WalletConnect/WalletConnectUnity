@@ -24,6 +24,9 @@ namespace WalletConnectUnity.UI
         protected virtual void Awake()
         {
             OrientationTracker.OrientationChanged += OnOrientationChanged;
+
+            if (Screen.orientation != _lastOrientation)
+                OnOrientationChanged(this, Screen.orientation);
         }
 
         public virtual float GetViewHeight()
@@ -33,9 +36,6 @@ namespace WalletConnectUnity.UI
 
         public virtual void Show(WCModal modal, IEnumerator effectCoroutine, object options = null)
         {
-            if (Screen.orientation != _lastOrientation)
-                OnOrientationChanged(this, Screen.orientation);
-
             parentModal = modal;
             StartCoroutine(ShowAfterEffectRoutine(effectCoroutine));
         }

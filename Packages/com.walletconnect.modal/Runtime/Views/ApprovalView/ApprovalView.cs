@@ -86,8 +86,7 @@ namespace WalletConnectUnity.Modal.Views
             base.ApplyScreenOrientation(orientation);
 
             // Because QR Code page can influence the modal height, we need to recalculate it after orientation change
-            if (IsActive)
-                _tabsController.ResizeModalToFitPage();
+            _tabsController.ResizeModalToFitPage();
         }
 
         private async Task WaitForUserConnectionAsync(CancellationToken cancellationToken)

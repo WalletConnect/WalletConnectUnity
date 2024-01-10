@@ -149,7 +149,7 @@ namespace WalletConnectUnity.UI
 
         private void OnOrientationChanged(object sender, ScreenOrientation _)
         {
-            if (gameObject.activeSelf)
+            if (gameObject.activeInHierarchy)
                 StartCoroutine(AdjustSelectionBackgroundTransformRoutine(_selectedTabButton));
         }
     }

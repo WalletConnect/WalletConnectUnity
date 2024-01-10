@@ -45,7 +45,7 @@ namespace WalletConnectUnity.Core
 
             var url = $"{link}wc?uri={uri}";
 
-            Debug.Log($"[Linker] Opening URL {url}");
+            WCLogger.Log($"[Linker] Opening URL {url}");
 
             Application.OpenURL(url);
         }
