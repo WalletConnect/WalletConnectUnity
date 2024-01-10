@@ -2223,6 +2223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f0b828cf764c59b938446132bb1cf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TabButtonLabel>k__BackingField: <sprite name="Icon Mobile" tint=1/> Mobile
+  <PageTransform>k__BackingField: {fileID: 8234168565950084736}
   _walletIconImage: {fileID: 8234168566175659481}
   _copyLinkButton: {fileID: 3982749892454124330}
   _fallbackWalletIconSprite: {fileID: 21300000, guid: 007bee5d67a1045e09e93ca52bd94065, type: 3}
@@ -3019,6 +3021,16 @@ MonoBehaviour:
   _canvas: {fileID: 8234168566491889932}
   _title: WalletConnect
   rootTransform: {fileID: 8234168566491889921}
+  _portraitTransformConfig:
+    anchorMin: {x: 0, y: 1}
+    anchorMax: {x: 1, y: 1}
+    sizeDelta: {x: 0, y: 410}
+    pivot: {x: 0.5, y: 0.5}
+  _landscapeTransformConfig:
+    anchorMin: {x: 0.5, y: 1}
+    anchorMax: {x: 0.5, y: 1}
+    sizeDelta: {x: 390, y: 410}
+    pivot: {x: 0.5, y: 0.5}
   _tabsController: {fileID: 8234168566877091021}
   _qrCodePage: {fileID: 8234168566842872664}
   _deepLinkPage: {fileID: 8234168565950084749}
@@ -3169,6 +3181,16 @@ MonoBehaviour:
   _canvas: {fileID: 8234168566597244151}
   _title: Connect wallet
   rootTransform: {fileID: 8234168566597244681}
+  _portraitTransformConfig:
+    anchorMin: {x: 0, y: 1}
+    anchorMax: {x: 1, y: 1}
+    sizeDelta: {x: 0, y: 24}
+    pivot: {x: 0, y: 1}
+  _landscapeTransformConfig:
+    anchorMin: {x: 0.5, y: 1}
+    anchorMax: {x: 0.5, y: 1}
+    sizeDelta: {x: 390, y: 24}
+    pivot: {x: 0.5, y: 1}
   _listRootTransform: {fileID: 1722132981}
   _approvalView: {fileID: 8234168566491889934}
   _walletSearchView: {fileID: 8234168567151989342}
@@ -3393,6 +3415,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86122a3fe99c44dabb46af2bbfbd0dab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <TabButtonLabel>k__BackingField: <sprite name="Icon Desktop" tint=1/> Desktop
+  <PageTransform>k__BackingField: {fileID: 8234168566842872669}
   _walletIconImage: {fileID: 8234168565795419191}
   _copyLinkButton: {fileID: 3982749891320895121}
   _fallbackWalletIconSprite: {fileID: 21300000, guid: 007bee5d67a1045e09e93ca52bd94065, type: 3}
@@ -3597,10 +3621,8 @@ MonoBehaviour:
   _connectionTypeToPageDictionary:
     m_keys: 0100000002000000
     m_values:
-    - <TabButtonLabel>k__BackingField: <sprite name="Icon Mobile" tint=1/> Mobile
-      <PageTransform>k__BackingField: {fileID: 8234168566842872669}
-    - <TabButtonLabel>k__BackingField: <sprite name="Icon Desktop" tint=1/> Desktop
-      <PageTransform>k__BackingField: {fileID: 8234168565950084736}
+    - {fileID: 8234168566842872664}
+    - {fileID: 8234168565950084749}
 --- !u!1 &8234168566888803717
 GameObject:
   m_ObjectHideFlags: 0
@@ -4171,6 +4193,16 @@ MonoBehaviour:
   _canvas: {fileID: 8234168567151989329}
   _title: All wallets
   rootTransform: {fileID: 8234168567151989330}
+  _portraitTransformConfig:
+    anchorMin: {x: 0, y: 1}
+    anchorMax: {x: 1, y: 1}
+    sizeDelta: {x: 0, y: 500}
+    pivot: {x: 0.5, y: 1}
+  _landscapeTransformConfig:
+    anchorMin: {x: 0.5, y: 1}
+    anchorMax: {x: 0.5, y: 1}
+    sizeDelta: {x: 390, y: 500}
+    pivot: {x: 0.5, y: 1}
   _approvalView: {fileID: 8234168566491889934}
   _parent: {fileID: 8234168566491363249}
   _scrollRect: {fileID: 8234168567096345524}

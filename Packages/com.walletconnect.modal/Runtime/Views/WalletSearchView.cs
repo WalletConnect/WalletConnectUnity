@@ -44,8 +44,10 @@ namespace WalletConnectUnity.Modal.Views
 
         private int _maxWalletsCount = -1;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
 #if UNITY_IOS || UNITY_ANDROID
             _qrCodeButton.gameObject.SetActive(true);
             _qrCodeButton.onClick.AddListener(() => parentModal.OpenView(_approvalView,

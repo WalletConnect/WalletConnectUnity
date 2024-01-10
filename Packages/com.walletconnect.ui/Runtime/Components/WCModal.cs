@@ -40,7 +40,7 @@ namespace WalletConnectUnity.UI
 
         private readonly Stack<WCModalView> _viewsStack = new();
         private bool _hasGlobalBackground;
-        private float _lastTargetHeight;
+        private bool _resizingModal;
 
         private Coroutine _backInputCoroutine;
 
@@ -49,11 +49,6 @@ namespace WalletConnectUnity.UI
             _hasGlobalBackground = _globalBackgroundCanvas != null;
 
             HandleConstantPhysicalSize();
-
-#if UNITY_ANDROID || UNITY_IOS
-            // On mobile, resize the modal when the orientation changes
-            OrientationTracker.OrientationChanged += (_, _) => StartCoroutine(ResizeModalRoutine(_lastTargetHeight));
-#endif
         }
 
         public void OpenView(WCModalView view, WCModal modal = null, object parameters = null)
@@ -68,7 +63,7 @@ namespace WalletConnectUnity.UI
 
             _viewsStack.Push(view);
 
-            var resizeCoroutine = ResizeModalRoutine(view.GetRequiredHeight());
+            var resizeCoroutine = ResizeModalRoutine(view.GetViewHeight());
             view.Show(modal, resizeCoroutine, parameters);
 
             Header.Title = view.GetTitle();
@@ -85,7 +80,7 @@ namespace WalletConnectUnity.UI
             {
                 var nextView = _viewsStack.Peek();
                 Header.Title = nextView.GetTitle();
-                var resizeCoroutine = ResizeModalRoutine(nextView.GetRequiredHeight());
+                var resizeCoroutine = ResizeModalRoutine(nextView.GetViewHeight());
                 nextView.Show(this, resizeCoroutine);
             }
             else
@@ -113,7 +108,8 @@ namespace WalletConnectUnity.UI
 
         public IEnumerator ResizeModalRoutine(float targetHeight)
         {
-            _lastTargetHeight = targetHeight;
+            if (_resizingModal) yield break;
+            _resizingModal = true;
 
             targetHeight = targetHeight + Header.Height + 12;
 
@@ -137,15 +133,17 @@ namespace WalletConnectUnity.UI
             }
 
             _rectTransform.sizeDelta = new Vector2(rootTransformSizeDelta.x, targetHeight);
+            _resizingModal = false;
         }
 
         private void HandleConstantPhysicalSize()
         {
-            float targetDPI = 160;
+            const float targetDPI = 160;
 
-#if (UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS))
-            targetDPI = 96;
-#endif
+            // When using Game view instead of Device Simulator, you may want to change the target DPI for better scaling, e.g.:
+// #if (UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS))
+//             targetDPI = 96;
+// #endif
 
             if (Screen.dpi != 0)
                 _rootCanvasScaler.scaleFactor = Screen.dpi / targetDPI;
@@ -155,24 +153,18 @@ namespace WalletConnectUnity.UI
 
         private void EnableModal()
         {
-            ApplyTransformConfig(
 #if UNITY_ANDROID || UNITY_IOS
-                _mobileTransformConfig
-#else
-                _desktopTransformConfig
-#endif
-            );
+            _mobileTransformConfig.Apply(_rectTransform);
 
-#if UNITY_ANDROID || UNITY_IOS
             _modalMaskImage.sprite = _mobileModalMaskSprite;
             _modalBorderImage.sprite = _mobileModalBorderSprite;
+
+            OrientationTracker.Enable();
+#else
+            _desktopTransformConfig.Apply(_rectTransform);
 #endif
 
             _canvas.enabled = true;
-
-#if UNITY_ANDROID || UNITY_IOS
-            OrientationTracker.Enable();
-#endif
 
             if (_hasGlobalBackground)
                 _globalBackgroundCanvas.enabled = true;
@@ -194,14 +186,6 @@ namespace WalletConnectUnity.UI
 #endif
         }
 
-        private void ApplyTransformConfig(TransformConfig config)
-        {
-            _rectTransform.anchorMin = config.anchorMin;
-            _rectTransform.anchorMax = config.anchorMax;
-            _rectTransform.sizeDelta = config.sizeDelta;
-            _rectTransform.pivot = config.pivot;
-        }
-
         private IEnumerator BackInputRoutine()
         {
             while (_canvas.enabled)
@@ -220,15 +204,6 @@ namespace WalletConnectUnity.UI
 
                 yield return null;
             }
-        }
-
-        [Serializable]
-        private struct TransformConfig
-        {
-            public Vector2 anchorMin;
-            public Vector2 anchorMax;
-            public Vector2 sizeDelta;
-            public Vector2 pivot;
         }
     }
 }

@@ -32,6 +32,8 @@ namespace WalletConnectUnity.UI
             _controller = controller;
             _controller.PageSelected += OnPageSelected;
 
+            OrientationTracker.OrientationChanged += OnOrientationChanged;
+
             foreach (var button in _buttons)
                 button.Clicked += OnButtonSelected;
 
@@ -117,7 +119,8 @@ namespace WalletConnectUnity.UI
 
         private IEnumerator AdjustSelectionBackgroundTransformRoutine(WCTabButton tabButton)
         {
-            // Skip one frame to allow layout groups to update
+            // Skip a few frames to allow layout groups to update
+            yield return null;
             yield return null;
 
             var initialPosition = _activeTabSelectionBackground.anchoredPosition;
@@ -142,6 +145,12 @@ namespace WalletConnectUnity.UI
 
             _activeTabSelectionBackground.anchoredPosition = targetPosition;
             _activeTabSelectionBackground.sizeDelta = targetSize;
+        }
+
+        private void OnOrientationChanged(object sender, ScreenOrientation _)
+        {
+            if (gameObject.activeSelf)
+                StartCoroutine(AdjustSelectionBackgroundTransformRoutine(_selectedTabButton));
         }
     }
 }

@@ -40,7 +40,7 @@ namespace WalletConnectUnity.Modal.Views
 
         protected string Uri { get; private set; }
 
-        private void Awake()
+        protected override void Awake()
         {
             if (_listItems.Count == 0)
                 for (var i = 0; i < _walletsCounts; i++)
@@ -66,6 +66,8 @@ namespace WalletConnectUnity.Modal.Views
 #endif
 
             rootTransform.sizeDelta = sizeDelta;
+
+            base.Awake();
         }
 
         public override async void Show(WCModal modal, IEnumerator effectCoroutine, object options = null)

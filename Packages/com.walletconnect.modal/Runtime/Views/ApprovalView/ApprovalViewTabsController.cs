@@ -18,6 +18,7 @@ namespace WalletConnectUnity.Modal.Views
 
         private readonly List<WCTabPage> _pagesBuffer = new();
         private bool _isPageTransitionInProgress;
+        private WCTabPage _currentPage;
 
         public event EventHandler<WCTabPage> PageSelected;
 
@@ -41,7 +42,6 @@ namespace WalletConnectUnity.Modal.Views
                 if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.QRCode, out var qrCodePage))
                     _pagesBuffer.Add(qrCodePage);
             }
-
 #else
             if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.QRCode, out var qrCodePage))
                 _pagesBuffer.Add(qrCodePage);
@@ -54,7 +54,6 @@ namespace WalletConnectUnity.Modal.Views
             }
             // TODO: webapp
 #endif
-
 
             if (_pagesBuffer.Count == 0)
             {
@@ -86,16 +85,29 @@ namespace WalletConnectUnity.Modal.Views
             foreach (var p in pages)
                 p.PageTransform.gameObject.SetActive(false);
 
+            _currentPage = page;
+
             // Update tabs bar
             PageSelected?.Invoke(this, page);
 
             // Resize modal and enable page
+            ResizeModalToFitPage(page);
+        }
+
+        public void ResizeModalToFitPage()
+        {
+            if (_currentPage == null) return;
+            ResizeModalToFitPage(_currentPage);
+        }
+
+        public void ResizeModalToFitPage(WCTabPage page)
+        {
             StartCoroutine(ResizeModalAndEnablePageRoutine(page));
         }
 
         private IEnumerator ResizeModalAndEnablePageRoutine(WCTabPage page)
         {
-            var newHeight = page.PageTransform.sizeDelta.y;
+            var newHeight = page.GetPageHeight();
 
             if (_tabsBar.RootTransform.gameObject.activeSelf)
                 newHeight += _tabsBar.RootTransform.sizeDelta.y;
