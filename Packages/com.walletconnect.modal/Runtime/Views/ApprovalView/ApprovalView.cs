@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.UI;
 
@@ -12,6 +13,7 @@ namespace WalletConnectUnity.Modal.Views
     public class ApprovalView : WCModalView
     {
         [Space, SerializeField] private ApprovalViewTabsController _tabsController;
+        [SerializeField] private ScrollRect _scrollRect;
 
         [Space, SerializeField] private ApprovalViewPageBase _qrCodePage;
         [SerializeField] private ApprovalViewPageBase _deepLinkPage;
@@ -87,6 +89,9 @@ namespace WalletConnectUnity.Modal.Views
 
             // Because QR Code page can influence the modal height, we need to recalculate it after orientation change
             _tabsController.ResizeModalToFitPage();
+
+            _scrollRect.content.anchoredPosition = Vector2.zero;
+            _scrollRect.enabled = orientation is ScreenOrientation.LandscapeLeft or ScreenOrientation.LandscapeRight;
         }
 
         private async Task WaitForUserConnectionAsync(CancellationToken cancellationToken)
