@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -8,7 +7,7 @@ using WalletConnectUnity.UI;
 
 namespace WalletConnectUnity.Modal.Views
 {
-    public abstract class ApprovalViewPageBase : MonoBehaviour
+    public abstract class ApprovalViewPageBase : WCTabPage
     {
         [SerializeField] private Image _walletIconImage;
         [SerializeField] private Button _copyLinkButton;
@@ -47,12 +46,13 @@ namespace WalletConnectUnity.Modal.Views
             EnableCopyLink();
         }
 
-        public virtual void Disable()
+        public override void Disable()
         {
+            base.Disable();
+
             DisableCopyLink();
 
-            if (_walletIconRemoteSprite != null)
-                _walletIconRemoteSprite.UnsubscribeImage(_walletIconImage);
+            _walletIconRemoteSprite?.UnsubscribeImage(_walletIconImage);
         }
 
         private void EnableCopyLink()

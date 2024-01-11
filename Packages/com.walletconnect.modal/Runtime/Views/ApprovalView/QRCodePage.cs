@@ -31,8 +31,6 @@ namespace WalletConnectUnity.Modal.Views
         {
             WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
 
-            ResizeQrCode();
-
             var validWallet = remoteWalletIcon != null;
             _walletIconRoot.SetActive(validWallet);
             _fallbackWalletIconRoot.SetActive(!validWallet);
@@ -45,7 +43,13 @@ namespace WalletConnectUnity.Modal.Views
             _qrCodeRawImage.texture = texture;
         }
 
-        private void ResizeQrCode()
+        public override float GetPageHeight()
+        {
+            ResizeQrCode();
+            return base.GetPageHeight();
+        }
+
+        public void ResizeQrCode()
         {
             // Stretch the QR code to the full width of the view, but keep the aspect ratio and padding
             var qrCodeSize = _viewRoot.rect.width - _qrCodePadding * 2;

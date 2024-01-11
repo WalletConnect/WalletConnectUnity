@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.UI;
 
@@ -12,6 +13,7 @@ namespace WalletConnectUnity.Modal.Views
     public class ApprovalView : WCModalView
     {
         [Space, SerializeField] private ApprovalViewTabsController _tabsController;
+        [SerializeField] private ScrollRect _scrollRect;
 
         [Space, SerializeField] private ApprovalViewPageBase _qrCodePage;
         [SerializeField] private ApprovalViewPageBase _deepLinkPage;
@@ -19,9 +21,10 @@ namespace WalletConnectUnity.Modal.Views
         private CancellationTokenSource _viewCts;
         private Wallet _walletData;
 
-        private void Awake()
+        protected override void Awake()
         {
             _tabsController.Initialize();
+            base.Awake();
         }
 
         public override async void Show(WCModal modal, IEnumerator effectCoroutine, object options = null)
@@ -32,8 +35,6 @@ namespace WalletConnectUnity.Modal.Views
 
             _walletData = parameters.walletData;
             _viewCts = new CancellationTokenSource();
-
-            base.Show(modal, effectCoroutine, options);
 
             if (parameters.walletData == null)
             {
@@ -61,6 +62,8 @@ namespace WalletConnectUnity.Modal.Views
 
             _tabsController.Enable(parameters.walletData);
 
+            base.Show(modal, effectCoroutine, options);
+
             await WaitForUserConnectionAsync(_viewCts.Token);
         }
 
@@ -80,6 +83,17 @@ namespace WalletConnectUnity.Modal.Views
             return _walletData == null ? base.GetTitle() : _walletData.Name;
         }
 
+        protected override void ApplyScreenOrientation(ScreenOrientation orientation)
+        {
+            base.ApplyScreenOrientation(orientation);
+
+            // Because QR Code page can influence the modal height, we need to recalculate it after orientation change
+            _tabsController.ResizeModalToFitPage();
+
+            _scrollRect.content.anchoredPosition = Vector2.zero;
+            _scrollRect.enabled = orientation is ScreenOrientation.LandscapeLeft or ScreenOrientation.LandscapeRight;
+        }
+
         private async Task WaitForUserConnectionAsync(CancellationToken cancellationToken)
         {
             var connectedData = await WalletConnectModal.ConnectionController.GetConnectionDataAsync(cancellationToken);
@@ -95,7 +109,6 @@ namespace WalletConnectUnity.Modal.Views
                 if (connectedData.Approval.IsCompletedSuccessfully)
                 {
                     _ = await connectedData.Approval;
-                    // UpdateUI(sessionData);
                 }
             }
             catch (OperationCanceledException)

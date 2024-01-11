@@ -7,15 +7,29 @@ namespace WalletConnectUnity.UI
     {
         [Header("Scene References")] [SerializeField]
         private Canvas _canvas;
-        
+
         [SerializeField] private string _title;
         [SerializeField] protected RectTransform rootTransform;
-        
+
+        [Header("Settings")]
+        [SerializeField] private TransformConfig _portraitTransformConfig;
+
+        [SerializeField] private TransformConfig _landscapeTransformConfig;
+
         protected WCModal parentModal;
+        private ScreenOrientation _lastOrientation;
 
         public bool IsActive => _canvas.enabled;
 
-        public virtual float GetRequiredHeight()
+        protected virtual void Awake()
+        {
+            OrientationTracker.OrientationChanged += OnOrientationChanged;
+
+            if (Screen.orientation != _lastOrientation)
+                OnOrientationChanged(this, Screen.orientation);
+        }
+
+        public virtual float GetViewHeight()
         {
             return rootTransform.rect.height;
         }
@@ -37,6 +51,28 @@ namespace WalletConnectUnity.UI
         {
             yield return StartCoroutine(effectCoroutine);
             _canvas.enabled = true;
+        }
+
+        protected void OnOrientationChanged(object sender, ScreenOrientation orientation)
+        {
+            ApplyScreenOrientation(orientation);
+
+            if (IsActive)
+                parentModal.StartCoroutine(parentModal.ResizeModalRoutine(GetViewHeight()));
+        }
+
+        protected virtual void ApplyScreenOrientation(ScreenOrientation orientation)
+        {
+            var config = orientation is ScreenOrientation.Portrait or ScreenOrientation.PortraitUpsideDown
+                ? _portraitTransformConfig
+                : _landscapeTransformConfig;
+
+            rootTransform.anchorMin = config.anchorMin;
+            rootTransform.anchorMax = config.anchorMax;
+            rootTransform.sizeDelta = new Vector2(config.sizeDelta.x, rootTransform.sizeDelta.y); // preserve height
+            rootTransform.pivot = config.pivot;
+
+            _lastOrientation = orientation;
         }
 
 #if UNITY_EDITOR
