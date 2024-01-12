@@ -156,7 +156,7 @@ namespace WalletConnectUnity.Modal.Views
             {
                 var wallet = response.Data[walletDataIndex];
 
-                if (wallet.Id == recentWallet.Id)
+                if (recentWallet != null && wallet.Id == recentWallet.Id)
                     continue;
 
                 AddWalletListItem(wallet, listItemIndex);
