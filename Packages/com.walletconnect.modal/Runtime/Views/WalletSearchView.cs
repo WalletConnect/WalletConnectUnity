@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using WalletConnectUnity.Core;
 using WalletConnectUnity.Core.Networking;
+using WalletConnectUnity.Core.Utils;
 using WalletConnectUnity.UI;
 
 namespace WalletConnectUnity.Modal.Views
@@ -181,10 +182,6 @@ namespace WalletConnectUnity.Modal.Views
                 var card = _cardsPool[i + _usedCardsCount];
                 var sprite = GetSprite(wallet.ImageId);
 
-                var isInstalled = wallet.MobileLink != null &&
-                                  !wallet.MobileLink.StartsWith("http") &&
-                                  Linker.CanOpenURL(wallet.MobileLink);
-
                 card.Initialize(new WCListSelect.Params
                 {
                     title = wallet.Name,
@@ -197,7 +194,7 @@ namespace WalletConnectUnity.Modal.Views
                             walletData = wallet,
                         });
                     },
-                    isInstalled = isInstalled
+                    isInstalled = WalletUtils.IsWalletInstalled(wallet)
                 });
             }
 

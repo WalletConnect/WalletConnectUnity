@@ -64,7 +64,6 @@ namespace WalletConnectUnity.UI
 
         public void OnClick()
         {
-            Debug.Log($"Click at {name}");
             _onClick?.Invoke();
         }
 

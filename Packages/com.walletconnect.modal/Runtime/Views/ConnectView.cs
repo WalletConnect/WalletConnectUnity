@@ -128,9 +128,6 @@ namespace WalletConnectUnity.Modal.Views
                 for (var i = index; i < _walletsCounts; i++)
                 {
                     var wallet = response.Data[i - index];
-                    var isInstalled = wallet.MobileLink != null &&
-                                      !wallet.MobileLink.StartsWith("http") &&
-                                      Linker.CanOpenURL(wallet.MobileLink);
 
                     var remoteSprite =
                         RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
@@ -147,7 +144,7 @@ namespace WalletConnectUnity.Modal.Views
                                 walletData = wallet
                             });
                         },
-                        isInstalled = isInstalled
+                        isInstalled = WalletUtils.IsWalletInstalled(wallet)
                     });
                 }
             }
