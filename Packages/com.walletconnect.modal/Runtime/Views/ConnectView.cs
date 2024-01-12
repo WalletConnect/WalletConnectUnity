@@ -104,49 +104,64 @@ namespace WalletConnectUnity.Modal.Views
 
         private IEnumerator RefreshWalletsCoroutine()
         {
-            var index = 0;
+            void AddWalletListItem(Wallet wallet, int index = 0, bool isRecent = false)
+            {
+                var remoteSprite =
+                    RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
 
-            // TODO: show one recent wallet
+                // TODO: enable 'Recent' label
+
+                _listItems[index].Initialize(new WCListSelect.Params
+                {
+                    title = wallet.Name,
+                    remoteSprite = remoteSprite,
+                    onClick = () =>
+                    {
+                        parentModal.OpenView(_approvalView, parameters: new ApprovalView.Params
+                        {
+                            walletIconRemoteSprite = remoteSprite,
+                            walletData = wallet
+                        });
+                    },
+                    isInstalled = WalletUtils.IsWalletInstalled(wallet),
+                    tagText = isRecent ? "Recent" : null,
+                });
+            }
 
             // ReSharper disable once UselessBinaryOperation
-            var walletsToLoad = _walletsCounts - index;
+            var walletsToLoad = _walletsCounts;
+            var listItemIndex = 0;
 
-            if (walletsToLoad != 0)
+            if (WalletUtils.TryGetRecentWallet(out var recentWallet))
             {
-                using var uwr = WalletConnectModal.WalletsRequestsFactory.GetWallets(1, walletsToLoad);
+                AddWalletListItem(recentWallet, isRecent: true);
 
-                yield return uwr.SendWebRequest();
+                listItemIndex++;
+                walletsToLoad++; // load extra wallet from backend to avoid duplicates
+            }
 
-                if (uwr.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogError($"[WalletConnectUnity] Failed to get wallets: {uwr.error}", this);
-                    yield break;
-                }
+            using var uwr = WalletConnectModal.WalletsRequestsFactory.GetWallets(1, walletsToLoad);
 
-                var response = JsonConvert.DeserializeObject<GetWalletsResponse>(uwr.downloadHandler.text);
+            yield return uwr.SendWebRequest();
 
-                for (var i = index; i < _walletsCounts; i++)
-                {
-                    var wallet = response.Data[i - index];
+            if (uwr.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"[WalletConnectUnity] Failed to get wallets: {uwr.error}", this);
+                yield break;
+            }
 
-                    var remoteSprite =
-                        RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
+            var response = JsonConvert.DeserializeObject<GetWalletsResponse>(uwr.downloadHandler.text);
 
-                    _listItems[i].Initialize(new WCListSelect.Params
-                    {
-                        title = wallet.Name,
-                        remoteSprite = remoteSprite,
-                        onClick = () =>
-                        {
-                            parentModal.OpenView(_approvalView, parameters: new ApprovalView.Params
-                            {
-                                walletIconRemoteSprite = remoteSprite,
-                                walletData = wallet
-                            });
-                        },
-                        isInstalled = WalletUtils.IsWalletInstalled(wallet)
-                    });
-                }
+            for (var walletDataIndex = listItemIndex; walletDataIndex < walletsToLoad; walletDataIndex++)
+            {
+                var wallet = response.Data[walletDataIndex];
+
+                if (recentWallet != null && wallet.Id == recentWallet.Id)
+                    continue;
+
+                AddWalletListItem(wallet, listItemIndex);
+
+                listItemIndex++;
             }
 
             if (_showAllWalletsButton)
@@ -158,6 +173,7 @@ namespace WalletConnectUnity.Modal.Views
                     sprite = _allWalletsSprite,
                     onClick = () => parentModal.OpenView(_walletSearchView),
                     borderColor = new Color(0.2784f, 0.6313f, 1, 0.08f),
+                    tagText = response.Count.ToString(),
                 });
             }
         }

@@ -30,8 +30,9 @@ namespace WalletConnectUnity.UI
                     var spacingGaps = _cellCountOnX - 1;
                     var gap = availableSpacing / spacingGaps;
 
-                    // Update the spacing
-                    spacing = new Vector2(gap, this.spacing.y);
+                    spacing = gap > cellSize.x
+                        ? new Vector2(_minSpacingX, this.spacing.y) // don't allow spacing to be larger than cell size
+                        : new Vector2(gap, this.spacing.y);
                 }
                 else
                 {

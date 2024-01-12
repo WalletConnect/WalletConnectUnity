@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using UnityEngine;
 using WalletConnectUnity.Core.Networking;
 
 namespace WalletConnectUnity.Core.Utils
@@ -17,6 +19,25 @@ namespace WalletConnectUnity.Core.Utils
             link = $"{link}wc";
 
             return Linker.CanOpenURL(link);
+        }
+
+        public static void SetRecentWallet(Wallet wallet)
+        {
+            PlayerPrefs.SetString("WC_RECENT_WALLET", JsonConvert.SerializeObject(wallet));
+        }
+
+        public static bool TryGetRecentWallet(out Wallet wallet)
+        {
+            wallet = null;
+
+            var recentWalletJson = PlayerPrefs.GetString("WC_RECENT_WALLET");
+
+            if (string.IsNullOrWhiteSpace(recentWalletJson))
+                return false;
+
+            wallet = JsonConvert.DeserializeObject<Wallet>(recentWalletJson);
+
+            return true;
         }
     }
 }
