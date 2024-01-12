@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using WalletConnectUnity.Core;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.UI;
 
@@ -76,7 +77,7 @@ namespace WalletConnectUnity.Modal.Views
 
             foreach (var card in _cardsPool)
             {
-                card.Reset();
+                card.ResetDefaults();
                 card.gameObject.SetActive(false);
             }
 
@@ -111,7 +112,7 @@ namespace WalletConnectUnity.Modal.Views
 
             foreach (var card in _cardsPool)
             {
-                card.Reset();
+                card.ResetDefaults();
                 card.gameObject.SetActive(false);
             }
 
@@ -179,6 +180,11 @@ namespace WalletConnectUnity.Modal.Views
                 var wallet = response.Data[i];
                 var card = _cardsPool[i + _usedCardsCount];
                 var sprite = GetSprite(wallet.ImageId);
+
+                var isInstalled = wallet.MobileLink != null &&
+                                  !wallet.MobileLink.StartsWith("http") &&
+                                  Linker.CanOpenURL(wallet.MobileLink);
+
                 card.Initialize(new WCListSelect.Params
                 {
                     title = wallet.Name,
@@ -188,9 +194,10 @@ namespace WalletConnectUnity.Modal.Views
                         parentModal.OpenView(_approvalView, parameters: new ApprovalView.Params
                         {
                             walletIconRemoteSprite = sprite,
-                            walletData = wallet
+                            walletData = wallet,
                         });
-                    }
+                    },
+                    isInstalled = isInstalled
                 });
             }
 

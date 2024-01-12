@@ -22,7 +22,7 @@ namespace WalletConnectUnity.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            UpdateVisuals(_normalConfig);
+            ApplyConfig(in _normalConfig);
         }
 
         public override void OnSelect(BaseEventData eventData)
@@ -31,7 +31,7 @@ namespace WalletConnectUnity.UI
             var currentState = currentSelectionState;
             if (currentState is SelectionState.Highlighted) return;
 
-            UpdateVisuals(_selectedConfig);
+            ApplyConfig(in _selectedConfig);
 
             base.OnSelect(eventData);
         }
@@ -39,30 +39,30 @@ namespace WalletConnectUnity.UI
         public override void OnPointerEnter(PointerEventData eventData)
         {
             _isPointerInside = true;
-            UpdateVisuals(_highlightedConfig);
+            ApplyConfig(in _highlightedConfig);
             base.OnPointerEnter(eventData);
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
             _isPointerInside = false;
-            UpdateVisuals(_normalConfig);
+            ApplyConfig(in _normalConfig);
             base.OnPointerExit(eventData);
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
-            UpdateVisuals(_pressedConfig);
+            ApplyConfig(in _pressedConfig);
             base.OnPointerDown(eventData);
         }
 
         public override void OnPointerUp(PointerEventData eventData)
         {
-            UpdateVisuals(_isPointerInside ? _highlightedConfig : _normalConfig);
+            ApplyConfig(_isPointerInside ? _highlightedConfig : _normalConfig);
             base.OnPointerUp(eventData);
         }
 
-        private void UpdateVisuals(Config config)
+        protected virtual void ApplyConfig(in Config config)
         {
             _background.color = config.backgroundColor;
             _border.color = config.borderColor;
@@ -70,7 +70,7 @@ namespace WalletConnectUnity.UI
         }
 
         [Serializable]
-        private struct Config
+        protected struct Config
         {
             public Color backgroundColor;
             public Color borderColor;
