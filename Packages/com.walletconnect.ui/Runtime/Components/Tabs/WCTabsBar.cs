@@ -49,7 +49,11 @@ namespace WalletConnectUnity.UI
                 var page = pages[i];
                 var button = _buttons[i];
 
-                button.Label.text = page.TabButtonLabel;
+#if UNITY_IOS || UNITY_ANDROID
+                button.Label.text = page.MobileTabButtonLabel;
+#else
+                button.Label.text = page.DesktopTabButtonLabel;
+#endif
                 button.RootTransform.gameObject.SetActive(true);
 
                 _buttonToPageDictionary.Add(button, page);

@@ -35,6 +35,12 @@ namespace WalletConnectUnity.Core
 
             uri = System.Uri.EscapeDataString(uri);
 
+#if UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
+            // In editor we cannot open _mobile_ deep links, so we just log the uri
+            Debug.Log($"[Linker] Requested to open mobile deep link. The uri: {uri}");
+            return;
+#endif
+
             var link = Application.isMobilePlatform ? wallet.MobileLink : wallet.DesktopLink;
 
             if (string.IsNullOrWhiteSpace(link))

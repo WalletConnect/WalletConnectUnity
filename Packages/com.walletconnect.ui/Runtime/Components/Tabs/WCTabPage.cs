@@ -6,7 +6,8 @@ namespace WalletConnectUnity.UI
     [Serializable]
     public class WCTabPage : MonoBehaviour
     {
-        [field: SerializeField] public string TabButtonLabel { get; private set; }
+        [field: SerializeField] public string MobileTabButtonLabel { get; private set; }
+        [field: SerializeField] public string DesktopTabButtonLabel { get; private set; }
         [field: SerializeField] public RectTransform PageTransform { get; private set; }
 
         public virtual float GetPageHeight() => PageTransform.sizeDelta.y;

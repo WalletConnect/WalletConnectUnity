@@ -11,7 +11,9 @@ namespace WalletConnectUnity.Modal.Views
 {
     public class DeepLinkPage : ApprovalViewPageBase
     {
+        [Header("DeepLink Page")]
         [SerializeField] private TMP_Text _titleText;
+
         [SerializeField] private string _titleTextFormat = "Continue in {0}";
         [SerializeField] private TMP_Text _dontHaveWalletText;
         [SerializeField] private string _dontHaveWalletTextFormat = "Don't have {0}?";
@@ -48,6 +50,8 @@ namespace WalletConnectUnity.Modal.Views
             Application.OpenURL(Wallet.AppStore);
 #elif UNITY_ANDROID
             Application.OpenURL(Wallet.PlayStore);
+#else
+            Application.OpenURL(Wallet.Homepage);
 #endif
         }
 
