@@ -123,7 +123,8 @@ namespace WalletConnectUnity.Modal.Views
                             walletData = wallet
                         });
                     },
-                    isInstalled = WalletUtils.IsWalletInstalled(wallet)
+                    isInstalled = WalletUtils.IsWalletInstalled(wallet),
+                    tagText = isRecent ? "Recent" : null,
                 });
             }
 
@@ -133,37 +134,34 @@ namespace WalletConnectUnity.Modal.Views
 
             if (WalletUtils.TryGetRecentWallet(out var recentWallet))
             {
-                AddWalletListItem(recentWallet);
+                AddWalletListItem(recentWallet, isRecent: true);
 
                 listItemIndex++;
                 walletsToLoad++; // load extra wallet from backend to avoid duplicates
             }
 
-            if (walletsToLoad != 0)
+            using var uwr = WalletConnectModal.WalletsRequestsFactory.GetWallets(1, walletsToLoad);
+
+            yield return uwr.SendWebRequest();
+
+            if (uwr.result != UnityWebRequest.Result.Success)
             {
-                using var uwr = WalletConnectModal.WalletsRequestsFactory.GetWallets(1, walletsToLoad);
+                Debug.LogError($"[WalletConnectUnity] Failed to get wallets: {uwr.error}", this);
+                yield break;
+            }
 
-                yield return uwr.SendWebRequest();
+            var response = JsonConvert.DeserializeObject<GetWalletsResponse>(uwr.downloadHandler.text);
 
-                if (uwr.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogError($"[WalletConnectUnity] Failed to get wallets: {uwr.error}", this);
-                    yield break;
-                }
+            for (var walletDataIndex = listItemIndex; walletDataIndex < walletsToLoad; walletDataIndex++)
+            {
+                var wallet = response.Data[walletDataIndex];
 
-                var response = JsonConvert.DeserializeObject<GetWalletsResponse>(uwr.downloadHandler.text);
+                if (wallet.Id == recentWallet.Id)
+                    continue;
 
-                for (var walletDataIndex = listItemIndex; walletDataIndex < walletsToLoad; walletDataIndex++)
-                {
-                    var wallet = response.Data[walletDataIndex];
+                AddWalletListItem(wallet, listItemIndex);
 
-                    if (wallet.Id == recentWallet.Id)
-                        continue;
-
-                    AddWalletListItem(wallet, listItemIndex);
-
-                    listItemIndex++;
-                }
+                listItemIndex++;
             }
 
             if (_showAllWalletsButton)
@@ -175,6 +173,7 @@ namespace WalletConnectUnity.Modal.Views
                     sprite = _allWalletsSprite,
                     onClick = () => parentModal.OpenView(_walletSearchView),
                     borderColor = new Color(0.2784f, 0.6313f, 1, 0.08f),
+                    tagText = response.Count.ToString(),
                 });
             }
         }

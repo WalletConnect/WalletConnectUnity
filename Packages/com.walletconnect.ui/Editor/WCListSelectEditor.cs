@@ -16,6 +16,7 @@ namespace WalletConnectUnity.UI.Editor
             EditorGUILayout.PropertyField(serializedObject.FindProperty("_iconBorder"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("_installedLabelObject"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("_defaultBorderColor"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("_tagText"));
 
             serializedObject.ApplyModifiedProperties();
         }

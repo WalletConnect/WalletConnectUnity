@@ -12,6 +12,7 @@ namespace WalletConnectUnity.UI
         [SerializeField] private Image _iconBorder;
         [SerializeField] private GameObject _installedLabelObject;
         [SerializeField] private Color _defaultBorderColor;
+        [SerializeField] private TMP_Text _tagText;
 
         private WCModalView _targetView;
         private object _targetViewParameters;
@@ -43,6 +44,12 @@ namespace WalletConnectUnity.UI
                 ? _defaultBorderColor
                 : parameters.borderColor;
 
+            if (!string.IsNullOrWhiteSpace(parameters.tagText))
+            {
+                _tagText.text = parameters.tagText;
+                _tagText.gameObject.SetActive(true);
+            }
+
             if (parameters.remoteSprite == null)
             {
                 _icon.sprite = parameters.sprite;
@@ -73,6 +80,7 @@ namespace WalletConnectUnity.UI
             _icon.color = new Color(1, 1, 1, 0.1f);
             _title.text = string.Empty;
             _installedLabelObject.SetActive(false);
+            _tagText.gameObject.SetActive(false);
         }
 
         private void EnableInstalledLabel()
@@ -88,6 +96,7 @@ namespace WalletConnectUnity.UI
             public Action onClick;
             public Color borderColor;
             public bool isInstalled;
+            public string tagText;
         }
     }
 }
