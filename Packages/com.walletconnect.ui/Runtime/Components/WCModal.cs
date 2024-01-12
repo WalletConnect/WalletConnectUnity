@@ -35,6 +35,8 @@ namespace WalletConnectUnity.UI
 
         public bool IsOpen => _canvas.enabled;
 
+        public Canvas Canvas => _canvas;
+
         public event EventHandler Opened;
         public event EventHandler Closed;
 
@@ -61,9 +63,9 @@ namespace WalletConnectUnity.UI
 
             modal ??= this;
 
-            _viewsStack.Push(view);
 
             var resizeCoroutine = ResizeModalRoutine(view.GetViewHeight());
+            _viewsStack.Push(view);
             view.Show(modal, resizeCoroutine, parameters);
 
             Header.Title = view.GetTitle();

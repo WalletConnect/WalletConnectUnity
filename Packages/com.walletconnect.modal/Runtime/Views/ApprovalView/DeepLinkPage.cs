@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,22 +11,48 @@ namespace WalletConnectUnity.Modal.Views
 {
     public class DeepLinkPage : ApprovalViewPageBase
     {
+        [Header("DeepLink Page")]
         [SerializeField] private TMP_Text _titleText;
+
         [SerializeField] private string _titleTextFormat = "Continue in {0}";
+        [SerializeField] private TMP_Text _dontHaveWalletText;
+        [SerializeField] private string _dontHaveWalletTextFormat = "Don't have {0}?";
+        [SerializeField] private GameObject _tryAgainButton;
 
         [Header("Loader")]
         [SerializeField] private float _radiansPerSecond = 1f;
 
         [SerializeField] private RectTransform _loadingSector;
 
-        public override Task InitializeAsync(
+        public override async Task InitializeAsync(
             Wallet wallet,
             WCModal modal,
             RemoteSprite remoteWalletIcon,
             CancellationToken cancellationToken)
         {
             _titleText.text = string.Format(_titleTextFormat, wallet.Name);
-            return base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
+            _dontHaveWalletText.text = string.Format(_dontHaveWalletTextFormat, wallet.Name);
+            await base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
+
+            _tryAgainButton.SetActive(true);
+        }
+
+        // Called by Try Again Button onClick Unity event
+        public void OnTryAgainButtonClicked()
+        {
+            StartCoroutine(OpenSessionProposalDeepLinkRoutine());
+        }
+
+        // Called by Get Button onClick Unity event
+        public void OnGetWallet()
+        {
+#if UNITY_IOS
+            Application.OpenURL(Wallet.AppStore);
+#elif UNITY_ANDROID
+            Application.OpenURL(Wallet.PlayStore);
+#else
+            Application.OpenURL(Wallet.Homepage);
+#endif
         }
 
         private void OnEnable()
@@ -42,6 +67,7 @@ namespace WalletConnectUnity.Modal.Views
         {
             StopAllCoroutines();
             _loadingSector.gameObject.SetActive(false);
+            _tryAgainButton.SetActive(false);
         }
 
         private IEnumerator OpenSessionProposalDeepLinkRoutine()

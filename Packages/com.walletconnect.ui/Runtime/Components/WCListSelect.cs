@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 namespace WalletConnectUnity.UI
 {
-    public class WCListSelect : MonoBehaviour
+    public class WCListSelect : WCButton
     {
         [SerializeField] private TMP_Text _title;
         [SerializeField] private Image _icon;
         [SerializeField] private Image _iconBorder;
+        [SerializeField] private GameObject _installedLabelObject;
         [SerializeField] private Color _defaultBorderColor;
 
         private WCModalView _targetView;
@@ -19,11 +20,19 @@ namespace WalletConnectUnity.UI
 
         private bool _initialized;
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            // Unfortunately, can't override `Press()` method because it's private
+            onClick.AddListener(OnClick);
+        }
+
         public void Initialize(in Params parameters)
         {
             if (_initialized)
             {
-                Reset();
+                ResetDefaults();
             }
 
             _title.text = parameters.title;
@@ -47,20 +56,28 @@ namespace WalletConnectUnity.UI
             if (!gameObject.activeSelf)
                 gameObject.SetActive(true);
 
+            if (parameters.isInstalled)
+                EnableInstalledLabel();
+
             _initialized = true;
         }
 
-        // Called by Button component's UnityEvent
-        public void OnClicked()
+        public void OnClick()
         {
             _onClick?.Invoke();
         }
 
-        public void Reset()
+        public void ResetDefaults()
         {
             _remoteSprite?.UnsubscribeImage(_icon);
             _icon.color = new Color(1, 1, 1, 0.1f);
             _title.text = string.Empty;
+            _installedLabelObject.SetActive(false);
+        }
+
+        private void EnableInstalledLabel()
+        {
+            _installedLabelObject.SetActive(true);
         }
 
         public struct Params
@@ -70,6 +87,7 @@ namespace WalletConnectUnity.UI
             public string title;
             public Action onClick;
             public Color borderColor;
+            public bool isInstalled;
         }
     }
 }

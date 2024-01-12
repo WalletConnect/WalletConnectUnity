@@ -17,6 +17,7 @@ namespace WalletConnectUnity.Modal.Views
 
         [Space, SerializeField] private ApprovalViewPageBase _qrCodePage;
         [SerializeField] private ApprovalViewPageBase _deepLinkPage;
+        [SerializeField] private ApprovalViewPageBase _webAppPage;
 
         private CancellationTokenSource _viewCts;
         private Wallet _walletData;
@@ -53,6 +54,11 @@ namespace WalletConnectUnity.Modal.Views
                         parameters.walletIconRemoteSprite,
                         _viewCts.Token),
                     _deepLinkPage.InitializeAsync(
+                        parameters.walletData,
+                        modal,
+                        parameters.walletIconRemoteSprite,
+                        _viewCts.Token),
+                    _webAppPage.InitializeAsync(
                         parameters.walletData,
                         modal,
                         parameters.walletIconRemoteSprite,

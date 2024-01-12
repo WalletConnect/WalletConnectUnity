@@ -31,16 +31,11 @@ namespace WalletConnectUnity.Modal.Views
         {
             _pagesBuffer.Clear();
 
-#if !UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
+#if UNITY_IOS || UNITY_ANDROID
             if (wallet is { MobileLink: not null })
             {
                 if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.DeepLink, out var deepLinkPage))
                     _pagesBuffer.Add(deepLinkPage);
-            }
-            else
-            {
-                if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.QRCode, out var qrCodePage))
-                    _pagesBuffer.Add(qrCodePage);
             }
 #else
             if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.QRCode, out var qrCodePage))
@@ -52,8 +47,11 @@ namespace WalletConnectUnity.Modal.Views
                     if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.DeepLink, out var deepLinkPage))
                         _pagesBuffer.Add(deepLinkPage);
             }
-            // TODO: webapp
 #endif
+
+            if (wallet is { WebappLink: not null })
+                if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.Webapp, out var webappPage))
+                    _pagesBuffer.Add(webappPage);
 
             if (_pagesBuffer.Count == 0)
             {

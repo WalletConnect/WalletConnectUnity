@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core.Models.Publisher;
@@ -33,6 +34,12 @@ namespace WalletConnectUnity.Core
                 throw new ArgumentException($"[Linker] Uri cannot be empty.");
 
             uri = System.Uri.EscapeDataString(uri);
+
+#if UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
+            // In editor we cannot open _mobile_ deep links, so we just log the uri
+            Debug.Log($"[Linker] Requested to open mobile deep link. The uri: {uri}");
+            return;
+#endif
 
             var link = Application.isMobilePlatform ? wallet.MobileLink : wallet.DesktopLink;
 
@@ -108,6 +115,37 @@ namespace WalletConnectUnity.Core
                 _sessionMessagesCounter.Add(sessionTopic, 1);
             }
         }
+
+        public static bool CanOpenURL(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return false;
+
+            try
+            {
+#if !UNITY_EDITOR && UNITY_IOS
+            return _CanOpenURL(url);
+#elif !UNITY_EDITOR && UNITY_ANDROID
+            using (var urlCheckerClass = new AndroidJavaClass("com.walletconnect.unity.Linker"))
+            using (var unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            using (var currentActivity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity"))
+            {
+                return urlCheckerClass.CallStatic<bool>("canOpenURL", currentActivity, url);
+            }
+#endif
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Linker] Exception for url {url}: {e.Message}");
+            }
+
+            return false;
+        }
+
+#if !UNITY_EDITOR && UNITY_IOS
+        [DllImport("__Internal")]
+        public static extern bool _CanOpenURL(string url);
+#endif
 
         public void Dispose()
         {

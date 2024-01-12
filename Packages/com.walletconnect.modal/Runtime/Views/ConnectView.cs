@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using WalletConnectUnity.Core;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.Core.Utils;
 using WalletConnectUnity.UI;
@@ -130,6 +131,7 @@ namespace WalletConnectUnity.Modal.Views
 
                     var remoteSprite =
                         RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
+
                     _listItems[i].Initialize(new WCListSelect.Params
                     {
                         title = wallet.Name,
@@ -142,6 +144,7 @@ namespace WalletConnectUnity.Modal.Views
                                 walletData = wallet
                             });
                         },
+                        isInstalled = WalletUtils.IsWalletInstalled(wallet)
                     });
                 }
             }
@@ -153,8 +156,8 @@ namespace WalletConnectUnity.Modal.Views
                 {
                     title = "All wallets",
                     sprite = _allWalletsSprite,
-                    onClick = () => { parentModal.OpenView(_walletSearchView); },
-                    borderColor = new Color(0.2784f, 0.6313f, 1, 0.08f)
+                    onClick = () => parentModal.OpenView(_walletSearchView),
+                    borderColor = new Color(0.2784f, 0.6313f, 1, 0.08f),
                 });
             }
         }
