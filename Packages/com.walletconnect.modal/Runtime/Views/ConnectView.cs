@@ -104,12 +104,40 @@ namespace WalletConnectUnity.Modal.Views
 
         private IEnumerator RefreshWalletsCoroutine()
         {
-            var index = 0;
+            void AddWalletListItem(Wallet wallet, int index = 0, bool isRecent = false)
+            {
+                var remoteSprite =
+                    RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
 
-            // TODO: show one recent wallet
+                // TODO: enable 'Recent' label
+
+                _listItems[index].Initialize(new WCListSelect.Params
+                {
+                    title = wallet.Name,
+                    remoteSprite = remoteSprite,
+                    onClick = () =>
+                    {
+                        parentModal.OpenView(_approvalView, parameters: new ApprovalView.Params
+                        {
+                            walletIconRemoteSprite = remoteSprite,
+                            walletData = wallet
+                        });
+                    },
+                    isInstalled = WalletUtils.IsWalletInstalled(wallet)
+                });
+            }
 
             // ReSharper disable once UselessBinaryOperation
-            var walletsToLoad = _walletsCounts - index;
+            var walletsToLoad = _walletsCounts;
+            var listItemIndex = 0;
+
+            if (WalletUtils.TryGetRecentWallet(out var recentWallet))
+            {
+                AddWalletListItem(recentWallet);
+
+                listItemIndex++;
+                walletsToLoad++; // load extra wallet from backend to avoid duplicates
+            }
 
             if (walletsToLoad != 0)
             {
@@ -125,27 +153,16 @@ namespace WalletConnectUnity.Modal.Views
 
                 var response = JsonConvert.DeserializeObject<GetWalletsResponse>(uwr.downloadHandler.text);
 
-                for (var i = index; i < _walletsCounts; i++)
+                for (var walletDataIndex = listItemIndex; walletDataIndex < walletsToLoad; walletDataIndex++)
                 {
-                    var wallet = response.Data[i - index];
+                    var wallet = response.Data[walletDataIndex];
 
-                    var remoteSprite =
-                        RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
+                    if (wallet.Id == recentWallet.Id)
+                        continue;
 
-                    _listItems[i].Initialize(new WCListSelect.Params
-                    {
-                        title = wallet.Name,
-                        remoteSprite = remoteSprite,
-                        onClick = () =>
-                        {
-                            parentModal.OpenView(_approvalView, parameters: new ApprovalView.Params
-                            {
-                                walletIconRemoteSprite = remoteSprite,
-                                walletData = wallet
-                            });
-                        },
-                        isInstalled = WalletUtils.IsWalletInstalled(wallet)
-                    });
+                    AddWalletListItem(wallet, listItemIndex);
+
+                    listItemIndex++;
                 }
             }
 

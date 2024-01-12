@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 using WalletConnectUnity.Core.Networking;
+using WalletConnectUnity.Core.Utils;
 using WalletConnectUnity.UI;
 
 namespace WalletConnectUnity.Modal.Views
@@ -25,6 +26,9 @@ namespace WalletConnectUnity.Modal.Views
         protected override void Awake()
         {
             _tabsController.Initialize();
+
+            WalletConnectModal.Connected += OnConnected;
+
             base.Awake();
         }
 
@@ -77,7 +81,7 @@ namespace WalletConnectUnity.Modal.Views
         {
             base.Hide();
 
-            _viewCts.Cancel();
+            _viewCts?.Cancel();
 
             _qrCodePage.Disable();
             _deepLinkPage.Disable();
@@ -120,6 +124,11 @@ namespace WalletConnectUnity.Modal.Views
             catch (OperationCanceledException)
             {
             }
+        }
+
+        private void OnConnected(object sender, EventArgs e)
+        {
+            WalletUtils.SetRecentWallet(_walletData);
         }
 
         public class Params

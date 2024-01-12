@@ -37,6 +37,7 @@ namespace WalletConnectUnity.Modal
 
         // TODO: make ConnectionError generic
         public static event EventHandler ConnectionError;
+        public static event EventHandler Connected;
         public static event EventHandler<ModalReadyEventArgs> Ready;
         public static event EventHandler ModalOpened;
         public static event EventHandler ModalClosed;
@@ -137,7 +138,11 @@ namespace WalletConnectUnity.Modal
 
         private void OnSessionConnected(object sender, SessionStruct _)
         {
-            UnitySyncContext.Post(_ => Modal.CloseModal(), null);
+            UnitySyncContext.Post(_ =>
+            {
+                Modal.CloseModal();
+                Connected?.Invoke(this, EventArgs.Empty);
+            }, null);
         }
 
         private void OnSessionErrored(object sender, Exception e)
