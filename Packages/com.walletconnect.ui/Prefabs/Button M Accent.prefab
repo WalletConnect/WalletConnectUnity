@@ -37,11 +37,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 591126230860658992, guid: f654de3b65372460488d3fe6ba07aea3, type: 3}
       propertyPath: m_margin.w
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 591126230860658992, guid: f654de3b65372460488d3fe6ba07aea3, type: 3}
       propertyPath: m_margin.y
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 591126230860658992, guid: f654de3b65372460488d3fe6ba07aea3, type: 3}
       propertyPath: m_fontColor.b

@@ -13,6 +13,8 @@ namespace WalletConnectUnity.Modal.Views
     {
         [SerializeField] private TMP_Text _titleText;
         [SerializeField] private string _titleTextFormat = "Continue in {0}";
+        [SerializeField] private TMP_Text _dontHaveWalletText;
+        [SerializeField] private string _dontHaveWalletTextFormat = "Don't have {0}?";
         [SerializeField] private GameObject _tryAgainButton;
 
         [Header("Loader")]
@@ -27,15 +29,26 @@ namespace WalletConnectUnity.Modal.Views
             CancellationToken cancellationToken)
         {
             _titleText.text = string.Format(_titleTextFormat, wallet.Name);
+            _dontHaveWalletText.text = string.Format(_dontHaveWalletTextFormat, wallet.Name);
             await base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
 
             _tryAgainButton.SetActive(true);
         }
 
-        // Called by Try Again Buttons OnClick Unity event
+        // Called by Try Again Button onClick Unity event
         public void OnTryAgainButtonClicked()
         {
             StartCoroutine(OpenSessionProposalDeepLinkRoutine());
+        }
+
+        // Called by Get Button onClick Unity event
+        public void OnGetWallet()
+        {
+#if UNITY_IOS
+            Application.OpenURL(Wallet.AppStore);
+#elif UNITY_ANDROID
+            Application.OpenURL(Wallet.PlayStore);
+#endif
         }
 
         private void OnEnable()
