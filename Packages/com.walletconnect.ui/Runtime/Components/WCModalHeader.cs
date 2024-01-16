@@ -10,20 +10,20 @@ namespace WalletConnectUnity.UI
     {
         [field: SerializeField] public WCSnackbar Snackbar { get; private set; }
 
-        [field: SerializeField] private RectTransform RootTransform { get; set; }
+        [field: SerializeField] public RectTransform RectTransform { get; private set; }
 
         [field: SerializeField] private TMP_Text TitleText { get; set; }
 
         [field: SerializeField] private Button LeftButton { get; set; }
-        
+
         [field: SerializeField] private Image LeftButtonImage { get; set; }
 
         [field: SerializeField] private Button RightButton { get; set; }
 
         [field: SerializeField, Space] private WCModal Modal { get; set; }
 
-        public float Height => RootTransform.rect.height;
-        
+        public float Height => RectTransform.rect.height;
+
         private bool _leftButtonCustom;
         private Action _leftButtonAction;
         private Sprite _leftButtonDefaultSprite;
@@ -36,7 +36,7 @@ namespace WalletConnectUnity.UI
 
         private void Awake()
         {
-            Assert.IsNotNull(RootTransform, $"Missing {nameof(RootTransform)} reference in {name}");
+            Assert.IsNotNull(RectTransform, $"Missing {nameof(RectTransform)} reference in {name}");
             Assert.IsNotNull(TitleText, $"Missing {nameof(TitleText)} reference in {name}");
             Assert.IsNotNull(LeftButton, $"Missing {nameof(LeftButton)} reference in {name}");
             Assert.IsNotNull(RightButton, $"Missing {nameof(RightButton)} reference in {name}");
@@ -45,7 +45,7 @@ namespace WalletConnectUnity.UI
 
             LeftButton.onClick.AddListener(OnLeftButtonClicked);
             RightButton.onClick.AddListener(OnRightButtonClicked);
-            
+
             _leftButtonDefaultSprite = LeftButtonImage.sprite;
         }
 
@@ -53,15 +53,15 @@ namespace WalletConnectUnity.UI
         {
             _leftButtonCustom = true;
             _leftButtonAction = onClick;
-            
+
             LeftButtonImage.sprite = sprite;
         }
-        
+
         public void RemoveCustomLeftButton()
         {
             _leftButtonCustom = false;
             _leftButtonAction = null;
-            
+
             LeftButtonImage.sprite = _leftButtonDefaultSprite;
         }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.Core.Utils;
 using WalletConnectUnity.UI;
@@ -13,6 +14,7 @@ namespace WalletConnectUnity.Modal.Views
     {
         [SerializeField] private WCModal _modal;
         [SerializeField] private WCTabsBar _tabsBar;
+        [SerializeField] private RectTransform _rectTransform;
 
         [SerializeField] private ConnectionTypeToTabPageDictionary _connectionTypeToPageDictionary = new();
 
@@ -31,31 +33,35 @@ namespace WalletConnectUnity.Modal.Views
         {
             _pagesBuffer.Clear();
 
-#if UNITY_IOS || UNITY_ANDROID
-            if (wallet is { MobileLink: not null })
+            if (wallet == null)
             {
-                if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.DeepLink, out var deepLinkPage))
-                    _pagesBuffer.Add(deepLinkPage);
+                if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.QRCode, out var qrCodePage))
+                    _pagesBuffer.Add(qrCodePage);
             }
-#else
-            if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.QRCode, out var qrCodePage))
-                _pagesBuffer.Add(qrCodePage);
-
-            if (wallet != null)
+            else
             {
+#if UNITY_IOS || UNITY_ANDROID
+                if (wallet is { MobileLink: not null })
+                {
+                    if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.DeepLink, out var deepLinkPage))
+                        _pagesBuffer.Add(deepLinkPage);
+                }
+#else
+                if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.QRCode, out var qrCodePage))
+                    _pagesBuffer.Add(qrCodePage);
+
                 if (wallet.DesktopLink != null)
                     if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.DeepLink, out var deepLinkPage))
                         _pagesBuffer.Add(deepLinkPage);
-            }
 #endif
-
-            if (wallet is { WebappLink: not null })
-                if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.Webapp, out var webappPage))
-                    _pagesBuffer.Add(webappPage);
+                if (wallet is { WebappLink: not null })
+                    if (_connectionTypeToPageDictionary.TryGetValue(ConnectionType.Webapp, out var webappPage))
+                        _pagesBuffer.Add(webappPage);
+            }
 
             if (_pagesBuffer.Count == 0)
             {
-                throw new Exception($"Wallet {wallet.Name} has no available connection types.");
+                throw new Exception($"Wallet {wallet?.Name ?? string.Empty} has no available connection types.");
             }
 
             if (_pagesBuffer.Count > 1)
@@ -109,6 +115,8 @@ namespace WalletConnectUnity.Modal.Views
 
             if (_tabsBar.RootTransform.gameObject.activeSelf)
                 newHeight += _tabsBar.RootTransform.sizeDelta.y;
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
 
             yield return _modal.ResizeModalRoutine(newHeight);
 

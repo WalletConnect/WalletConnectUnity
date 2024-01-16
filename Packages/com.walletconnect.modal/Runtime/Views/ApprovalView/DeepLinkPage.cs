@@ -67,6 +67,11 @@ namespace WalletConnectUnity.Modal.Views
         {
             StopAllCoroutines();
             _loadingSector.gameObject.SetActive(false);
+        }
+
+        public override void Disable()
+        {
+            base.Disable();
             _tryAgainButton.SetActive(false);
         }
 

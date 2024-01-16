@@ -446,10 +446,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Snackbar>k__BackingField: {fileID: 7180608153501047038}
-  <RootTransform>k__BackingField: {fileID: 6892513919425060475}
+  <RectTransform>k__BackingField: {fileID: 6892513919425060475}
   <TitleText>k__BackingField: {fileID: 3367806385273904989}
   <LeftButton>k__BackingField: {fileID: 7881777383480158521}
-  <LeftButtonImage>k__BackingField: {fileID: 0}
+  <LeftButtonImage>k__BackingField: {fileID: 7894358337458832909}
   <RightButton>k__BackingField: {fileID: 5842704370966093939}
   <Modal>k__BackingField: {fileID: 1057551043529833211}
 --- !u!223 &8128905355026697321
@@ -750,8 +750,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 12}
-  m_SizeDelta: {x: -1.8800011, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.5}
+  m_SizeDelta: {x: 0, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1094014331715990422
 CanvasRenderer:
@@ -775,7 +775,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.019607844}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1180,5 +1180,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 785f661d2deb46c69c6606c60d52d932, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7894358337458832909 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 354693416, guid: 6256b443a5d83418cb0f02a10c90dd57, type: 3}
+  m_PrefabInstance: {fileID: 7894358337238906661}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
