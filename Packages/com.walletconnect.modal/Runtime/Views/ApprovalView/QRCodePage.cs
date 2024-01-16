@@ -51,10 +51,27 @@ namespace WalletConnectUnity.Modal.Views
 
         public void ResizeQrCode()
         {
-            // Stretch the QR code to the full width of the view, but keep the aspect ratio and padding
-            var qrCodeSize = _viewRoot.rect.width - _qrCodePadding * 2;
             var oldQrCodeHeight = _qrCodeRoot.sizeDelta.y;
-            var newSizeDelta = new Vector2(qrCodeSize, qrCodeSize);
+            Vector2 newSizeDelta;
+
+            if (Screen.orientation is ScreenOrientation.Portrait or ScreenOrientation.PortraitUpsideDown)
+            {
+                // Stretch the QR code to the full width of the view, but keep the aspect ratio and padding
+                var qrCodeSize = _viewRoot.rect.width - _qrCodePadding * 2;
+                newSizeDelta = new Vector2(qrCodeSize, qrCodeSize);
+            }
+            else
+            {
+                var screenHeight = Modal.RootRectTransform.sizeDelta.y;
+                var workingHeight = screenHeight
+                                    * Modal.MobileMaxHeightPercent
+                                    - Modal.Header.RectTransform.sizeDelta.y;
+
+                var qrCodeSize = workingHeight - _qrCodePadding * 2;
+                qrCodeSize *= 0.85f; // leave some space for the other elements to hint at scrolling
+                newSizeDelta = new Vector2(qrCodeSize, qrCodeSize);
+            }
+
             _qrCodeRoot.sizeDelta = newSizeDelta;
 
             // Resize the container to fit the QR code

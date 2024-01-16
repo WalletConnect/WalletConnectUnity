@@ -37,6 +37,10 @@ namespace WalletConnectUnity.UI
 
         public Canvas Canvas => _canvas;
 
+        public RectTransform RootRectTransform => _rootRectTransform;
+
+        public float MobileMaxHeightPercent => _mobileMaxHeightPercent;
+
         public event EventHandler Opened;
         public event EventHandler Closed;
 
