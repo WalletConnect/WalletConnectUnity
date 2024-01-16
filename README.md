@@ -11,8 +11,11 @@ This repository is a monorepo of packages that extend [WalletConnectSharp](https
 
 Older versions of  WalletConnectUnity are available under `legacy/*` branches
 
+### Prerequisites
+* Unity 2021.3 or above
+* IL2CPP managed code stripping level: Minimal (or lower)
+
 ### Supported Platforms
-* Unity Editor 2021.3 or above
 * Android
 * iOS
 * macOS
