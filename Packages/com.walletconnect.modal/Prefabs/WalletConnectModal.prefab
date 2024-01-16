@@ -4113,6 +4113,7 @@ MonoBehaviour:
   _approvalView: {fileID: 8234168566491889934}
   _walletSearchView: {fileID: 8234168567151989342}
   _showQrCodeOnDesktop: 1
+  _showQrCodeOnTablet: 0
   _qrCodeArea: {fileID: 7004916108560762031}
   _qrWalletIcon: {fileID: 265089116}
   _qrCodeRawImage: {fileID: 875426365}

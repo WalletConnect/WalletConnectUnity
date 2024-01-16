@@ -10,6 +10,7 @@ using WalletConnectUnity.Core;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.Core.Utils;
 using WalletConnectUnity.UI;
+using DeviceType = WalletConnectUnity.Core.Utils.DeviceType;
 
 namespace WalletConnectUnity.Modal.Views
 {
@@ -20,6 +21,7 @@ namespace WalletConnectUnity.Modal.Views
         [SerializeField] private WalletSearchView _walletSearchView;
 
         [Header("QR Code")] [SerializeField] private bool _showQrCodeOnDesktop = true;
+        [SerializeField] private bool _showQrCodeOnTablet = true;
         [SerializeField] private RectTransform _qrCodeArea;
         [SerializeField] private GameObject _qrWalletIcon;
         [SerializeField] private RawImage _qrCodeRawImage;
@@ -55,16 +57,17 @@ namespace WalletConnectUnity.Modal.Views
 
             rootTransform.sizeDelta = sizeDelta;
 
-#if (!UNITY_IOS && !UNITY_ANDROID)
-            // Resize to fit the QR code
-            if (_showQrCodeOnDesktop)
+            var deviceType = DeviceUtils.GetDeviceType();
+
+            if ((deviceType == DeviceType.Desktop && _showQrCodeOnDesktop) ||
+                (deviceType == DeviceType.Tablet && _showQrCodeOnTablet))
             {
                 _qrCodeArea.gameObject.SetActive(true);
 
+                // Resize to fit the QR code
                 var newY = sizeDelta.y + _qrCodeArea.rect.height;
                 sizeDelta = new Vector2(sizeDelta.x, newY);
             }
-#endif
 
             rootTransform.sizeDelta = sizeDelta;
 

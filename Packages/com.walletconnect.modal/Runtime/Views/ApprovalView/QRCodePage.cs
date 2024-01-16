@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.Core.Utils;
 using WalletConnectUnity.UI;
+using DeviceType = WalletConnectUnity.Core.Utils.DeviceType;
 
 namespace WalletConnectUnity.Modal.Views
 {
@@ -31,9 +32,18 @@ namespace WalletConnectUnity.Modal.Views
         {
             WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
 
-            var validWallet = remoteWalletIcon != null;
-            _walletIconRoot.SetActive(validWallet);
-            _fallbackWalletIconRoot.SetActive(!validWallet);
+            if (DeviceUtils.GetDeviceType() is DeviceType.Phone)
+            {
+                // On phones don't show any icons above the QR code may be too small
+                _walletIconRoot.SetActive(false);
+                _fallbackWalletIconRoot.SetActive(false);
+            }
+            else
+            {
+                var validWallet = remoteWalletIcon != null;
+                _walletIconRoot.SetActive(validWallet);
+                _fallbackWalletIconRoot.SetActive(!validWallet);
+            }
 
             await base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
             var texture = QRCode.EncodeTexture(Uri);
@@ -54,13 +64,8 @@ namespace WalletConnectUnity.Modal.Views
             var oldQrCodeHeight = _qrCodeRoot.sizeDelta.y;
             Vector2 newSizeDelta;
 
-            if (Screen.orientation is ScreenOrientation.Portrait or ScreenOrientation.PortraitUpsideDown)
-            {
-                // Stretch the QR code to the full width of the view, but keep the aspect ratio and padding
-                var qrCodeSize = _viewRoot.rect.width - _qrCodePadding * 2;
-                newSizeDelta = new Vector2(qrCodeSize, qrCodeSize);
-            }
-            else
+            if (DeviceUtils.GetDeviceType() is DeviceType.Phone
+                && Screen.orientation is ScreenOrientation.LandscapeLeft or ScreenOrientation.LandscapeRight)
             {
                 var screenHeight = Modal.RootRectTransform.sizeDelta.y;
                 var workingHeight = screenHeight
@@ -69,6 +74,12 @@ namespace WalletConnectUnity.Modal.Views
 
                 var qrCodeSize = workingHeight - _qrCodePadding * 2;
                 qrCodeSize *= 0.85f; // leave some space for the other elements to hint at scrolling
+                newSizeDelta = new Vector2(qrCodeSize, qrCodeSize);
+            }
+            else
+            {
+                // Stretch the QR code to the full width of the view, but keep the aspect ratio and padding
+                var qrCodeSize = _viewRoot.rect.width - _qrCodePadding * 2;
                 newSizeDelta = new Vector2(qrCodeSize, qrCodeSize);
             }
 

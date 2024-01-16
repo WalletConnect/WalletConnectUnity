@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using WalletConnectUnity.Core.Utils;
+using DeviceType = WalletConnectUnity.Core.Utils.DeviceType;
 
 namespace WalletConnectUnity.UI
 {
@@ -120,7 +122,8 @@ namespace WalletConnectUnity.UI
             targetHeight = targetHeight + Header.Height + 12;
 
 #if UNITY_ANDROID || UNITY_IOS
-            targetHeight += 8;
+            if (DeviceUtils.GetDeviceType() == DeviceType.Phone)
+                targetHeight += 8;
 #endif
 
             var rootTransformSizeDelta = _rectTransform.sizeDelta;
@@ -159,16 +162,21 @@ namespace WalletConnectUnity.UI
 
         private void EnableModal()
         {
-#if UNITY_ANDROID || UNITY_IOS
-            _mobileTransformConfig.Apply(_rectTransform);
+            var deviceType = DeviceUtils.GetDeviceType();
 
-            _modalMaskImage.sprite = _mobileModalMaskSprite;
-            _modalBorderImage.sprite = _mobileModalBorderSprite;
+            if (deviceType == DeviceType.Phone)
+            {
+                _mobileTransformConfig.Apply(_rectTransform);
 
-            OrientationTracker.Enable();
-#else
-            _desktopTransformConfig.Apply(_rectTransform);
-#endif
+                _modalMaskImage.sprite = _mobileModalMaskSprite;
+                _modalBorderImage.sprite = _mobileModalBorderSprite;
+
+                OrientationTracker.Enable();
+            }
+            else
+            {
+                _desktopTransformConfig.Apply(_rectTransform);
+            }
 
             _canvas.enabled = true;
 
