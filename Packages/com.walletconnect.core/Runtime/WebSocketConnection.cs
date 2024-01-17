@@ -3,8 +3,10 @@ using System.IO;
 using NativeWebSocket;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using UnityEngine;
 using WalletConnectSharp.Common;
 using WalletConnectSharp.Common.Logging;
+using WalletConnectSharp.Common.Model.Errors;
 using WalletConnectSharp.Network;
 using WalletConnectSharp.Network.Models;
 
@@ -100,6 +102,13 @@ namespace WalletConnectUnity.Core
 
                 PayloadReceived?.Invoke(this, json);
             }
+#if ENABLE_IL2CPP
+            catch (JsonSerializationException e) when (e.Message.Contains("Unable to find a constructor"))
+            {
+                Debug.LogError(
+                    $"[WebSocketConnection-{Context}] Failed to serialize request payload. Make sure the managed code stripping is set to 'Minimal'. Error message: {e.Message}");
+            }
+#endif
             catch (Exception e)
             {
                 OnError<T>(requestPayload, e);
@@ -174,7 +183,21 @@ namespace WalletConnectUnity.Core
 #if !UNITY_WEBGL || UNITY_EDITOR
         private void OnTick()
         {
-            _socket.DispatchMessageQueue();
+            try
+            {
+                _socket.DispatchMessageQueue();
+            }
+#if ENABLE_IL2CPP
+            catch (JsonSerializationException e) when (e.Message.Contains("Unable to find a constructor"))
+            {
+                Debug.LogError(
+                    $"[WebSocketConnection-{Context}] Failed to serialize request payload. Make sure the managed code stripping is set to 'Minimal'. Error message: {e.Message}");
+            }
+#endif
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 #endif
 
