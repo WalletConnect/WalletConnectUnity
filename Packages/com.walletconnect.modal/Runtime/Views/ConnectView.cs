@@ -78,13 +78,15 @@ namespace WalletConnectUnity.Modal.Views
         {
             StartCoroutine(RefreshWalletsCoroutine());
 
-            modal.Header.SetCustomLeftButton(_copyIconSprite, OnCopyLinkClick);
-
             base.Show(modal, effectCoroutine, options);
 
 #if (!UNITY_IOS && !UNITY_ANDROID)
             await ShowQrCodeAndCopyButtonAsync();
+#else
+            await GenerateUri();
 #endif
+
+            modal.Header.SetCustomLeftButton(_copyIconSprite, OnCopyLinkClick);
         }
 
         public override void Hide()
@@ -111,8 +113,6 @@ namespace WalletConnectUnity.Modal.Views
             {
                 var remoteSprite =
                     RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
-
-                // TODO: enable 'Recent' label
 
                 _listItems[index].Initialize(new WCListSelect.Params
                 {
@@ -181,13 +181,18 @@ namespace WalletConnectUnity.Modal.Views
             }
         }
 
+        private async Task GenerateUri()
+        {
+            var connectedData = await WalletConnectModal.ConnectionController.GetConnectionDataAsync();
+
+            Uri = connectedData.Uri;
+        }
+
         private async Task ShowQrCodeAndCopyButtonAsync()
         {
             WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
 
-            var connectedData = await WalletConnectModal.ConnectionController.GetConnectionDataAsync();
-
-            Uri = connectedData.Uri;
+            await GenerateUri();
 
             WCLoadingAnimator.Instance.UnsubscribeGraphic(_qrCodeRawImage);
 

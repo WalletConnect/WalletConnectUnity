@@ -55,6 +55,9 @@ namespace WalletConnectUnity.UI
             _leftButtonAction = onClick;
 
             LeftButtonImage.sprite = sprite;
+
+            if (LeftButton.gameObject.activeSelf == false)
+                LeftButton.gameObject.SetActive(true);
         }
 
         public void RemoveCustomLeftButton()
