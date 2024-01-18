@@ -59,8 +59,8 @@ namespace WalletConnectUnity.Modal.Views
 
             var deviceType = DeviceUtils.GetDeviceType();
 
-            if ((deviceType == DeviceType.Desktop && _showQrCodeOnDesktop) ||
-                (deviceType == DeviceType.Tablet && _showQrCodeOnTablet))
+            if ((deviceType is DeviceType.Desktop or DeviceType.Web && _showQrCodeOnDesktop) ||
+                (deviceType is DeviceType.Tablet && _showQrCodeOnTablet))
             {
                 _qrCodeArea.gameObject.SetActive(true);
 
