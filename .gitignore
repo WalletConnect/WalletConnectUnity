@@ -10,6 +10,7 @@ Logs/
 [Oo]bj/
 [Bb]uild/
 [Bb]uilds/
+UserSettings/
 Assets/AssetStoreTools*
 #ignore editor plugins
 Assets/Plugins/
@@ -43,3 +44,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Sentry
+SentryOptions.asset
+SentryOptions.asset.meta
