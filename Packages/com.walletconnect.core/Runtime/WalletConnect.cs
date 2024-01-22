@@ -2,10 +2,10 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Assertions;
 using WalletConnectSharp.Common.Logging;
-using WalletConnectSharp.Common.Utils;
 using WalletConnectSharp.Sign;
 using WalletConnectSharp.Sign.Interfaces;
 using WalletConnectSharp.Sign.Models;
@@ -22,22 +22,14 @@ namespace WalletConnectUnity.Core
         private static readonly Lazy<IWalletConnect> LazyInstance = new(() => new WalletConnect());
         public static IWalletConnect Instance { get; } = LazyInstance.Value;
 
+        public static SynchronizationContext UnitySyncContext { get; private set; }
+        
         public ISignClient SignClient { get; private set; }
 
         public Linker Linker { get; private set; }
+        
 
-        public SessionStruct ActiveSession
-        {
-            get => _activeSession;
-            private set
-            {
-                _activeSession = value;
-                if (!string.IsNullOrWhiteSpace(value.Topic))
-                {
-                    ActiveSessionChanged?.Invoke(this, value);
-                }
-            }
-        }
+        public SessionStruct ActiveSession => SignClient.AddressProvider.DefaultSession;
 
         public bool IsInitialized { get; private set; }
 
@@ -45,7 +37,11 @@ namespace WalletConnectUnity.Core
 
         private readonly SemaphoreSlim _initializationSemaphore = new(1, 1);
 
+        [Obsolete("Use SessionConnected or SessionUpdated instead")]
         public event EventHandler<SessionStruct> ActiveSessionChanged;
+        public event EventHandler<SessionStruct> SessionConnected;
+        public event EventHandler<SessionStruct> SessionUpdated; 
+        public event EventHandler SessionDisconnected;
 
         private SessionStruct _activeSession;
         protected bool disposed;
@@ -61,7 +57,13 @@ namespace WalletConnectUnity.Core
                     Debug.LogError("[WalletConnectUnity] Already initialized");
                     return this;
                 }
-
+                
+                var currentSyncContext = SynchronizationContext.Current;
+                if (currentSyncContext.GetType().FullName != "UnityEngine.UnitySynchronizationContext")
+                    throw new Exception(
+                        $"[WalletConnectUnity] SynchronizationContext is not of type UnityEngine.UnitySynchronizationContext. Current type is <i>{currentSyncContext.GetType().FullName}</i>. Make sure to initialize WalletConnect from the main thread.");
+                UnitySyncContext = currentSyncContext;
+                
                 var projectConfig = ProjectConfiguration.Load();
 
                 Assert.IsNotNull(projectConfig,
@@ -74,7 +76,7 @@ namespace WalletConnectUnity.Core
                 if (projectConfig.LoggingEnabled)
                     WCLogger.Logger = new Logger();
 
-                var storage = BuildStorage();
+                var storage = await BuildStorage();
 
                 SignClient = await WalletConnectSignClient.Init(new SignClientOptions
                 {
@@ -85,7 +87,7 @@ namespace WalletConnectUnity.Core
                     RelayUrlBuilder = new UnityRelayUrlBuilder(),
                     ConnectionBuilder = new NativeWebSocketConnectionBuilder()
                 });
-
+                
                 SignClient.SessionConnected += OnSessionConnected;
                 SignClient.SessionUpdated += OnSessionUpdated;
                 SignClient.SessionDeleted += OnSessionDeleted;
@@ -112,15 +114,11 @@ namespace WalletConnectUnity.Core
 
             if (string.IsNullOrWhiteSpace(session.Topic))
                 return false;
+            
+            SignClient.AddressProvider.DefaultSession = session;
 
-            if (!session.Expiry.HasValue || Clock.IsExpired(session.Expiry.Value))
-            {
-                var acknowledgement = await SignClient.Extend(session.Topic);
-                await acknowledgement.Acknowledged();
-            }
-
-            ActiveSession = session;
-
+            await SignClient.Extend(session.Topic);
+            
             return true;
         }
 
@@ -150,20 +148,33 @@ namespace WalletConnectUnity.Core
 
         private void OnSessionConnected(object sender, SessionStruct session)
         {
-            ActiveSession = session;
+            UnitySyncContext.Post(_ =>
+            {
+                SessionConnected?.Invoke(this, session);
+                ActiveSessionChanged?.Invoke(this, session);
+            }, null);
         }
 
         private void OnSessionUpdated(object sender, SessionEvent sessionEvent)
         {
-            ActiveSession = SignClient.Session.Values.First(s => s.Topic == sessionEvent.Topic);
+            var sessionStruct = SignClient.Session.Values.First(s => s.Topic == sessionEvent.Topic);
+            UnitySyncContext.Post(_ =>
+            {
+                SessionUpdated?.Invoke(this, sessionStruct);
+                ActiveSessionChanged?.Invoke(this, sessionStruct);
+            }, null);
         }
 
         private void OnSessionDeleted(object sender, SessionEvent _)
         {
-            ActiveSession = default;
+            UnitySyncContext.Post(_ =>
+            {
+                SessionDisconnected?.Invoke(this, EventArgs.Empty);
+                ActiveSessionChanged?.Invoke(this, default);
+            }, null);
         }
 
-        private static IKeyValueStorage BuildStorage()
+        private static async Task<IKeyValueStorage> BuildStorage()
         {
 #if UNITY_WEBGL
             var currentSyncContext = SynchronizationContext.Current;
@@ -171,12 +182,29 @@ namespace WalletConnectUnity.Core
                 throw new Exception(
                     $"[WalletConnectUnity] SynchronizationContext is not of type UnityEngine.UnitySynchronizationContext. Current type is <i>{currentSyncContext.GetType().FullName}</i>. When targeting WebGL, Make sure to initialize WalletConnect from the main thread.");
 
-            return new PlayerPrefsStorage(currentSyncContext);
+            var playerPrefsStorage = new PlayerPrefsStorage(currentSyncContext);
+            await playerPrefsStorage.Init();
+
+            return playerPrefsStorage;
 #endif
 
             var path = $"{Application.persistentDataPath}/WalletConnect/storage.json";
             WCLogger.Log($"[WalletConnectUnity] Using storage path <i>{path}</i>");
-            return new FileSystemStorage(path);
+            
+            var storage = new FileSystemStorage(path);
+            
+            try
+            {
+                await storage.Init();
+            }
+            catch (JsonSerializationException)
+            {
+                Debug.LogError($"[WalletConnectUnity] Failed to deserialize storage. Deleting it and creating a new one at <i>{path}</i>");
+                await storage.Clear();
+                await storage.Init();
+            }
+
+            return storage;
         }
 
         private void ThrowIfNoActiveSession()
