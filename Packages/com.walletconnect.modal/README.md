@@ -102,13 +102,13 @@ WalletConnectModal.Ready += (sender, args) =>
     // ....
 
     // Invoked after wallet connected
-    WalletConnect.Instance.ActiveSessionChanged += (_, @struct) =>
+    WalletConnect.Instance.ActiveSessionChanged += (_, sessionStruct) =>
     {
-        // Session connected/updated, proceed to the game
+        // Session connected/updated, proceed to the game if sessionStruct.topic is not null/empty
     };
 
     // Invoked after wallet disconnected
-    WalletConnectModal.SignClient.SessionDeleted += (_, @struct) =>
+    WalletConnect.Instance.SessionDisconnected += (_, _) =>
     {
         // Session deleted, show sign in screen
     };
