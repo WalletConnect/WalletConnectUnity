@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Samples/WalletConnectUnity Modal/1.0.3/Modal Sample/Scenes/WalletConnectModal
+    path: Assets/Samples/WalletConnectUnity Modal/1.0.5/Modal Sample/Scenes/WalletConnectModal
       Sample.unity
     guid: 46e82b9c707994d5ea23bebf2a21b55c
   m_configObjects: {}
