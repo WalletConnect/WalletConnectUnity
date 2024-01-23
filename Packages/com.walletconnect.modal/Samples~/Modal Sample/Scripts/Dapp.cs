@@ -39,18 +39,20 @@ namespace WalletConnectUnity.Modal.Sample
                     EnableNetworksList();
                 }
 
-
                 // Invoked after wallet connected
                 WalletConnect.Instance.ActiveSessionChanged += (_, @struct) =>
                 {
+                    if (string.IsNullOrEmpty(@struct.Topic))
+                        return;
+                    
                     Debug.Log($"[WalletConnectModalSample] Session connected. Topic: {@struct.Topic}");
                     EnableDappButtons();
                 };
 
                 // Invoked after wallet disconnected
-                WalletConnectModal.SignClient.SessionDeleted += (_, @struct) =>
+                WalletConnect.Instance.SessionDisconnected += (_, @struct) =>
                 {
-                    Debug.Log($"[WalletConnectModalSample] Session deleted. Topic: {@struct.Topic}");
+                    Debug.Log($"[WalletConnectModalSample] Session deleted.");
                     EnableNetworksList();
                 };
             };
@@ -105,7 +107,6 @@ namespace WalletConnectUnity.Modal.Sample
             {
                 var eipChains = _selectedChains.Where(c => c.ChainNamespace == Chain.EvmNamespace);
 
-                // TODO: make configurable
                 var methods = new[]
                 {
                     "eth_sendTransaction",
