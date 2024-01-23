@@ -12,8 +12,6 @@ Logs/
 [Bb]uilds/
 UserSettings/
 Assets/AssetStoreTools*
-#ignore editor plugins
-Assets/Plugins/
 
 # Visual Studio cache directory
 .vs/

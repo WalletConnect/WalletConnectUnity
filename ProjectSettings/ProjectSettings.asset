@@ -163,7 +163,7 @@ PlayerSettings:
     Standalone: com.WalletConnect.WCMUnity
     iPhone: com.walletconnect.wcm-unity
   buildNumber:
-    Standalone: 1
+    Standalone: 2
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
