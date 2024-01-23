@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using WalletConnectSharp.Sign.Interfaces;
 using WalletConnectSharp.Sign.Models;
+using WalletConnectSharp.Sign.Models.Engine.Events;
+using WalletConnectSharp.Sign.Models.Engine.Methods;
 using WalletConnectUnity.Core;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.Core.Utils;
@@ -22,9 +24,7 @@ namespace WalletConnectUnity.Modal
         [field: SerializeField] private SerializableDictionary<ViewType, WCModalView> Views { get; set; } = new();
 
         public static ISignClient SignClient => WalletConnect.Instance.SignClient;
-
-        public static SynchronizationContext UnitySyncContext { get; private set; }
-
+        
         public static UnityWebRequestWalletsFactory WalletsRequestsFactory { get; private set; }
 
         internal static ConnectionController ConnectionController { get; private set; }
@@ -35,9 +35,11 @@ namespace WalletConnectUnity.Modal
 
         public static bool IsReady { get; set; }
 
+        [Obsolete("Use WalletConnect.Instance.SessionConnected instead")]
+        public static event EventHandler Connected;
+        
         // TODO: make ConnectionError generic
         public static event EventHandler ConnectionError;
-        public static event EventHandler Connected;
         public static event EventHandler<ModalReadyEventArgs> Ready;
         public static event EventHandler ModalOpened;
         public static event EventHandler ModalClosed;
@@ -46,9 +48,7 @@ namespace WalletConnectUnity.Modal
         {
             if (!TryConfigureSingleton())
                 return;
-
-            UnitySyncContext = SynchronizationContext.Current;
-
+            
             if (InitializeOnAwake)
                 await InitializeAsync();
         }
@@ -61,7 +61,7 @@ namespace WalletConnectUnity.Modal
 
             ConnectionController = new ConnectionController(SignClient);
 
-            SignClient.SessionConnected += Instance.OnSessionConnected;
+            WalletConnect.Instance.SessionConnected += Instance.OnSessionConnected;
             SignClient.SessionConnectionErrored += Instance.OnSessionErrored;
             Instance.Modal.Opened += (_, _) => ModalOpened?.Invoke(Instance, EventArgs.Empty);
             Instance.Modal.Closed += (_, _) => ModalClosed?.Invoke(Instance, EventArgs.Empty);
@@ -138,16 +138,13 @@ namespace WalletConnectUnity.Modal
 
         private void OnSessionConnected(object sender, SessionStruct _)
         {
-            UnitySyncContext.Post(_ =>
-            {
-                Modal.CloseModal();
-                Connected?.Invoke(this, EventArgs.Empty);
-            }, null);
+            Modal.CloseModal();
+            Connected?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnSessionErrored(object sender, Exception e)
         {
-            UnitySyncContext.Post(_ =>
+            WalletConnect.UnitySyncContext.Post(_ =>
             {
                 Modal.CloseModal();
                 ConnectionError?.Invoke(this, EventArgs.Empty);
