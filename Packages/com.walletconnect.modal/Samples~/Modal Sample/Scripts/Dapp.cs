@@ -50,7 +50,7 @@ namespace WalletConnectUnity.Modal.Sample
                 };
 
                 // Invoked after wallet disconnected
-                WalletConnect.Instance.SessionDisconnected += (_, @struct) =>
+                WalletConnect.Instance.SessionDisconnected += (_, _) =>
                 {
                     Debug.Log($"[WalletConnectModalSample] Session deleted.");
                     EnableNetworksList();
