@@ -87,20 +87,21 @@ namespace WalletConnectUnity.Core
 
         protected virtual void OnPublisherPublishedMessage(object sender, PublishParams publishParams)
         {
-            WCLogger.Log(
-                $"[Linker] OnPublisherPublishedMessage. Topic: {publishParams.Topic}. Topics in counter: {_sessionMessagesCounter.Count}");
-            if (string.IsNullOrWhiteSpace(publishParams.Topic))
-                return;
-
-            if (_sessionMessagesCounter.TryGetValue(publishParams.Topic, out var messageCount))
+            WalletConnect.UnitySyncContext.Post(_ =>
             {
-                WCLogger.Log($"[Linker] OnPublisherPublishedMessage. Message count: {messageCount}");
-                if (messageCount != 0)
+                if (string.IsNullOrWhiteSpace(publishParams.Topic))
+                    return;
+
+                if (_sessionMessagesCounter.TryGetValue(publishParams.Topic, out var messageCount))
                 {
-                    _sessionMessagesCounter[publishParams.Topic] = messageCount - 1;
-                    OpenSessionRequestDeepLink(publishParams.Topic);
+                    WCLogger.Log($"[Linker] OnPublisherPublishedMessage. Message count: {messageCount}");
+                    if (messageCount != 0)
+                    {
+                        _sessionMessagesCounter[publishParams.Topic] = messageCount - 1;
+                        OpenSessionRequestDeepLink(publishParams.Topic);
+                    }
                 }
-            }
+            }, null);
         }
 
         internal void OpenSessionRequestDeepLinkAfterMessageFromSession(string sessionTopic)
