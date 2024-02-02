@@ -112,7 +112,7 @@ namespace WalletConnectUnity.Modal.Views
             void AddWalletListItem(Wallet wallet, int index = 0, bool isRecent = false)
             {
                 var remoteSprite =
-                    RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
+                    RemoteSpriteFactory.GetRemoteSprite<Image>($"https://api.web3modal.com/getWalletImage/{wallet.ImageId}");
 
                 _listItems[index].Initialize(new WCListSelect.Params
                 {
