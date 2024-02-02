@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace WalletConnectUnity.UI
 {
@@ -13,6 +14,7 @@ namespace WalletConnectUnity.UI
         [SerializeField] private AnimationCurve _lerpCurve;
 
         private readonly HashSet<Graphic> _subscribedGraphics = new();
+        private readonly HashSet<VisualElement> _subscribedVisualElements = new();
 
         private Color _currentColor;
         private bool _isAnimating;
@@ -30,20 +32,44 @@ namespace WalletConnectUnity.UI
             Instance = this;
         }
 
+        public void Subscribe<T>(T element) where T : class
+        {
+            if (!_isAnimating)
+                StartCoroutine(AnimateColorRoutine());
+
+            switch (element)
+            {
+                case Graphic graphic:
+                    _subscribedGraphics.Add(graphic);
+                    break;
+                case VisualElement visualElement:
+                    _subscribedVisualElements.Add(visualElement);
+                    break;
+            }
+        }
+        
+        public void Unsubscribe<T>(T element) where T : class
+        {
+            switch (element)
+            {
+                case Graphic graphic:
+                    _subscribedGraphics.Remove(graphic);
+                    break;
+                case VisualElement visualElement:
+                    _subscribedVisualElements.Remove(visualElement);
+                    break;
+            }
+
+            if (_subscribedGraphics.Count == 0 && _subscribedVisualElements.Count == 0)
+                _isAnimating = false;
+        }
+        
         public void SubscribeGraphic(Graphic graphic)
         {
             if (!_isAnimating)
                 StartCoroutine(AnimateColorRoutine());
 
             _subscribedGraphics.Add(graphic);
-        }
-
-        public void UnsubscribeGraphic(Graphic graphic)
-        {
-            _subscribedGraphics.Remove(graphic);
-
-            if (_subscribedGraphics.Count == 0)
-                _isAnimating = false;
         }
 
         private IEnumerator AnimateColorRoutine()
@@ -62,6 +88,9 @@ namespace WalletConnectUnity.UI
 
                 foreach (var graphic in _subscribedGraphics)
                     graphic.color = _currentColor;
+
+                foreach (var visualElement in _subscribedVisualElements)
+                    visualElement.style.backgroundColor = _currentColor;
 
                 yield return null;
             }

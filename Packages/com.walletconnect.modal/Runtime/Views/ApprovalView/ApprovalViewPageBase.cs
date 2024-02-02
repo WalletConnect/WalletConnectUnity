@@ -14,7 +14,7 @@ namespace WalletConnectUnity.Modal.Views
 
         [SerializeField] private Sprite _fallbackWalletIconSprite;
 
-        private RemoteSprite _walletIconRemoteSprite;
+        private RemoteSprite<Image> _walletIconRemoteSprite;
 
         protected string Uri { get; private set; }
         protected WCModal Modal { get; private set; }
@@ -24,7 +24,7 @@ namespace WalletConnectUnity.Modal.Views
         public virtual async Task InitializeAsync(
             Wallet wallet,
             WCModal modal,
-            RemoteSprite remoteWalletIcon,
+            RemoteSprite<Image> remoteWalletIcon,
             CancellationToken cancellationToken)
         {
             Modal = modal;

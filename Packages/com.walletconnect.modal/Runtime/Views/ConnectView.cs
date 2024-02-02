@@ -194,7 +194,7 @@ namespace WalletConnectUnity.Modal.Views
 
             await GenerateUri();
 
-            WCLoadingAnimator.Instance.UnsubscribeGraphic(_qrCodeRawImage);
+            WCLoadingAnimator.Instance.Unsubscribe(_qrCodeRawImage);
 
             var texture = QRCode.EncodeTexture(Uri);
             _qrCodeRawImage.texture = texture;

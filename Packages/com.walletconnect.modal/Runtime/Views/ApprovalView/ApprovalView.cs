@@ -133,7 +133,7 @@ namespace WalletConnectUnity.Modal.Views
 
         public class Params
         {
-            public RemoteSprite walletIconRemoteSprite;
+            public RemoteSprite<Image> walletIconRemoteSprite;
             public Wallet walletData;
         }
     }

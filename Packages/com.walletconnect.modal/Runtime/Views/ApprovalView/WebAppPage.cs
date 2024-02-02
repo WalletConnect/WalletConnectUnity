@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.UI;
 
@@ -16,7 +17,7 @@ namespace WalletConnectUnity.Modal.Views
         [SerializeField] private string _titleTextFormat = "Continue in {0}";
         [SerializeField] private GameObject _openButton;
 
-        public override async Task InitializeAsync(Wallet wallet, WCModal modal, RemoteSprite remoteWalletIcon,
+        public override async Task InitializeAsync(Wallet wallet, WCModal modal, RemoteSprite<Image> remoteWalletIcon,
             CancellationToken cancellationToken)
         {
             _titleText.text = string.Format(_titleTextFormat, wallet.Name);

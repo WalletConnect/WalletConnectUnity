@@ -27,7 +27,7 @@ namespace WalletConnectUnity.Modal.Views
         public override async Task InitializeAsync(
             Wallet wallet,
             WCModal modal,
-            RemoteSprite remoteWalletIcon,
+            RemoteSprite<Image> remoteWalletIcon,
             CancellationToken cancellationToken)
         {
             WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
@@ -48,7 +48,7 @@ namespace WalletConnectUnity.Modal.Views
             await base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
             var texture = QRCode.EncodeTexture(Uri);
 
-            WCLoadingAnimator.Instance.UnsubscribeGraphic(_qrCodeRawImage);
+            WCLoadingAnimator.Instance.Unsubscribe(_qrCodeRawImage);
 
             _qrCodeRawImage.texture = texture;
         }

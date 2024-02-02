@@ -1,106 +1,171 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 using WalletConnectUnity.Core;
 using WalletConnectUnity.Core.Networking;
 
 namespace WalletConnectUnity.UI
 {
-    public class RemoteSprite
+    public interface IImageHandler<in TImage>
+    {
+        void SetImageSprite(TImage image, Sprite sprite);
+        void ClearImageSprite(TImage image);
+    }
+    
+    public static class RemoteSpriteFactory
+    {
+        private static readonly Dictionary<string, object> UriSpritesMap = new();
+        private static readonly Dictionary<Type, object> ImageHandlers = new();
+
+        public static void RegisterImageHandler<TImage>(IImageHandler<TImage> handler) where TImage : class
+        {
+            ImageHandlers[typeof(TImage)] = handler;
+        }
+
+        public static RemoteSprite<TImage> GetRemoteSprite<TImage>(string uri) where TImage : class
+        {
+            if (!ImageHandlers.TryGetValue(typeof(TImage), out var handlerObj) || handlerObj is not IImageHandler<TImage> handler)
+            {
+                throw new InvalidOperationException($"No handler registered for type {typeof(TImage).Name}.");
+            }
+
+            if (UriSpritesMap.TryGetValue(uri, out var spriteObj) && spriteObj is RemoteSprite<TImage> sprite)
+            {
+                return sprite;
+            }
+            else
+            {
+                var newSprite = new RemoteSprite<TImage>(uri, handler);
+                UriSpritesMap[uri] = newSprite;
+                return newSprite;
+            }
+        }
+    }
+
+    public class RemoteSprite<TImage> where TImage : class
     {
         private readonly string _uri;
-        private readonly WCLoadingAnimator _loadingAnimator;
-
         private bool _isLoading;
         private Sprite _sprite;
         private bool _isLoaded;
+        private readonly WCLoadingAnimator _loadingAnimator;
+        private readonly HashSet<TImage> _subscribedImages = new();
+        private readonly IImageHandler<TImage> _imageHandler;
 
-
-        private readonly HashSet<Image> _subscribedImages = new();
-
-        private static readonly Dictionary<string, RemoteSprite> UriSpritesMap = new();
-
-        public static RemoteSprite Create(string uri)
-        {
-            return UriSpritesMap.TryGetValue(uri, out var remoteSprite) ? remoteSprite : new RemoteSprite(uri);
-        }
-
-        private RemoteSprite(string uri)
+        internal RemoteSprite(string uri, IImageHandler<TImage> imageHandler)
         {
             _uri = uri;
-            UriSpritesMap.Add(uri, this);
+            _imageHandler = imageHandler;
             _loadingAnimator = WCLoadingAnimator.Instance;
         }
 
-        public void SubscribeImage(Image image)
+        public void SubscribeImage(TImage image)
         {
             if (!_isLoaded && !_isLoading)
+            {
                 UnityEventsDispatcher.Instance.StartCoroutine(LoadRemoteSprite());
+            }
 
             if (_isLoaded)
             {
-                UpdateImage(image);
+                SetImage(image);
             }
             else
             {
                 if (_loadingAnimator != null)
-                    _loadingAnimator.SubscribeGraphic(image);
+                    _loadingAnimator.Subscribe(image);
             }
 
             _subscribedImages.Add(image);
         }
 
-        public void UnsubscribeImage(Image image)
+        public void UnsubscribeImage(TImage image)
         {
-            image.sprite = null;
+            _imageHandler.ClearImageSprite(image);
             _subscribedImages.Remove(image);
         }
 
-        private void UpdateImage(Image image)
+        private void SetImage(TImage image)
         {
             if (_loadingAnimator != null)
-                _loadingAnimator.UnsubscribeGraphic(image);
-
-            image.sprite = _sprite;
-            image.color = Color.white;
+                _loadingAnimator.Unsubscribe(image);
+            
+            _imageHandler.SetImageSprite(image, _sprite);
         }
 
         private IEnumerator LoadRemoteSprite()
         {
             _isLoading = true;
 
-            using var uwr = UnityWebRequestTexture.GetTexture(_uri, true);
-
-            uwr.SetWalletConnectRequestHeaders()
-                .SetRequestHeader("accept", "image/jpeg,image/png");
-
-            yield return uwr.SendWebRequest();
-
-            if (uwr.result != UnityWebRequest.Result.Success)
+            using (var uwr = UnityWebRequestTexture.GetTexture(_uri))
             {
-                Debug.LogError(
-                    $"[WalletConnectUnity] Failed to load remote sprite: {uwr.error}. URI: [{_uri}]. DownloadHandler error: {uwr.downloadHandler.error}"
-                );
-            }
-            else
-            {
-                // While UnityWebRequest creates texture in the background (on other thread), some finishing work is done on main thread.
-                // Skipping a few frames here to let Unity finish its work to reduce CPU spikes.
-                for (var i = 0; i < 5; i++)
-                    yield return null;
+                uwr.SetWalletConnectRequestHeaders()
+                    .SetRequestHeader("accept", "image/jpeg,image/png");
+                
+                yield return uwr.SendWebRequest();
 
-                var tex = DownloadHandlerTexture.GetContent(uwr);
-                _sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height),
-                    new Vector2(0.5f, 0.5f), 100.0f);
-                _isLoaded = true;
+                if (uwr.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError($"Failed to load remote sprite from {_uri}: {uwr.error}");
+                }
+                else
+                {
+                    // While UnityWebRequest creates texture in the background (on other thread), some finishing work is done on main thread.
+                    // Skipping a few frames here to let Unity finish its work to reduce CPU spikes.
+                    for (var i = 0; i < 5; i++)
+                        yield return null;
+                    
+                    var texture = DownloadHandlerTexture.GetContent(uwr);
+                    var rect = new Rect(0.0f, 0.0f, texture.width, texture.height);
+                    _sprite = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f), 100.0f);                    
+                    _isLoaded = true;
 
-                foreach (var image in _subscribedImages)
-                    UpdateImage(image);
+                    foreach (var image in _subscribedImages)
+                        SetImage(image);
+                }
             }
 
             _isLoading = false;
+        }
+    }
+
+    public static class RemoteSpriteExtensions
+    {
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        internal static void Initialize()
+        {
+            RemoteSpriteFactory.RegisterImageHandler(new ImageHandlerUgui());
+            RemoteSpriteFactory.RegisterImageHandler(new ImageHandlerUtk());
+        }
+    }
+    
+    public class ImageHandlerUgui : IImageHandler<UnityEngine.UI.Image>
+    {
+        public void SetImageSprite(UnityEngine.UI.Image image, Sprite sprite)
+        {
+            image.sprite = sprite;
+            image.color = Color.white;
+        }
+
+        public void ClearImageSprite(UnityEngine.UI.Image image)
+        {
+            image.sprite = null;
+        }
+    }
+
+    public class ImageHandlerUtk : IImageHandler<UnityEngine.UIElements.Image>
+    {
+        public void SetImageSprite(UnityEngine.UIElements.Image image, Sprite sprite)
+        {
+            image.sprite = sprite;
+            image.style.backgroundColor = Color.white;
+        }
+
+        public void ClearImageSprite(UnityEngine.UIElements.Image image)
+        {
+            image.sprite = null;
         }
     }
 }
