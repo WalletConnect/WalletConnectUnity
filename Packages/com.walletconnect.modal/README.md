@@ -16,10 +16,6 @@
 - IL2CPP code stripping level: Minimal (or lower)
 - Project created in [WalletConnect Cloud](https://cloud.walletconnect.com)
 
-> [!NOTE]  
-> This is a beta version of WalletConnect Modal. The prefab structure may change, refrain from creating prefab variants
-> until the release.
-
 ## Documentation
 * [WalletConnect Modal](https://docs.walletconnect.com/advanced/walletconnectmodal/about?platform=unity)
 
