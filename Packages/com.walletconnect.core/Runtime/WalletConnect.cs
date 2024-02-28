@@ -197,7 +197,7 @@ namespace WalletConnectUnity.Core
             {
                 await storage.Init();
             }
-            catch (JsonSerializationException)
+            catch (JsonException)
             {
                 Debug.LogError($"[WalletConnectUnity] Failed to deserialize storage. Deleting it and creating a new one at <i>{path}</i>");
                 await storage.Clear();
