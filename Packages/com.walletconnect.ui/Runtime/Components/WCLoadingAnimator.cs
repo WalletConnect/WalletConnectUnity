@@ -18,6 +18,7 @@ namespace WalletConnectUnity.UI
 
         private Color _currentColor;
         private bool _isAnimating;
+        private bool _isPaused;
 
         public static WCLoadingAnimator Instance { get; private set; }
 
@@ -34,9 +35,6 @@ namespace WalletConnectUnity.UI
 
         public void Subscribe<T>(T element) where T : class
         {
-            if (!_isAnimating)
-                StartCoroutine(AnimateColorRoutine());
-
             switch (element)
             {
                 case Graphic graphic:
@@ -46,8 +44,11 @@ namespace WalletConnectUnity.UI
                     _subscribedVisualElements.Add(visualElement);
                     break;
             }
+
+            if (!_isAnimating && !_isPaused)
+                StartAnimation();
         }
-        
+
         public void Unsubscribe<T>(T element) where T : class
         {
             switch (element)
@@ -61,23 +62,19 @@ namespace WalletConnectUnity.UI
             }
 
             if (_subscribedGraphics.Count == 0 && _subscribedVisualElements.Count == 0)
-                _isAnimating = false;
-        }
-        
-        public void SubscribeGraphic(Graphic graphic)
-        {
-            if (!_isAnimating)
-                StartCoroutine(AnimateColorRoutine());
-
-            _subscribedGraphics.Add(graphic);
+                StopAnimation();
         }
 
         private IEnumerator AnimateColorRoutine()
         {
-            _isAnimating = true;
             var t = 0f;
+            _isAnimating = true;
+
             while (_isAnimating)
             {
+                if (_isPaused)
+                    yield return new WaitUntil(() => !_isPaused);
+
                 _currentColor = Color.Lerp(_colorA, _colorB, _lerpCurve.Evaluate(t));
                 t += Time.deltaTime * _speed;
                 if (t > 1f)
@@ -94,6 +91,33 @@ namespace WalletConnectUnity.UI
 
                 yield return null;
             }
+        }
+
+        public void PauseAnimation()
+        {
+            _isPaused = true;
+        }
+
+        public void ResumeAnimation()
+        {
+            if (!_isPaused)
+                return;
+
+            _isPaused = false;
+
+            if (!_isAnimating && (_subscribedGraphics.Count > 0 || _subscribedVisualElements.Count > 0))
+                StartAnimation();
+        }
+
+        private void StartAnimation()
+        {
+            StartCoroutine(AnimateColorRoutine());
+        }
+
+        private void StopAnimation()
+        {
+            _isAnimating = false;
+            StopAllCoroutines();
         }
     }
 }
