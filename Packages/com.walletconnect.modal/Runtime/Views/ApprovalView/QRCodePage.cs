@@ -27,11 +27,9 @@ namespace WalletConnectUnity.Modal.Views
         public override async Task InitializeAsync(
             Wallet wallet,
             WCModal modal,
-            RemoteSprite remoteWalletIcon,
+            RemoteSprite<Image> remoteWalletIcon,
             CancellationToken cancellationToken)
         {
-            WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
-
             if (DeviceUtils.GetDeviceType() is DeviceType.Phone)
             {
                 // On phones don't show any icons above the QR code may be too small
@@ -48,7 +46,7 @@ namespace WalletConnectUnity.Modal.Views
             await base.InitializeAsync(wallet, modal, remoteWalletIcon, cancellationToken);
             var texture = QRCode.EncodeTexture(Uri);
 
-            WCLoadingAnimator.Instance.UnsubscribeGraphic(_qrCodeRawImage);
+            WCLoadingAnimator.Instance.Unsubscribe(_qrCodeRawImage);
 
             _qrCodeRawImage.texture = texture;
         }

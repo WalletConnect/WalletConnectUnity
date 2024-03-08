@@ -34,7 +34,7 @@ namespace WalletConnectUnity.Modal.Views
 
         [SerializeField] private int _countPerPage = 12;
 
-        private readonly Dictionary<string, RemoteSprite> _sprites = new();
+        private readonly Dictionary<string, RemoteSprite<Image>> _sprites = new();
 
         private int _countPerPageRealtime = 0;
         private int _usedCardsCount = 0;
@@ -204,12 +204,12 @@ namespace WalletConnectUnity.Modal.Views
             _isPageLoading = false;
         }
 
-        private RemoteSprite GetSprite(string walletImageId)
+        private RemoteSprite<Image> GetSprite(string walletImageId)
         {
             if (_sprites.TryGetValue(walletImageId, out var sprite))
                 return sprite;
 
-            sprite = RemoteSprite.Create($"https://api.web3modal.com/getWalletImage/{walletImageId}");
+            sprite = RemoteSpriteFactory.GetRemoteSprite<Image>($"https://api.web3modal.com/getWalletImage/{walletImageId}");
             _sprites.Add(walletImageId, sprite);
             return sprite;
         }

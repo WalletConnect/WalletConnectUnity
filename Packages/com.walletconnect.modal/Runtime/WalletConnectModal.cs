@@ -112,9 +112,8 @@ namespace WalletConnectUnity.Modal
                 Options = options;
 
                 WalletsRequestsFactory = new UnityWebRequestWalletsFactory(
-                    "https://api.web3modal.com/getWallets",
-                    options.IncludedWalletIds,
-                    options.ExcludedWalletIds
+                    includedWalletIds: options.IncludedWalletIds,
+                    excludedWalletIds: options.ExcludedWalletIds
                 );
 
                 ConnectionController.InitiateConnection(options.ConnectOptions);

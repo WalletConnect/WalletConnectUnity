@@ -17,7 +17,7 @@ namespace WalletConnectUnity.UI
         private WCModalView _targetView;
         private object _targetViewParameters;
         private Action _onClick;
-        private RemoteSprite _remoteSprite;
+        private RemoteSprite<Image> _remoteSprite;
 
         private bool _initialized;
 
@@ -90,7 +90,7 @@ namespace WalletConnectUnity.UI
 
         public struct Params
         {
-            public RemoteSprite remoteSprite;
+            public RemoteSprite<Image> remoteSprite;
             public Sprite sprite; // used if remoteSprite is null
             public string title;
             public Action onClick;

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using WalletConnectUnity.Core;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.UI;
@@ -27,7 +28,7 @@ namespace WalletConnectUnity.Modal.Views
         public override async Task InitializeAsync(
             Wallet wallet,
             WCModal modal,
-            RemoteSprite remoteWalletIcon,
+            RemoteSprite<Image> remoteWalletIcon,
             CancellationToken cancellationToken)
         {
             _titleText.text = string.Format(_titleTextFormat, wallet.Name);

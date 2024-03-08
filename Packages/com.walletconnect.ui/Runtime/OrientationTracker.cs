@@ -11,6 +11,8 @@ namespace WalletConnectUnity.UI
 
         private static OrientationTracker _instance;
 
+        public static ScreenOrientation LastOrientation => _instance._lastOrientation;
+
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -26,6 +28,7 @@ namespace WalletConnectUnity.UI
             _lastOrientation = Screen.orientation;
         }
 
+#if UNITY_IOS || UNITY_ANDROID
         private void FixedUpdate()
         {
             var orientation = Screen.orientation;
@@ -36,9 +39,16 @@ namespace WalletConnectUnity.UI
                 OrientationChanged?.Invoke(this, orientation);
             }
         }
+#endif
 
-        public static void Enable() => _instance.enabled = true;
+        public static void Enable()
+        {
+            _instance.enabled = true;
+        }
 
-        public static void Disable() => _instance.enabled = false;
+        public static void Disable()
+        {
+            _instance.enabled = false;
+        }
     }
 }

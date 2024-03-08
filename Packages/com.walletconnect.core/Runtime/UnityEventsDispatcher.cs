@@ -59,6 +59,17 @@ namespace WalletConnectUnity.Core
             }
         }
 
+        public static void InvokeNextFrame(Action action)
+        {
+            Instance.StartCoroutine(InvokeNextFrameRoutine(action));
+        }
+
+        private static IEnumerator InvokeNextFrameRoutine(Action action)
+        {
+            yield return null;
+            action?.Invoke();
+        }
+
         /// <summary>
         /// Invoked when the application is paused or resumed.
         /// </summary>

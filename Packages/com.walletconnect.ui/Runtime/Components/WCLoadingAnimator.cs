@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace WalletConnectUnity.UI
 {
@@ -13,9 +14,11 @@ namespace WalletConnectUnity.UI
         [SerializeField] private AnimationCurve _lerpCurve;
 
         private readonly HashSet<Graphic> _subscribedGraphics = new();
+        private readonly HashSet<VisualElement> _subscribedVisualElements = new();
 
         private Color _currentColor;
         private bool _isAnimating;
+        private bool _isPaused;
 
         public static WCLoadingAnimator Instance { get; private set; }
 
@@ -30,28 +33,48 @@ namespace WalletConnectUnity.UI
             Instance = this;
         }
 
-        public void SubscribeGraphic(Graphic graphic)
+        public void Subscribe<T>(T element) where T : class
         {
-            if (!_isAnimating)
-                StartCoroutine(AnimateColorRoutine());
+            switch (element)
+            {
+                case Graphic graphic:
+                    _subscribedGraphics.Add(graphic);
+                    break;
+                case VisualElement visualElement:
+                    _subscribedVisualElements.Add(visualElement);
+                    break;
+            }
 
-            _subscribedGraphics.Add(graphic);
+            if (!_isAnimating && !_isPaused)
+                StartAnimation();
         }
 
-        public void UnsubscribeGraphic(Graphic graphic)
+        public void Unsubscribe<T>(T element) where T : class
         {
-            _subscribedGraphics.Remove(graphic);
+            switch (element)
+            {
+                case Graphic graphic:
+                    _subscribedGraphics.Remove(graphic);
+                    break;
+                case VisualElement visualElement:
+                    _subscribedVisualElements.Remove(visualElement);
+                    break;
+            }
 
-            if (_subscribedGraphics.Count == 0)
-                _isAnimating = false;
+            if (_subscribedGraphics.Count == 0 && _subscribedVisualElements.Count == 0)
+                StopAnimation();
         }
 
         private IEnumerator AnimateColorRoutine()
         {
-            _isAnimating = true;
             var t = 0f;
+            _isAnimating = true;
+
             while (_isAnimating)
             {
+                if (_isPaused)
+                    yield return new WaitUntil(() => !_isPaused);
+
                 _currentColor = Color.Lerp(_colorA, _colorB, _lerpCurve.Evaluate(t));
                 t += Time.deltaTime * _speed;
                 if (t > 1f)
@@ -63,8 +86,38 @@ namespace WalletConnectUnity.UI
                 foreach (var graphic in _subscribedGraphics)
                     graphic.color = _currentColor;
 
+                foreach (var visualElement in _subscribedVisualElements)
+                    visualElement.style.backgroundColor = _currentColor;
+
                 yield return null;
             }
+        }
+
+        public void PauseAnimation()
+        {
+            _isPaused = true;
+        }
+
+        public void ResumeAnimation()
+        {
+            if (!_isPaused)
+                return;
+
+            _isPaused = false;
+
+            if (!_isAnimating && (_subscribedGraphics.Count > 0 || _subscribedVisualElements.Count > 0))
+                StartAnimation();
+        }
+
+        private void StartAnimation()
+        {
+            StartCoroutine(AnimateColorRoutine());
+        }
+
+        private void StopAnimation()
+        {
+            _isAnimating = false;
+            StopAllCoroutines();
         }
     }
 }
