@@ -84,6 +84,7 @@ namespace WalletConnectUnity.Core
                     Name = projectConfig.Metadata.Name,
                     ProjectId = projectConfig.Id,
                     Storage = storage,
+                    RelayUrl = projectConfig.RelayUrl,
                     RelayUrlBuilder = new UnityRelayUrlBuilder(),
                     ConnectionBuilder = new NativeWebSocketConnectionBuilder()
                 });
