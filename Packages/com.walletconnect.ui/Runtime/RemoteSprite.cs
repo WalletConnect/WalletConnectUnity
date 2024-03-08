@@ -13,7 +13,7 @@ namespace WalletConnectUnity.UI
         void SetImageSprite(TImage image, Sprite sprite);
         void ClearImageSprite(TImage image);
     }
-    
+
     public static class RemoteSpriteFactory
     {
         private static readonly Dictionary<string, object> UriSpritesMap = new();
@@ -27,9 +27,7 @@ namespace WalletConnectUnity.UI
         public static RemoteSprite<TImage> GetRemoteSprite<TImage>(string uri) where TImage : class
         {
             if (!ImageHandlers.TryGetValue(typeof(TImage), out var handlerObj) || handlerObj is not IImageHandler<TImage> handler)
-            {
                 throw new InvalidOperationException($"No handler registered for type {typeof(TImage).Name}.");
-            }
 
             if (UriSpritesMap.TryGetValue(uri, out var spriteObj) && spriteObj is RemoteSprite<TImage> sprite)
             {
@@ -64,9 +62,7 @@ namespace WalletConnectUnity.UI
         public void SubscribeImage(TImage image)
         {
             if (!_isLoaded && !_isLoading)
-            {
                 UnityEventsDispatcher.Instance.StartCoroutine(LoadRemoteSprite());
-            }
 
             if (_isLoaded)
             {
@@ -91,7 +87,7 @@ namespace WalletConnectUnity.UI
         {
             if (_loadingAnimator != null)
                 _loadingAnimator.Unsubscribe(image);
-            
+
             _imageHandler.SetImageSprite(image, _sprite);
         }
 
@@ -103,7 +99,7 @@ namespace WalletConnectUnity.UI
             {
                 uwr.SetWalletConnectRequestHeaders()
                     .SetRequestHeader("accept", "image/jpeg,image/png");
-                
+
                 yield return uwr.SendWebRequest();
 
                 if (uwr.result != UnityWebRequest.Result.Success)
@@ -116,10 +112,10 @@ namespace WalletConnectUnity.UI
                     // Skipping a few frames here to let Unity finish its work to reduce CPU spikes.
                     for (var i = 0; i < 5; i++)
                         yield return null;
-                    
+
                     var texture = DownloadHandlerTexture.GetContent(uwr);
                     var rect = new Rect(0.0f, 0.0f, texture.width, texture.height);
-                    _sprite = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f), 100.0f);                    
+                    _sprite = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f), 100.0f);
                     _isLoaded = true;
 
                     foreach (var image in _subscribedImages)
@@ -140,7 +136,7 @@ namespace WalletConnectUnity.UI
             RemoteSpriteFactory.RegisterImageHandler(new ImageHandlerUtk());
         }
     }
-    
+
     public class ImageHandlerUgui : IImageHandler<UnityEngine.UI.Image>
     {
         public void SetImageSprite(UnityEngine.UI.Image image, Sprite sprite)
@@ -165,6 +161,9 @@ namespace WalletConnectUnity.UI
 
         public void ClearImageSprite(UnityEngine.UIElements.Image image)
         {
+            if (image == null)
+                return;
+
             image.sprite = null;
         }
     }

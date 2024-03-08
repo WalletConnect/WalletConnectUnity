@@ -30,8 +30,6 @@ namespace WalletConnectUnity.Modal.Views
             RemoteSprite<Image> remoteWalletIcon,
             CancellationToken cancellationToken)
         {
-            WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
-
             if (DeviceUtils.GetDeviceType() is DeviceType.Phone)
             {
                 // On phones don't show any icons above the QR code may be too small

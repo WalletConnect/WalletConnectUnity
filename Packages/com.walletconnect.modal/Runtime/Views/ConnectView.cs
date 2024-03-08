@@ -190,8 +190,6 @@ namespace WalletConnectUnity.Modal.Views
 
         private async Task ShowQrCodeAndCopyButtonAsync()
         {
-            WCLoadingAnimator.Instance.SubscribeGraphic(_qrCodeRawImage);
-
             await GenerateUri();
 
             WCLoadingAnimator.Instance.Unsubscribe(_qrCodeRawImage);
