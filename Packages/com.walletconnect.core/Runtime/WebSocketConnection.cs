@@ -238,7 +238,7 @@ namespace WalletConnectUnity.Core
         {
             ErrorReceived?.Invoke(this, new Exception(message));
             WCLogger.LogError(Connecting
-                ? $"[{Name}-{Context}] Error happened during connection. Make sure Project ID is valid. Error message: {message}"
+                ? $"[{Name}-{Context}] Error happened during connection. Error message: {message}"
                 : $"[{Name}-{Context}] Error: {message}");
         }
 

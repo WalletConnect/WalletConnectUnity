@@ -1,6 +1,7 @@
 using System.Text;
 using UnityEngine;
 using WalletConnectSharp.Core;
+using WalletConnectSharp.Core.Controllers;
 
 namespace WalletConnectUnity.Core
 {
@@ -10,6 +11,8 @@ namespace WalletConnectUnity.Core
         [field: SerializeField, Header("Application")] public string Id { get; private set; }
         
         [field: SerializeField] public Metadata Metadata { get; private set; }
+
+        [field: SerializeField] public string RelayUrl { get; private set; } = Relayer.DEFAULT_RELAY_URL;
         
         [field: SerializeField, Header ("Debug")] public bool LoggingEnabled { get; private set; }
         
