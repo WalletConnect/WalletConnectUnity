@@ -1,12 +1,12 @@
 using System;
 using System.IO;
-using NativeWebSocket;
+using System.Text;
 using System.Threading.Tasks;
+using NativeWebSocket;
 using Newtonsoft.Json;
 using UnityEngine;
 using WalletConnectSharp.Common;
 using WalletConnectSharp.Common.Logging;
-using WalletConnectSharp.Common.Model.Errors;
 using WalletConnectSharp.Network;
 using WalletConnectSharp.Network.Models;
 
@@ -14,9 +14,19 @@ namespace WalletConnectUnity.Core
 {
     public sealed class WebSocketConnection : IModule, IJsonRpcConnection
     {
-        public string Name => "websocket-connection";
+        private bool _disposed;
 
-        public string Context { get; }
+        private WebSocket _socket;
+
+        public WebSocketConnection(string url)
+        {
+            if (!Validation.IsWsUrl(url))
+                throw new ArgumentException(
+                    $"[WebSocketConnection] Provided URL is not compatible with WebSocket connection: {url}");
+
+            Context = Guid.NewGuid().ToString();
+            Url = url;
+        }
 
         public bool Connected { get; set; }
 
@@ -31,19 +41,6 @@ namespace WalletConnectUnity.Core
         public event EventHandler<Exception> ErrorReceived;
         public event EventHandler<object> Opened;
         public event EventHandler<Exception> RegisterErrored;
-
-        private WebSocket _socket;
-        private bool _disposed;
-
-        public WebSocketConnection(string url)
-        {
-            if (!Validation.IsWsUrl(url))
-                throw new ArgumentException(
-                    $"[WebSocketConnection] Provided URL is not compatible with WebSocket connection: {url}");
-
-            Context = Guid.NewGuid().ToString();
-            Url = url;
-        }
 
         Task IJsonRpcConnection.Open()
         {
@@ -87,7 +84,7 @@ namespace WalletConnectUnity.Core
 
         async Task IJsonRpcConnection.SendRequest<T>(IJsonRpcRequest<T> requestPayload, object context)
         {
-            if (_socket == null)
+            if (_socket == null || !Connected)
                 throw new IOException("Connection is not open");
 
             if (_disposed)
@@ -147,6 +144,10 @@ namespace WalletConnectUnity.Core
                 OnError<object>(errorPayload, e);
             }
         }
+
+        public string Name => "websocket-connection";
+
+        public string Context { get; }
 
         private void Register()
         {
@@ -216,7 +217,7 @@ namespace WalletConnectUnity.Core
 
         private void OnMessage(byte[] data)
         {
-            var json = System.Text.Encoding.UTF8.GetString(data);
+            var json = Encoding.UTF8.GetString(data);
 
             WCLogger.Log($"[WebSocketConnection-{Context}] Got payload: \n{json}");
 
@@ -246,7 +247,7 @@ namespace WalletConnectUnity.Core
         {
             if (ogPayload != null)
             {
-                var payload = new JsonRpcResponse<T>(ogPayload.Id, new Error()
+                var payload = new JsonRpcResponse<T>(ogPayload.Id, new Error
                 {
                     Code = e.HResult,
                     Data = null,
@@ -264,6 +265,8 @@ namespace WalletConnectUnity.Core
 
         private void OnClose(WebSocketCloseCode obj)
         {
+            Connected = false;
+
             if (_socket == null)
                 return;
 
@@ -273,7 +276,6 @@ namespace WalletConnectUnity.Core
             UnityEventsDispatcher.Instance.ApplicationPause -= OnApplicationPause;
 
             _socket = null;
-            Connected = false;
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
@@ -283,10 +285,25 @@ namespace WalletConnectUnity.Core
             await _socket.Connect();
         }
 
-        public async void Dispose()
+        public void Dispose()
         {
-            if (_socket != null)
-                await _socket.Close();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                UnityEventsDispatcher.Instance.Tick -= OnTick;
+                UnityEventsDispatcher.Instance.ApplicationPause -= OnApplicationPause;
+                _socket?.Dispose();
+            }
+
+            _disposed = true;
         }
     }
 }
