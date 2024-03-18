@@ -10,13 +10,13 @@ namespace WalletConnectUnity.Core.Tests
         private Logger _logger;
 
         [SetUp]
-        public void Setup()
+        public void InitializeLogger()
         {
             _logger = new Logger();
         }
 
         [Test]
-        public void LogsMessageCorrectly()
+        public void Log_WithValidMessage_LogsCorrectly()
         {
             const string testMessage = "Test message";
             LogAssert.Expect(LogType.Log, testMessage);
@@ -24,7 +24,7 @@ namespace WalletConnectUnity.Core.Tests
         }
 
         [Test]
-        public void LogsErrorCorrectly()
+        public void LogError_WithValidMessage_LogsErrorCorrectly()
         {
             const string testMessage = "Test error message";
             LogAssert.Expect(LogType.Error, testMessage);
@@ -32,7 +32,7 @@ namespace WalletConnectUnity.Core.Tests
         }
 
         [Test]
-        public void LogsExceptionCorrectly()
+        public void LogError_WithException_LogsExceptionCorrectly()
         {
             var testException = new Exception("Test exception");
             LogAssert.Expect(LogType.Exception, $"Exception: {testException.Message}");

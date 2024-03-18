@@ -8,7 +8,7 @@ namespace WalletConnectUnity.Core.Tests
     public class InitializationTests
     {
         [Test]
-        public async Task Initialization()
+        public async Task InitializeAsync_WhenNotInitialized_BecomesInitialized()
         {
             using var wc = new WalletConnect();
 
@@ -20,7 +20,7 @@ namespace WalletConnectUnity.Core.Tests
         }
 
         [Test]
-        public async Task ParallelInitialization()
+        public async Task InitializeAsync_WhenCalledInParallel_LogsErrorAndBecomesInitialized()
         {
             using var wc = new WalletConnect();
 
