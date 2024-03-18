@@ -46,7 +46,7 @@ namespace WalletConnectUnity.Core.Tests
         }
 
         [Test]
-        public async Task ConnectionOpensSuccessfully()
+        public async Task OpenConnection_WhenCalled_SuccessfullyOpensConnection()
         {
             LogAssert.ignoreFailingMessages = true;
 
@@ -63,7 +63,7 @@ namespace WalletConnectUnity.Core.Tests
         }
 
         [Test]
-        public async Task ConnectionClosesSuccessfully()
+        public async Task CloseConnection_WhenCalled_SuccessfullyClosesConnection()
         {
             LogAssert.ignoreFailingMessages = true;
 
@@ -82,7 +82,7 @@ namespace WalletConnectUnity.Core.Tests
         }
 
         [Test]
-        public async Task ThrowsOnSendRequestWhenClosed()
+        public async Task SendRequest_WhenConnectionClosed_ThrowsIOException()
         {
             LogAssert.ignoreFailingMessages = true;
 
@@ -93,9 +93,8 @@ namespace WalletConnectUnity.Core.Tests
             Assert.ThrowsAsync<IOException>(async () => await ((IJsonRpcConnection)wsc).SendRequest(TestIrnRequest, null));
         }
 
-
         [Test]
-        public async Task SendsRequestSuccessfully()
+        public async Task SendRequest_WhenConnectionOpen_SuccessfullySendsRequest()
         {
             LogAssert.ignoreFailingMessages = true;
 
