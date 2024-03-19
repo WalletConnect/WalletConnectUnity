@@ -58,6 +58,7 @@ namespace WalletConnectUnity.Core
             public const string EthereumGoerli = "5";
             public const string Optimism = "10";
             public const string Ronin = "2020";
+            public const string RoninSaigon = "2021";
             public const string Base = "8453";
             public const string BaseGoerli = "84531";
             public const string OptimismGoerli = "420";
@@ -86,6 +87,8 @@ namespace WalletConnectUnity.Core
             { References.OptimismGoerli, "ab9c186a-c52f-464b-2906-ca59d760a400" },
             // Ronin
             { References.Ronin, "b8101fc0-9c19-4b6f-ec65-f6dfff106e00" },
+            // RoninSaigon
+            { References.RoninSaigon, "b8101fc0-9c19-4b6f-ec65-f6dfff106e00" },
             // Arbitrum
             { References.Arbitrum, "600a9a04-c1b9-42ca-6785-9b4b6ff85200" },
             // Arbitrum Rinkeby
@@ -148,7 +151,16 @@ namespace WalletConnectUnity.Core
                 Namespaces.Evm,
                 References.Ronin,
                 "Ronin",
-                new Currency("Ether", "ETH", 18),
+                new Currency("Ronin", "RON", 18),
+                false,
+                $"{ChainImageUrl}/{ImageIds[References.Ronin]}"
+            );
+
+            public static readonly Chain RoninSaigon = new(
+                Namespaces.Evm,
+                References.RoninSaigon,
+                "Ronin Saigon",
+                new Currency("Ronin", "RON", 18),
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Ronin]}"
             );
@@ -241,6 +253,7 @@ namespace WalletConnectUnity.Core
                 Optimism,
                 OptimismGoerli,
                 Ronin,
+                RoninSaigon,
                 Arbitrum,
                 ArbitrumRinkeby,
                 Celo,
