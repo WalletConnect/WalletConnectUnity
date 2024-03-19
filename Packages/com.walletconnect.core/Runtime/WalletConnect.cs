@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using WalletConnectSharp.Common.Logging;
@@ -23,11 +24,11 @@ namespace WalletConnectUnity.Core
         public static IWalletConnect Instance { get; } = LazyInstance.Value;
 
         public static SynchronizationContext UnitySyncContext { get; private set; }
-        
+
         public ISignClient SignClient { get; private set; }
 
         public Linker Linker { get; private set; }
-        
+
 
         public SessionStruct ActiveSession => SignClient.AddressProvider.DefaultSession;
 
@@ -39,9 +40,12 @@ namespace WalletConnectUnity.Core
 
         [Obsolete("Use SessionConnected or SessionUpdated instead")]
         public event EventHandler<SessionStruct> ActiveSessionChanged;
+
         public event EventHandler<SessionStruct> SessionConnected;
-        public event EventHandler<SessionStruct> SessionUpdated; 
+        public event EventHandler<SessionStruct> SessionUpdated;
         public event EventHandler SessionDisconnected;
+
+        public event EventHandler<string> ActiveChainIdChanged; 
 
         private SessionStruct _activeSession;
         protected bool disposed;
@@ -57,13 +61,13 @@ namespace WalletConnectUnity.Core
                     Debug.LogError("[WalletConnectUnity] Already initialized");
                     return this;
                 }
-                
+
                 var currentSyncContext = SynchronizationContext.Current;
                 if (currentSyncContext.GetType().FullName != "UnityEngine.UnitySynchronizationContext")
                     throw new Exception(
                         $"[WalletConnectUnity] SynchronizationContext is not of type UnityEngine.UnitySynchronizationContext. Current type is <i>{currentSyncContext.GetType().FullName}</i>. Make sure to initialize WalletConnect from the main thread.");
                 UnitySyncContext = currentSyncContext;
-                
+
                 var projectConfig = ProjectConfiguration.Load();
 
                 Assert.IsNotNull(projectConfig,
@@ -88,10 +92,12 @@ namespace WalletConnectUnity.Core
                     RelayUrlBuilder = new UnityRelayUrlBuilder(),
                     ConnectionBuilder = new NativeWebSocketConnectionBuilder()
                 });
-                
+
                 SignClient.SessionConnected += OnSessionConnected;
-                SignClient.SessionUpdated += OnSessionUpdated;
+                SignClient.SessionUpdateRequest += OnSessionUpdated;
                 SignClient.SessionDeleted += OnSessionDeleted;
+
+                SignClient.SubscribeToSessionEvent("chainChanged", OnChainChanged);
 
                 Linker = new Linker(this);
 
@@ -111,15 +117,15 @@ namespace WalletConnectUnity.Core
             if (sessions.Length == 0)
                 return false;
 
-            var session = sessions.FirstOrDefault(session => session.Acknowledged == true);
+            var session = Array.Find(sessions, session => session.Acknowledged == true);
 
             if (string.IsNullOrWhiteSpace(session.Topic))
                 return false;
-            
+
             SignClient.AddressProvider.DefaultSession = session;
 
             await SignClient.Extend(session.Topic);
-            
+
             return true;
         }
 
@@ -128,7 +134,7 @@ namespace WalletConnectUnity.Core
             return SignClient.Connect(options);
         }
 
-        public Task<TResponse> RequestAsync<TRequestData, TResponse>(TRequestData data)
+        public Task<TResponse> RequestAsync<TRequestData, TResponse>(TRequestData data, string chainId = null)
         {
             ThrowIfNoActiveSession();
 
@@ -138,13 +144,29 @@ namespace WalletConnectUnity.Core
             Linker.OpenSessionRequestDeepLinkAfterMessageFromSession(activeSessionTopic);
 #endif
 
-            return SignClient.Request<TRequestData, TResponse>(activeSessionTopic, data);
+            return SignClient.Request<TRequestData, TResponse>(activeSessionTopic, data, chainId);
         }
 
         public Task DisconnectAsync()
         {
             ThrowIfNoActiveSession();
             return SignClient.Disconnect(ActiveSession.Topic, new SessionDelete());
+        }
+
+        private async void OnChainChanged(object sender, SessionEvent<JToken> sessionEvent)
+        {
+            if (sessionEvent.ChainId == "eip155:0")
+                return;
+
+            try
+            {
+                await Instance.SignClient.AddressProvider.SetDefaultChainIdAsync(sessionEvent.ChainId);
+                ActiveChainIdChanged?.Invoke(this, sessionEvent.ChainId);
+            }
+            catch (ArgumentException e)
+            {
+                WCLogger.LogError(e);
+            }
         }
 
         private void OnSessionConnected(object sender, SessionStruct session)
@@ -191,9 +213,9 @@ namespace WalletConnectUnity.Core
 
             var path = $"{Application.persistentDataPath}/WalletConnect/storage.json";
             WCLogger.Log($"[WalletConnectUnity] Using storage path <i>{path}</i>");
-            
+
             var storage = new FileSystemStorage(path);
-            
+
             try
             {
                 await storage.Init();

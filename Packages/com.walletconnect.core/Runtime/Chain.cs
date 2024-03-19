@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
 
 namespace WalletConnectUnity.Core
 {
+    [Serializable]
     public class Chain
     {
         public virtual string Name { get; }
         public virtual Currency NativeCurrency { get; }
+        public virtual BlockExplorer BlockExplorer { get; }
+        public virtual string RpcUrl { get; }
         public virtual bool IsTestnet { get; }
         public virtual string ImageUrl { get; }
 
@@ -16,17 +20,28 @@ namespace WalletConnectUnity.Core
         public virtual string ChainId => $"{ChainNamespace}:{ChainReference}";
         // ---
 
-        public Chain(string chainNamespace, string chainReference, string name, Currency nativeCurrency, bool isTestnet, string imageUrl)
+        public Chain(
+            string chainNamespace,
+            string chainReference,
+            string name,
+            Currency nativeCurrency,
+            BlockExplorer blockExplorer,
+            string rpcUrl,
+            bool isTestnet,
+            string imageUrl)
         {
             ChainNamespace = chainNamespace;
             ChainReference = chainReference;
             Name = name;
             NativeCurrency = nativeCurrency;
+            BlockExplorer = blockExplorer;
+            RpcUrl = rpcUrl;
             IsTestnet = isTestnet;
             ImageUrl = imageUrl;
         }
     }
 
+    [Serializable]
     public readonly struct Currency
     {
         public readonly string name;
@@ -38,6 +53,19 @@ namespace WalletConnectUnity.Core
             this.name = name;
             this.symbol = symbol;
             this.decimals = decimals;
+        }
+    }
+
+    [Serializable]
+    public readonly struct BlockExplorer
+    {
+        public readonly string name;
+        public readonly string url;
+
+        public BlockExplorer(string name, string url)
+        {
+            this.name = name;
+            this.url = url;
         }
     }
 
@@ -61,9 +89,7 @@ namespace WalletConnectUnity.Core
             public const string RoninSaigon = "2021";
             public const string Base = "8453";
             public const string BaseGoerli = "84531";
-            public const string OptimismGoerli = "420";
             public const string Arbitrum = "42161";
-            public const string ArbitrumRinkeby = "421611";
             public const string Celo = "42220";
             public const string CeloAlfajores = "44787";
             public const string Solana = "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp";
@@ -83,16 +109,12 @@ namespace WalletConnectUnity.Core
             { References.EthereumGoerli, "692ed6ba-e569-459a-556a-776476829e00" },
             // Optimism
             { References.Optimism, "ab9c186a-c52f-464b-2906-ca59d760a400" },
-            // Optimism Goerli
-            { References.OptimismGoerli, "ab9c186a-c52f-464b-2906-ca59d760a400" },
             // Ronin
             { References.Ronin, "b8101fc0-9c19-4b6f-ec65-f6dfff106e00" },
             // RoninSaigon
             { References.RoninSaigon, "b8101fc0-9c19-4b6f-ec65-f6dfff106e00" },
             // Arbitrum
             { References.Arbitrum, "600a9a04-c1b9-42ca-6785-9b4b6ff85200" },
-            // Arbitrum Rinkeby
-            { References.ArbitrumRinkeby, "600a9a04-c1b9-42ca-6785-9b4b6ff85200" },
             // Celo
             { References.Celo, "ab781bbc-ccc6-418d-d32d-789b15da1f00" },
             // Celo Alfajores
@@ -116,6 +138,8 @@ namespace WalletConnectUnity.Core
                 References.Ethereum,
                 "Ethereum",
                 new Currency("Ether", "ETH", 18),
+                new BlockExplorer("Etherscan", "https://etherscan.io"),
+                "https://cloudflare-eth.com",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Ethereum]}"
             );
@@ -125,6 +149,8 @@ namespace WalletConnectUnity.Core
                 References.EthereumGoerli,
                 "Ethereum Goerli",
                 new Currency("Ether", "ETH", 18),
+                new BlockExplorer("Etherscan", "https://goerli.etherscan.io"),
+                "https://goerli.infura.io/v3/",
                 true,
                 $"{ChainImageUrl}/{ImageIds[References.EthereumGoerli]}"
             );
@@ -134,17 +160,10 @@ namespace WalletConnectUnity.Core
                 References.Optimism,
                 "Optimism",
                 new Currency("Ether", "ETH", 18),
+                new BlockExplorer("Optimistic Etherscan", "https://optimistic.etherscan.io"),
+                "https://mainnet.optimism.io",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Optimism]}"
-            );
-
-            public static readonly Chain OptimismGoerli = new(
-                Namespaces.Evm,
-                References.OptimismGoerli,
-                "Optimism Goerli",
-                new Currency("Ether", "ETH", 18),
-                true,
-                $"{ChainImageUrl}/{ImageIds[References.OptimismGoerli]}"
             );
 
             public static readonly Chain Ronin = new(
@@ -152,6 +171,8 @@ namespace WalletConnectUnity.Core
                 References.Ronin,
                 "Ronin",
                 new Currency("Ronin", "RON", 18),
+                new BlockExplorer("Ronin Explorer", "https://api-gateway.skymavis.com/rpc"),
+                "https://api.roninchain.com/rpc",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Ronin]}"
             );
@@ -161,6 +182,8 @@ namespace WalletConnectUnity.Core
                 References.RoninSaigon,
                 "Ronin Saigon",
                 new Currency("Ronin", "RON", 18),
+                new BlockExplorer("Ronin Explorer", "https://explorer.roninchain.com"),
+                "\thttps://api-gateway.skymavis.com/rpc/testnet",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Ronin]}"
             );
@@ -170,17 +193,10 @@ namespace WalletConnectUnity.Core
                 References.Arbitrum,
                 "Arbitrum",
                 new Currency("Ether", "ETH", 18),
+                new BlockExplorer("Arbitrum Explorer", "https://arbiscan.io"),
+                "https://arb1.arbitrum.io/rpc",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Arbitrum]}"
-            );
-
-            public static readonly Chain ArbitrumRinkeby = new(
-                Namespaces.Evm,
-                References.ArbitrumRinkeby,
-                "Arbitrum Rinkeby",
-                new Currency("Ether", "ETH", 18),
-                true,
-                $"{ChainImageUrl}/{ImageIds[References.ArbitrumRinkeby]}"
             );
 
             public static readonly Chain Celo = new(
@@ -188,6 +204,8 @@ namespace WalletConnectUnity.Core
                 References.Celo,
                 "Celo",
                 new Currency("Celo", "CELO", 18),
+                new BlockExplorer("Celo Explorer", "https://explorer.celo.org"),
+                "https://forno.celo.org",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Celo]}"
             );
@@ -197,6 +215,8 @@ namespace WalletConnectUnity.Core
                 References.CeloAlfajores,
                 "Celo Alfajores",
                 new Currency("Celo", "CELO", 18),
+                new BlockExplorer("Celo Explorer", "https://alfajores-blockscout.celo-testnet.org"),
+                "https://alfajores-forno.celo-testnet.org",
                 true,
                 $"{ChainImageUrl}/{ImageIds[References.CeloAlfajores]}"
             );
@@ -206,6 +226,8 @@ namespace WalletConnectUnity.Core
                 References.Base,
                 "Base",
                 new Currency("Ether", "ETH", 18),
+                new BlockExplorer("BaseScan", "https://basescan.org/"),
+                "https://mainnet.base.org",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Base]}"
             );
@@ -215,6 +237,8 @@ namespace WalletConnectUnity.Core
                 References.BaseGoerli,
                 "Base Goerli",
                 new Currency("Ether", "ETH", 18),
+                new BlockExplorer("BaseScan", "https://goerli.basescan.org/"),
+                "https://goerli.base.org",
                 true,
                 $"{ChainImageUrl}/{ImageIds[References.BaseGoerli]}"
             );
@@ -224,6 +248,8 @@ namespace WalletConnectUnity.Core
                 References.Solana,
                 "Solana",
                 new Currency("Sol", "SOL", 9),
+                new BlockExplorer("Solana Explorer", "https://explorer.solana.com"),
+                "https://api.mainnet-beta.solana.com",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Solana]}"
             );
@@ -233,6 +259,8 @@ namespace WalletConnectUnity.Core
                 References.SolanaDevNet,
                 "Solana DevNet",
                 new Currency("Sol", "SOL", 9),
+                new BlockExplorer("Solana Explorer", "https://explorer.solana.com"),
+                "https://api.devnet.solana.com",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.SolanaDevNet]}"
             );
@@ -242,6 +270,8 @@ namespace WalletConnectUnity.Core
                 References.SolanaTestNet,
                 "Solana TestNet",
                 new Currency("Sol", "SOL", 9),
+                new BlockExplorer("Solana Explorer", "https://explorer.solana.com"),
+                "https://api.testnet.solana.com",
                 true,
                 $"{ChainImageUrl}/{ImageIds[References.SolanaTestNet]}"
             );
@@ -251,11 +281,9 @@ namespace WalletConnectUnity.Core
                 Ethereum,
                 EthereumGoerli,
                 Optimism,
-                OptimismGoerli,
                 Ronin,
                 RoninSaigon,
                 Arbitrum,
-                ArbitrumRinkeby,
                 Celo,
                 CeloAlfajores,
                 Base,
