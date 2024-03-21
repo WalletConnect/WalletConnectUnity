@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using WalletConnectUnity.Core;
 using WalletConnectUnity.UI;
 
 namespace WalletConnectUnity.Modal.Sample
@@ -17,16 +18,18 @@ namespace WalletConnectUnity.Modal.Sample
 
         private Chain _chain;
         private bool _selected;
-        private RemoteSprite _remoteSprite;
+        private RemoteSprite<Image> _remoteSprite;
 
         public void Initialize(Chain chain, Action<Chain, bool> onSelected)
         {
-            _remoteSprite = RemoteSprite.Create(chain.IconUrl);
-            _remoteSprite.SubscribeImage(_iconImage);
+            if (!string.IsNullOrWhiteSpace(chain.ImageUrl))
+            {
+                _remoteSprite = RemoteSpriteFactory.GetRemoteSprite<Image>(chain.ImageUrl);
+                _remoteSprite.SubscribeImage(_iconImage);
+            }
 
             _chain = chain;
             _nameText.text = chain.Name;
-            _outline.effectColor = chain.PrimaryColor;
 
             Selected += onSelected;
         }
