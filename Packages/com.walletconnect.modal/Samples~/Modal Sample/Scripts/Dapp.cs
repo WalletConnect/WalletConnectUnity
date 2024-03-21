@@ -11,12 +11,12 @@ namespace WalletConnectUnity.Modal.Sample
 {
     public class Dapp : MonoBehaviour
     {
-        [Space, SerializeField] private NetworkListItem _networkListItemPrefab;
+        [Space] [SerializeField] private NetworkListItem _networkListItemPrefab;
 
-        [Space, SerializeField] private Transform _networkListContainer;
+        [Space] [SerializeField] private Transform _networkListContainer;
         [SerializeField] private Button _continueButton;
 
-        [Space, SerializeField] private GameObject _dappButtons;
+        [Space] [SerializeField] private GameObject _dappButtons;
         [SerializeField] private GameObject _networkList;
 
         private readonly HashSet<Chain> _selectedChains = new();
@@ -27,24 +27,20 @@ namespace WalletConnectUnity.Modal.Sample
 
             // When WalletConnectModal is ready, enable buttons and subscribe to other events.
             // WalletConnectModal.SignClient can be null if WalletConnectModal is not ready.
-            WalletConnectModal.Ready += (sender, args) =>
+            WalletConnectModal.Ready += (_, args) =>
             {
                 // SessionResumed is true if Modal resumed session from storage
                 if (args.SessionResumed)
-                {
                     EnableDappButtons();
-                }
                 else
-                {
                     EnableNetworksList();
-                }
 
                 // Invoked after wallet connected
                 WalletConnect.Instance.ActiveSessionChanged += (_, @struct) =>
                 {
                     if (string.IsNullOrEmpty(@struct.Topic))
                         return;
-                    
+
                     Debug.Log($"[WalletConnectModalSample] Session connected. Topic: {@struct.Topic}");
                     EnableDappButtons();
                 };
@@ -71,11 +67,27 @@ namespace WalletConnectUnity.Modal.Sample
 
             if (_networkListContainer.childCount == 0)
             {
-                foreach (var chain in Chain.All)
+                foreach (var chain in ChainConstants.Chains.All)
                 {
                     var item = Instantiate(_networkListItemPrefab, _networkListContainer);
                     item.Initialize(chain, OnNetworkSelected);
                 }
+
+                // Non-evm chains example.
+                // Full chain list available at: https://docs.walletconnect.com/advanced/multichain/chain-list
+                var algorandChain = new Chain(
+                    ChainConstants.Namespaces.Algorand,
+                    ChainConstants.References.Algorand,
+                    "Algorand",
+                    new Currency("Algo", "ALGO", 6),
+                    new BlockExplorer("Pera Explorer", "https://explorer.perawallet.app/"),
+                    "https://mainnet-api.algonode.cloud",
+                    false,
+                    "https://assets.coingecko.com/coins/images/4380/standard/download.png"
+                );
+
+                var itemAlgorand = Instantiate(_networkListItemPrefab, _networkListContainer);
+                itemAlgorand.Initialize(algorandChain, OnNetworkSelected);
             }
         }
 
@@ -101,16 +113,18 @@ namespace WalletConnectUnity.Modal.Sample
 
         private ConnectOptions BuildConnectOptions()
         {
-            var requiredNamespaces = new RequiredNamespaces();
+            // Using optional namespaces. Wallet will approve only chains it supports.
+            var optionalNamespaces = new Dictionary<string, ProposedNamespace>();
 
-            if (_selectedChains.Any(c => c.ChainNamespace == Chain.EvmNamespace))
+            var selectedEvmChains = _selectedChains.Where(c => c.ChainNamespace == ChainConstants.Namespaces.Evm).ToArray();
+            if (selectedEvmChains.Any())
             {
-                var eipChains = _selectedChains.Where(c => c.ChainNamespace == Chain.EvmNamespace);
-
                 var methods = new[]
                 {
+                    "wallet_switchEthereumChain",
+                    "wallet_addEthereumChain",
                     "eth_sendTransaction",
-                    "personal_sign",
+                    "personal_sign"
                 };
 
                 var events = new[]
@@ -118,23 +132,46 @@ namespace WalletConnectUnity.Modal.Sample
                     "chainChanged", "accountsChanged"
                 };
 
-                var chainIds = eipChains.Select(c => c.FullChainId).ToArray();
+                var chainIds = selectedEvmChains.Select(c => c.ChainId).ToArray();
 
-                requiredNamespaces.Add(Chain.EvmNamespace, new ProposedNamespace()
+                optionalNamespaces.Add(ChainConstants.Namespaces.Evm, new ProposedNamespace
                 {
                     Chains = chainIds,
                     Events = events,
                     Methods = methods
                 });
             }
-            else
+
+            // Non-evm chain example.
+            var algorandChains = _selectedChains.Where(c => c.ChainNamespace == ChainConstants.Namespaces.Algorand).ToArray();
+            if (algorandChains.Any())
             {
-                throw new Exception("No EVM chains selected.");
+                var methods = new[]
+                {
+                    "algo_signTxn"
+                };
+
+                var events = new[]
+                {
+                    "accountsChanged"
+                };
+
+                var chainIds = algorandChains.Select(c => c.ChainId).ToArray();
+
+                optionalNamespaces.Add(ChainConstants.Namespaces.Algorand, new ProposedNamespace
+                {
+                    Chains = chainIds,
+                    Events = events,
+                    Methods = methods
+                });
             }
+
+            if (optionalNamespaces.Count == 0)
+                throw new InvalidOperationException("No chains selected");
 
             return new ConnectOptions
             {
-                RequiredNamespaces = requiredNamespaces
+                OptionalNamespaces = optionalNamespaces
             };
         }
     }
