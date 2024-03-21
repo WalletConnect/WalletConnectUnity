@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "displayName": "WalletConnectUnity Modal",
   "unity": "2021.3",
+  "changelogUrl": "https://github.com/WalletConnect/WalletConnectUnity/blob/main/Packages/com.walletconnect.modal/CHANGELOG.md",
   "keywords": [
     "wallet",
     "walletconnect",

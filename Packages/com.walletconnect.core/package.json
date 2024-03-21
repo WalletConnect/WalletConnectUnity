@@ -3,6 +3,7 @@
   "version": "3.1.0",
   "displayName": "WalletConnectUnity Core",
   "unity": "2021.3",
+  "changelogUrl": "https://github.com/WalletConnect/WalletConnectUnity/blob/main/Packages/com.walletconnect.core/CHANGELOG.md",
   "keywords": [
     "wallet",
     "walletconnect",
