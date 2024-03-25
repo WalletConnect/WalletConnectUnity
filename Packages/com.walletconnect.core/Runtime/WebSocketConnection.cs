@@ -298,7 +298,9 @@ namespace WalletConnectUnity.Core
 
             if (disposing)
             {
+#if !UNITY_WEBGL || UNITY_EDITOR
                 UnityEventsDispatcher.Instance.Tick -= OnTick;
+#endif
                 UnityEventsDispatcher.Instance.ApplicationPause -= OnApplicationPause;
                 _socket?.Dispose();
             }

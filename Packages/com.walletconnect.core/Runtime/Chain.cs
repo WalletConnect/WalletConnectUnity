@@ -93,8 +93,8 @@ namespace WalletConnectUnity.Core
             public const string Celo = "42220";
             public const string CeloAlfajores = "44787";
             public const string Solana = "5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp";
-            public const string SolanaDevNet = "EtWTRABZaYq6iMfeYKouRu166VU2xqa1";
-            public const string SolanaTestNet = "4uhcVJyU9pJkvQyS88uRDiswHXSCkY3z";
+            public const string Polygon = "137";
+            public const string Avalanche = "43114";
 
             public const string Algorand = "wGHE2Pwdvd7S12BL5FaOP20EGYesN73k";
             public const string AlgorandTestnet = "SGO1GKSzyE7IEPItTxCByw9x8FmnrCDe";
@@ -123,12 +123,12 @@ namespace WalletConnectUnity.Core
             { References.Base, "7289c336-3981-4081-c5f4-efc26ac64a00" },
             // Base Goerli
             { References.BaseGoerli, "7289c336-3981-4081-c5f4-efc26ac64a00" },
+            // Polygon
+            { References.Polygon, "41d04d42-da3b-4453-8506-668cc0727900" },
+            // Avalanche
+            { References.Avalanche, "30c46e53-e989-45fb-4549-be3bd4eb3b00" },
             // Solana
             { References.Solana, "a1b58899-f671-4276-6a5e-56ca5bd59700" },
-            // Solana DevNet
-            { References.SolanaDevNet, "a1b58899-f671-4276-6a5e-56ca5bd59700" },
-            // Solana TestNet
-            { References.SolanaTestNet, "a1b58899-f671-4276-6a5e-56ca5bd59700" }
         };
 
         public static class Chains
@@ -243,6 +243,28 @@ namespace WalletConnectUnity.Core
                 $"{ChainImageUrl}/{ImageIds[References.BaseGoerli]}"
             );
 
+            public static readonly Chain Polygon = new(
+                Namespaces.Evm,
+                "137",
+                "Polygon",
+                new Currency("Matic", "MATIC", 18),
+                new BlockExplorer("Polygon Explorer", "https://polygonscan.com"),
+                "https://rpc-mainnet.maticvigil.com",
+                false,
+                $"{ChainImageUrl}/{ImageIds[References.Polygon]}"
+            );
+
+            public static readonly Chain Avalanche = new(
+                Namespaces.Evm,
+                References.Avalanche,
+                "Avalanche",
+                new Currency("AVAX", "AVAX", 18),
+                new BlockExplorer("Avalanche Explorer", "https://snowtrace.io/"),
+                "https://api.avax.network/ext/bc/C/rpc",
+                false,
+                $"{ChainImageUrl}/{ImageIds[References.Avalanche]}"
+            );
+
             public static readonly Chain Solana = new(
                 Namespaces.Solana,
                 References.Solana,
@@ -252,28 +274,6 @@ namespace WalletConnectUnity.Core
                 "https://api.mainnet-beta.solana.com",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Solana]}"
-            );
-
-            public static readonly Chain SolanaDevNet = new(
-                Namespaces.Solana,
-                References.SolanaDevNet,
-                "Solana DevNet",
-                new Currency("Sol", "SOL", 9),
-                new BlockExplorer("Solana Explorer", "https://explorer.solana.com"),
-                "https://api.devnet.solana.com",
-                false,
-                $"{ChainImageUrl}/{ImageIds[References.SolanaDevNet]}"
-            );
-
-            public static readonly Chain SolanaTestNet = new(
-                Namespaces.Solana,
-                References.SolanaTestNet,
-                "Solana TestNet",
-                new Currency("Sol", "SOL", 9),
-                new BlockExplorer("Solana Explorer", "https://explorer.solana.com"),
-                "https://api.testnet.solana.com",
-                true,
-                $"{ChainImageUrl}/{ImageIds[References.SolanaTestNet]}"
             );
 
             public static readonly IReadOnlyCollection<Chain> All = new HashSet<Chain>
@@ -288,9 +288,9 @@ namespace WalletConnectUnity.Core
                 CeloAlfajores,
                 Base,
                 BaseGoerli,
-                Solana,
-                SolanaDevNet,
-                SolanaTestNet
+                Polygon,
+                Avalanche,
+                Solana
             };
         }
     }
