@@ -28,6 +28,8 @@ namespace WalletConnectUnity.Core
         public event EventHandler<SessionStruct> SessionUpdated;
         public event EventHandler SessionDisconnected;
 
+        public event EventHandler<string> ActiveChainIdChanged;
+
         public Task<IWalletConnect> InitializeAsync();
 
         public Task<bool> TryResumeSessionAsync();
