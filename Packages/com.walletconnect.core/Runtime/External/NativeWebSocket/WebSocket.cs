@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+#if UNITY_WEBGL && !UNITY_EDITOR
+using AOT;
+using System.Runtime.InteropServices;
+#endif
 
 public class MainThreadUtil : MonoBehaviour
 {
@@ -247,6 +251,8 @@ namespace NativeWebSocket
 
     protected int instanceId;
 
+    private bool _disposed = false;
+
     public event WebSocketOpenEventHandler OnOpen;
     public event WebSocketMessageEventHandler OnMessage;
     public event WebSocketErrorEventHandler OnError;
@@ -290,11 +296,7 @@ namespace NativeWebSocket
 
       this.instanceId = instanceId;
     }
-
-    ~WebSocket () {
-      WebSocketFactory.HandleInstanceDestroy (this.instanceId);
-    }
-
+    
     public int GetInstanceId () {
       return this.instanceId;
     }
@@ -380,6 +382,22 @@ namespace NativeWebSocket
 
     public void DelegateOnCloseEvent (int closeCode) {
       this.OnClose?.Invoke (WebSocketHelpers.ParseCloseCodeEnum (closeCode));
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    public void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing) WebSocketFactory.HandleInstanceDestroy(instanceId);
+
+            _disposed = true;
+        }
     }
 
   }
