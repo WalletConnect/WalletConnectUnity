@@ -13,8 +13,9 @@ namespace WalletConnectUnity.Core.Evm
             if (ethereumChain == null)
                 throw new ArgumentNullException(nameof(ethereumChain));
 
+            var ciap2ChainId = $"eip155:{ethereumChain.chainIdDecimal}";
             if (!walletConnect.ActiveSession.Namespaces.TryGetValue("eip155", out var @namespace)
-                || !@namespace.Chains.Contains(ethereumChain.chainIdDecimal))
+                || !@namespace.Chains.Contains(ciap2ChainId))
             {
                 var request = new WalletAddEthereumChain(ethereumChain);
 

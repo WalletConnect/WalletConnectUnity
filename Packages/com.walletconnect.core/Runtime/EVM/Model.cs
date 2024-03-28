@@ -49,6 +49,7 @@ namespace WalletConnectUnity.Core.Evm
         [JsonProperty("blockExplorerUrls", NullValueHandling = NullValueHandling.Ignore)]
         public string[] blockExplorerUrls;
 
+        [JsonIgnore]
         public string chainIdDecimal;
 
         [Preserve]
