@@ -45,7 +45,7 @@ namespace WalletConnectUnity.Core
         public event EventHandler<SessionStruct> SessionUpdated;
         public event EventHandler SessionDisconnected;
 
-        public event EventHandler<string> ActiveChainIdChanged; 
+        public event EventHandler<string> ActiveChainIdChanged;
 
         private SessionStruct _activeSession;
         protected bool disposed;
@@ -100,6 +100,8 @@ namespace WalletConnectUnity.Core
                 SignClient.SubscribeToSessionEvent("chainChanged", OnChainChanged);
 
                 Linker = new Linker(this);
+
+                UnityEventsDispatcher.Instance.ApplicationQuit += ApplicationQuitHandler;
 
                 IsInitialized = true;
 
@@ -234,6 +236,12 @@ namespace WalletConnectUnity.Core
         {
             if (!IsInitialized || string.IsNullOrWhiteSpace(ActiveSession.Topic))
                 throw new Exception("No active session");
+        }
+
+        private void ApplicationQuitHandler()
+        {
+            if (IsInitialized)
+                Dispose();
         }
 
         public void Dispose()

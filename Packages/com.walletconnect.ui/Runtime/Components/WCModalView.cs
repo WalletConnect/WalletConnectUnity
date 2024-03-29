@@ -55,6 +55,14 @@ namespace WalletConnectUnity.UI
 
         protected void OnOrientationChanged(object sender, ScreenOrientation orientation)
         {
+            StartCoroutine(OnOrientationChangedRoutine(orientation));
+        }
+
+        private IEnumerator OnOrientationChangedRoutine(ScreenOrientation orientation)
+        {
+            // On some Android devices need to wait for a moment for the screen to update
+            yield return new WaitForSecondsRealtime(0.1f);
+
             ApplyScreenOrientation(orientation);
 
             if (IsActive)

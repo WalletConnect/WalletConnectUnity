@@ -34,7 +34,7 @@ namespace WalletConnectUnity.Core
 
         public string Url { get; private set; }
 
-        public bool IsPaused { get; private set; }
+        public bool IsPaused { get; set; }
 
         public event EventHandler<string> PayloadReceived;
         public event EventHandler Closed;
@@ -168,7 +168,6 @@ namespace WalletConnectUnity.Core
 #if !UNITY_WEBGL || UNITY_EDITOR
             UnityEventsDispatcher.Instance.Tick += OnTick;
 #endif
-            UnityEventsDispatcher.Instance.ApplicationPause += OnApplicationPause;
 
             try
             {
@@ -201,11 +200,6 @@ namespace WalletConnectUnity.Core
             }
         }
 #endif
-
-        private void OnApplicationPause(bool status)
-        {
-            IsPaused = status;
-        }
 
         private void OnOpen()
         {
@@ -273,7 +267,6 @@ namespace WalletConnectUnity.Core
 #if !UNITY_WEBGL || UNITY_EDITOR
             UnityEventsDispatcher.Instance.Tick -= OnTick;
 #endif
-            UnityEventsDispatcher.Instance.ApplicationPause -= OnApplicationPause;
 
             _socket = null;
             Closed?.Invoke(this, EventArgs.Empty);
@@ -301,7 +294,6 @@ namespace WalletConnectUnity.Core
 #if !UNITY_WEBGL || UNITY_EDITOR
                 UnityEventsDispatcher.Instance.Tick -= OnTick;
 #endif
-                UnityEventsDispatcher.Instance.ApplicationPause -= OnApplicationPause;
                 _socket?.Dispose();
             }
 

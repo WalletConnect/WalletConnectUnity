@@ -75,6 +75,11 @@ namespace WalletConnectUnity.Core
         /// </summary>
         public event Action<bool> ApplicationPause;
 
+        /// <summary>
+        /// Invoked when the application is quitting.
+        /// </summary>
+        public event Action ApplicationQuit;
+
         private IEnumerator TickRoutine()
         {
             while (enabled)
@@ -87,6 +92,11 @@ namespace WalletConnectUnity.Core
         private void OnApplicationPause(bool pauseStatus)
         {
             ApplicationPause?.Invoke(pauseStatus);
+        }
+
+        private void OnApplicationQuit()
+        {
+            ApplicationQuit?.Invoke();
         }
 
         private void OnDestroy()
