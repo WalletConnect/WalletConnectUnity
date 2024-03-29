@@ -13,7 +13,7 @@ namespace WalletConnectUnity.Core.Utils
                 ? DeviceType.Tablet
                 : DeviceType.Phone;
 #elif UNITY_ANDROID
-
+            return DeviceType.Phone;
 #if !UNITY_EDITOR
             try
             {

@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Don’t pause WebSocket when app loses focus
 
+### Fixed
+
+- Device type detection on Android
+
 ## [3.1.1] - 2024-03-25
 
 ### Added
