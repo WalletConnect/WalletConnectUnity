@@ -99,7 +99,7 @@ namespace WalletConnectUnity.Modal.Views
             }
             else
             {
-                _searchQuery = search;
+                _searchQuery = search.Trim();
             }
 
             StopAllCoroutines();
