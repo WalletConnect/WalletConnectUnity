@@ -152,7 +152,10 @@ namespace WalletConnectUnity.Modal
 
         private void OnDestroy()
         {
-            SignClient?.Dispose();
+            if (Instance == this)
+            {
+                SignClient?.Dispose();
+            }
         }
     }
 
