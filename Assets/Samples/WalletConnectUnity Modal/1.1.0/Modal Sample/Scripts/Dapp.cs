@@ -27,30 +27,43 @@ namespace WalletConnectUnity.Modal.Sample
 
             // When WalletConnectModal is ready, enable buttons and subscribe to other events.
             // WalletConnectModal.SignClient can be null if WalletConnectModal is not ready.
-            WalletConnectModal.Ready += (_, args) =>
+            if (WalletConnectModal.IsReady)
             {
-                // SessionResumed is true if Modal resumed session from storage
-                if (args.SessionResumed)
-                    EnableDappButtons();
-                else
-                    EnableNetworksList();
-
-                // Invoked after wallet connected
-                WalletConnect.Instance.ActiveSessionChanged += (_, @struct) =>
+                var connected = WalletConnect.Instance.IsConnected;
+                InitialiseDapp(connected);
+            }
+            else
+            {
+                WalletConnectModal.Ready += (_, args) =>
                 {
-                    if (string.IsNullOrEmpty(@struct.Topic))
-                        return;
-
-                    Debug.Log($"[WalletConnectModalSample] Session connected. Topic: {@struct.Topic}");
-                    EnableDappButtons();
+                    InitialiseDapp(args.SessionResumed);
                 };
+            }
+        }
 
-                // Invoked after wallet disconnected
-                WalletConnect.Instance.SessionDisconnected += (_, _) =>
-                {
-                    Debug.Log($"[WalletConnectModalSample] Session deleted.");
-                    EnableNetworksList();
-                };
+        private void InitialiseDapp(bool connected)
+        {
+            // SessionResumed is true if Modal resumed session from storage
+            if (connected)
+                EnableDappButtons();
+            else
+                EnableNetworksList();
+
+            // Invoked after wallet connected
+            WalletConnect.Instance.ActiveSessionChanged += (_, @struct) =>
+            {
+                if (string.IsNullOrEmpty(@struct.Topic))
+                    return;
+
+                Debug.Log($"[WalletConnectModalSample] Session connected. Topic: {@struct.Topic}");
+                EnableDappButtons();
+            };
+
+            // Invoked after wallet disconnected
+            WalletConnect.Instance.SessionDisconnected += (_, _) =>
+            {
+                Debug.Log($"[WalletConnectModalSample] Session deleted.");
+                EnableNetworksList();
             };
         }
 
