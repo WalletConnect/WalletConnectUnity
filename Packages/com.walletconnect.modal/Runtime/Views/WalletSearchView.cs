@@ -22,7 +22,7 @@ namespace WalletConnectUnity.Modal.Views
         [SerializeField] private WCButton _qrCodeButton;
         [SerializeField] private GameObject _noWalletFound;
         [SerializeField] private WCInputField _searchInputField;
-        [SerializeField] private WCListSelect[] _cardsPool = Array.Empty<WCListSelect>();
+        [SerializeField] private List<WCListSelect> _cardsPool = new();
 
         [Header("Asset References")] [SerializeField]
         private WCListSelect _cardPrefab;
@@ -76,10 +76,18 @@ namespace WalletConnectUnity.Modal.Views
 
             StopAllCoroutines();
 
-            foreach (var card in _cardsPool)
+            for (int i = _cardsPool.Count - 1; i >= 0; i--)
             {
-                card.ResetDefaults();
-                card.gameObject.SetActive(false);
+                WCListSelect card = _cardsPool[i];
+                if (card)
+                {
+                    card.ResetDefaults();
+                    card.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _cardsPool.RemoveAt(i);
+                }
             }
 
             _usedCardsCount = 0;
@@ -111,10 +119,18 @@ namespace WalletConnectUnity.Modal.Views
             _reachedMaxWalletsCount = false;
             _countPerPageRealtime = _countPerPage;
 
-            foreach (var card in _cardsPool)
+            for (int i = _cardsPool.Count - 1; i >= 0; i--)
             {
-                card.ResetDefaults();
-                card.gameObject.SetActive(false);
+                WCListSelect card = _cardsPool[i];
+                if (card)
+                {
+                    card.ResetDefaults();
+                    card.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _cardsPool.RemoveAt(i);
+                }
             }
 
             StartCoroutine(LoadNextPage());
@@ -173,7 +189,7 @@ namespace WalletConnectUnity.Modal.Views
 
             var walletsCount = response.Data.Length;
 
-            if (walletsCount > _cardsPool.Length - _usedCardsCount)
+            if (walletsCount > _cardsPool.Count - _usedCardsCount)
                 yield return IncreaseCardsPoolSize(walletsCount + _usedCardsCount);
 
             for (var i = 0; i < walletsCount; i++)
@@ -216,11 +232,11 @@ namespace WalletConnectUnity.Modal.Views
 
         private IEnumerator IncreaseCardsPoolSize(int newSize)
         {
-            if (newSize <= _cardsPool.Length)
+            if (newSize <= _cardsPool.Count)
                 throw new ArgumentException("New size must be greater than current size");
 
-            var oldSize = _cardsPool.Length;
-            Array.Resize(ref _cardsPool, newSize);
+            var oldSize = _cardsPool.Count;
+            _cardsPool.AddRange(new WCListSelect[newSize - oldSize]);
 
             for (var i = oldSize; i < newSize; i++)
             {
