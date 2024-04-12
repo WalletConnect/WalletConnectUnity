@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Trim spaces wallet search query
 
+### Fixed
+
+- SignClient disposing when duplicate WalletConnectModal deletion occurs
+
 ## [1.1.0] - 2024-03-21
 
 ### Changed

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Common.Model.Errors;
 
 namespace WalletConnectUnity.Core.Evm
@@ -25,7 +24,7 @@ namespace WalletConnectUnity.Core.Evm
                 }
                 catch (WalletConnectException e)
                 {
-                    WCLogger.LogError(e);
+                    // Wallet can decline if chain has already been added
                 }
             }
 
