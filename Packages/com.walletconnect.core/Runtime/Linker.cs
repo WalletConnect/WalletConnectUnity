@@ -6,6 +6,7 @@ using WalletConnectSharp.Common.Logging;
 using WalletConnectSharp.Core.Models.Publisher;
 using WalletConnectSharp.Sign.Models;
 using WalletConnectUnity.Core.Networking;
+using WalletConnectUnity.Core.Utils;
 
 namespace WalletConnectUnity.Core
 {
@@ -57,11 +58,22 @@ namespace WalletConnectUnity.Core
             if (string.IsNullOrWhiteSpace(session.Topic))
                 throw new Exception("[Linker] No session topic found in provided session. Cannot open deep link.");
 
-            if (session.Peer.Metadata is { Redirect: not null })
-                Application.OpenURL(session.Peer.Metadata.Redirect.Native);
-            else
-                WCLogger.LogError(
-                    $"[Linker] No redirect found for {session.Peer.Metadata.Name}. Cannot open deep link.");
+            if (session.Peer.Metadata != null)
+            {
+                var redirectNative = session.Peer.Metadata.Redirect.Native;
+
+                if (string.IsNullOrWhiteSpace(redirectNative) && WalletUtils.TryGetRecentWallet(out var recentWallet))
+                {
+                    WCLogger.LogError(
+                        $"[Linker] No redirect found for {session.Peer.Metadata.Name}. Using deep link from the Recent Wallet.");
+                    Application.OpenURL(Application.isMobilePlatform ? recentWallet.MobileLink : recentWallet.DesktopLink);
+                }
+                else
+                {
+                    WCLogger.Log($"[Linker] Open native deep link: {redirectNative}");
+                    Application.OpenURL(redirectNative);
+                }
+            }
         }
 
         public static string BuildConnectionDeepLink(string appLink, string wcUri)
