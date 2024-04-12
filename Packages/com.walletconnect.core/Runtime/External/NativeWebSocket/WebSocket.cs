@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using WalletConnectSharp.Common.Logging;
 #if UNITY_WEBGL && !UNITY_EDITOR
 using AOT;
 using System.Runtime.InteropServices;
@@ -529,6 +530,7 @@ namespace NativeWebSocket
                     m_Socket.Options.AddSubProtocol(subprotocol);
 
                 await m_Socket.ConnectAsync(uri, m_CancellationToken);
+
                 OnOpen?.Invoke();
 
                 await Receive();
@@ -550,18 +552,17 @@ namespace NativeWebSocket
         {
             var encoded = Encoding.UTF8.GetBytes(message);
 
-            // m_Socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
             return SendMessage(sendTextQueue, WebSocketMessageType.Text, new ArraySegment<byte>(encoded, 0, encoded.Length));
         }
 
-        private async Task SendMessage(List<ArraySegment<byte>> queue, WebSocketMessageType messageType, ArraySegment<byte> buffer)
+        private async Task SendMessage(
+            List<ArraySegment<byte>> queue,
+            WebSocketMessageType messageType,
+            ArraySegment<byte> buffer)
         {
-            // Return control to the calling method immediately.
-            // await Task.Yield ();
-
-            // Make sure we have data.
-            if (buffer.Count == 0) return;
-
+            if (buffer.Count == 0)
+                return;
+            
             // The state of the connection is contained in the context Items dictionary.
             bool sending;
 
@@ -570,7 +571,8 @@ namespace NativeWebSocket
                 sending = isSending;
 
                 // If not, we are now.
-                if (!isSending) isSending = true;
+                if (!isSending)
+                    isSending = true;
             }
 
             if (!sending)
@@ -579,15 +581,14 @@ namespace NativeWebSocket
                 if (!Monitor.TryEnter(m_Socket, 1000))
                 {
                     // If we couldn't obtain exclusive access to the socket in one second, something is wrong.
+                    WCLogger.Log("[WebSocket] Could not obtain exclusive access to the socket.");
                     await m_Socket.CloseAsync(WebSocketCloseStatus.InternalServerError, string.Empty, m_CancellationToken);
                     return;
                 }
 
                 try
                 {
-                    // Send the message synchronously.
-                    var t = m_Socket.SendAsync(buffer, messageType, true, m_CancellationToken);
-                    t.Wait(m_CancellationToken);
+                    await m_Socket.SendAsync(buffer, messageType, true, m_CancellationToken);
                 }
                 finally
                 {
@@ -628,7 +629,8 @@ namespace NativeWebSocket
             }
 
             // Send that message.
-            if (buffer.Count > 0) await SendMessage(queue, messageType, buffer);
+            if (buffer.Count > 0)
+                await SendMessage(queue, messageType, buffer);
         }
 
         // simple dispatcher for queued messages.
@@ -687,7 +689,8 @@ namespace NativeWebSocket
                     else if (result.MessageType == WebSocketMessageType.Close)
                     {
                         await Close();
-                        closeCode = WebSocketHelpers.ParseCloseCodeEnum((int)result.CloseStatus);
+                        if (result.CloseStatus != null)
+                            closeCode = WebSocketHelpers.ParseCloseCodeEnum((int)result.CloseStatus);
                         break;
                     }
                 }
