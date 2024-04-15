@@ -29,7 +29,7 @@ namespace WalletConnectUnity.Core
             Url = url;
         }
 
-        public bool Connected { get; set; }
+        public bool Connected { get; private set; }
 
         public bool Connecting { get; private set; }
 
@@ -148,6 +148,17 @@ namespace WalletConnectUnity.Core
         public string Context { get; }
 
         private void Register()
+        {
+            var unitySyncContext = WalletConnect.UnitySyncContext;
+            var isOnMainThread = SynchronizationContext.Current == WalletConnect.UnitySyncContext;
+
+            if (isOnMainThread)
+                RegisterCore();
+            else
+                unitySyncContext.Post(_ => Register(), null);
+        }
+
+        private void RegisterCore()
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(WebSocketConnection));

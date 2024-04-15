@@ -47,8 +47,17 @@ namespace WalletConnectUnity.Core
 
                 _tick += value;
 
-                if (wasEmpty)
+                if (!wasEmpty)
+                    return;
+
+                try
+                {
                     _tickCoroutine = StartCoroutine(TickRoutine());
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
             }
             remove
             {

@@ -407,6 +407,7 @@ namespace NativeWebSocket
 
     public sealed class WebSocket : IWebSocket
     {
+        private readonly SemaphoreSlim _semaphore = new(1, 1);
         private readonly Dictionary<string, string> headers;
         private readonly object IncomingMessageLock = new();
 
@@ -554,7 +555,7 @@ namespace NativeWebSocket
 
             return SendMessage(sendTextQueue, WebSocketMessageType.Text, new ArraySegment<byte>(encoded, 0, encoded.Length));
         }
-
+        
         private async Task SendMessage(
             List<ArraySegment<byte>> queue,
             WebSocketMessageType messageType,
@@ -562,55 +563,43 @@ namespace NativeWebSocket
         {
             if (buffer.Count == 0)
                 return;
-            
-            // The state of the connection is contained in the context Items dictionary.
-            bool sending;
 
-            lock (OutgoingMessageLock)
-            {
-                sending = isSending;
+            var taken = false;
 
-                // If not, we are now.
-                if (!isSending)
-                    isSending = true;
-            }
-
-            if (!sending)
+            try
             {
                 // Lock with a timeout, just in case.
-                if (!Monitor.TryEnter(m_Socket, 1000))
+                taken = await _semaphore.WaitAsync(1_000, m_CancellationToken);
+                if (!taken)
                 {
-                    // If we couldn't obtain exclusive access to the socket in one second, something is wrong.
                     WCLogger.Log("[WebSocket] Could not obtain exclusive access to the socket.");
                     await m_Socket.CloseAsync(WebSocketCloseStatus.InternalServerError, string.Empty, m_CancellationToken);
                     return;
                 }
 
-                try
+                if (!isSending)
                 {
+                    isSending = true;
+
+                    // Send the message
                     await m_Socket.SendAsync(buffer, messageType, true, m_CancellationToken);
-                }
-                finally
-                {
-                    Monitor.Exit(m_Socket);
-                }
 
-                // Note that we've finished sending.
-                lock (OutgoingMessageLock)
-                {
+                    // Note that we've finished sending.
                     isSending = false;
-                }
 
-                // Handle any queued messages.
-                await HandleQueue(queue, messageType);
-            }
-            else
-            {
-                // Add the message to the queue.
-                lock (OutgoingMessageLock)
+                    // Handle any queued messages.
+                    await HandleQueue(queue, messageType);
+                }
+                else
                 {
+                    // Add the message to the queue.
                     queue.Add(buffer);
                 }
+            }
+            finally
+            {
+                if (taken)
+                    _semaphore.Release();
             }
         }
 
