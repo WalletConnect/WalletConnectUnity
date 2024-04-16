@@ -1,4 +1,4 @@
-# WalletConnect Modal [beta]
+# WalletConnect Modal
 
 > Simplest and most minimal way to connect your players with WalletConnect
 
