@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,6 +56,10 @@ namespace WalletConnectUnity.Modal.Sample
             {
                 Notification.ShowMessage($"Personal Sign Request Error: {e.Message}");
                 Debug.Log($"[WalletConnectModalSample] Personal Sign Error: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e, this);
             }
         }
 

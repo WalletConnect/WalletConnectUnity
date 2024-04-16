@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sentry;
 using UnityEngine;
 using UnityEngine.UI;
 using WalletConnectSharp.Sign.Models;
@@ -34,15 +35,23 @@ namespace WalletConnectUnity.Modal.Sample
             }
             else
             {
-                WalletConnectModal.Ready += (_, args) =>
-                {
-                    InitialiseDapp(args.SessionResumed);
-                };
+                WalletConnectModal.Ready += (_, args) => { InitialiseDapp(args.SessionResumed); };
             }
         }
 
-        private void InitialiseDapp(bool connected)
+        private async void InitialiseDapp(bool connected)
         {
+            // Use WalletConnect client id as Sentry user id for internal testing
+            var clientId = await WalletConnect.Instance.SignClient.Core.Crypto.GetClientId();
+            if (!string.IsNullOrWhiteSpace(clientId))
+                SentrySdk.ConfigureScope(scope =>
+                {
+                    scope.User = new User
+                    {
+                        Id = clientId
+                    };
+                });
+
             // SessionResumed is true if Modal resumed session from storage
             if (connected)
                 EnableDappButtons();
@@ -96,7 +105,7 @@ namespace WalletConnectUnity.Modal.Sample
                     new BlockExplorer("Pera Explorer", "https://explorer.perawallet.app/"),
                     "https://mainnet-api.algonode.cloud",
                     false,
-                    "https://assets.coingecko.com/coins/images/4380/standard/download.png"
+                    "https://raw.githubusercontent.com/WalletConnect/WalletConnectUnity/project/modal-sample/.github/media/algorand-logo.jpeg"
                 );
 
                 var itemAlgorand = Instantiate(_networkListItemPrefab, _networkListContainer);

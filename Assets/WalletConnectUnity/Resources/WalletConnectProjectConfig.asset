@@ -18,9 +18,10 @@ MonoBehaviour:
     Description: A sample app showcasing WalletConnect Modal in Unity
     Url: https://walletconnect.com
     Icons:
-    - https://cdn.sanity.io/images/fuvbjjlp/production/bd6440647fa19b1863cd025fa45f8dad98d33181-2000x2000.png
+    - https://raw.githubusercontent.com/WalletConnect/WalletConnectUnity/project/modal-sample/.github/media/unity-logo.png
     Redirect:
       Native: wcm-unity
       Universal: 
     VerifyUrl: 
+  <RelayUrl>k__BackingField: wss://relay.walletconnect.com
   <LoggingEnabled>k__BackingField: 1
