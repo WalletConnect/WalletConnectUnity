@@ -5,11 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.1.3] - 2024-04-16
 
 ### Changed
 
-- Upgraded WalletConnectSharp to [v2.3.2](https://github.com/WalletConnect/WalletConnectSharp/releases/tag/v2.3.2)
+- Upgraded WalletConnectSharp to [v2.3.4](https://github.com/WalletConnect/WalletConnectSharp/releases/tag/v2.3.4)
+- Use Recent Wallet’s redirect when session doesn't have native redirect
+- Improve WebSocket reconnection when not having an internet connection from the start
 
 ## [3.1.2] - 2024-03-29
 
