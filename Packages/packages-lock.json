@@ -116,7 +116,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ext.nunit": {
-      "version": "1.0.6",
+      "version": "2.0.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -138,7 +138,7 @@
       }
     },
     "com.unity.ide.rider": {
-      "version": "3.0.27",
+      "version": "3.0.28",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -170,7 +170,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mobile.android-logcat": {
-      "version": "1.4.0",
+      "version": "1.4.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -191,11 +191,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.33",
-      "depth": 1,
+      "version": "1.4.4",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.ext.nunit": "1.0.6",
+        "com.unity.ext.nunit": "2.0.3",
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
       },
@@ -220,7 +220,7 @@
       }
     },
     "com.walletconnect.core": {
-      "version": "3.1.0",
+      "version": "3.1.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -229,21 +229,21 @@
       "url": "https://package.openupm.com"
     },
     "com.walletconnect.modal": {
-      "version": "1.1.0",
+      "version": "1.1.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.walletconnect.core": "3.1.0",
-        "com.walletconnect.ui": "1.1.0"
+        "com.walletconnect.core": "3.1.3",
+        "com.walletconnect.ui": "1.1.3"
       },
       "url": "https://package.openupm.com"
     },
     "com.walletconnect.ui": {
-      "version": "1.1.0",
+      "version": "1.1.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.walletconnect.core": "3.1.0",
+        "com.walletconnect.core": "3.1.3",
         "com.unity.textmeshpro": "3.0.0",
         "com.unity.ugui": "1.0.0"
       },
