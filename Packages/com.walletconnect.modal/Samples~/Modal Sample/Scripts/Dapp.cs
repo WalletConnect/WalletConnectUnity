@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sentry;
 using UnityEngine;
 using UnityEngine.UI;
 using WalletConnectSharp.Sign.Models;
@@ -27,30 +28,51 @@ namespace WalletConnectUnity.Modal.Sample
 
             // When WalletConnectModal is ready, enable buttons and subscribe to other events.
             // WalletConnectModal.SignClient can be null if WalletConnectModal is not ready.
-            WalletConnectModal.Ready += (_, args) =>
+            if (WalletConnectModal.IsReady)
             {
-                // SessionResumed is true if Modal resumed session from storage
-                if (args.SessionResumed)
-                    EnableDappButtons();
-                else
-                    EnableNetworksList();
+                var connected = WalletConnect.Instance.IsConnected;
+                InitialiseDapp(connected);
+            }
+            else
+            {
+                WalletConnectModal.Ready += (_, args) => { InitialiseDapp(args.SessionResumed); };
+            }
+        }
 
-                // Invoked after wallet connected
-                WalletConnect.Instance.ActiveSessionChanged += (_, @struct) =>
+        private async void InitialiseDapp(bool connected)
+        {
+            // Use WalletConnect client id as Sentry user id for internal testing
+            var clientId = await WalletConnect.Instance.SignClient.Core.Crypto.GetClientId();
+            if (!string.IsNullOrWhiteSpace(clientId))
+                SentrySdk.ConfigureScope(scope =>
                 {
-                    if (string.IsNullOrEmpty(@struct.Topic))
-                        return;
+                    scope.User = new User
+                    {
+                        Id = clientId
+                    };
+                });
 
-                    Debug.Log($"[WalletConnectModalSample] Session connected. Topic: {@struct.Topic}");
-                    EnableDappButtons();
-                };
+            // SessionResumed is true if Modal resumed session from storage
+            if (connected)
+                EnableDappButtons();
+            else
+                EnableNetworksList();
 
-                // Invoked after wallet disconnected
-                WalletConnect.Instance.SessionDisconnected += (_, _) =>
-                {
-                    Debug.Log($"[WalletConnectModalSample] Session deleted.");
-                    EnableNetworksList();
-                };
+            // Invoked after wallet connected
+            WalletConnect.Instance.ActiveSessionChanged += (_, @struct) =>
+            {
+                if (string.IsNullOrEmpty(@struct.Topic))
+                    return;
+
+                Debug.Log($"[WalletConnectModalSample] Session connected. Topic: {@struct.Topic}");
+                EnableDappButtons();
+            };
+
+            // Invoked after wallet disconnected
+            WalletConnect.Instance.SessionDisconnected += (_, _) =>
+            {
+                Debug.Log($"[WalletConnectModalSample] Session deleted.");
+                EnableNetworksList();
             };
         }
 
@@ -83,7 +105,7 @@ namespace WalletConnectUnity.Modal.Sample
                     new BlockExplorer("Pera Explorer", "https://explorer.perawallet.app/"),
                     "https://mainnet-api.algonode.cloud",
                     false,
-                    "https://assets.coingecko.com/coins/images/4380/standard/download.png"
+                    "https://raw.githubusercontent.com/WalletConnect/WalletConnectUnity/project/modal-sample/.github/media/algorand-logo.jpeg"
                 );
 
                 var itemAlgorand = Instantiate(_networkListItemPrefab, _networkListContainer);
