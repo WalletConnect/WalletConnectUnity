@@ -156,7 +156,6 @@ namespace WalletConnectUnity.UI
         public void SetImageSprite(UnityEngine.UIElements.Image image, Sprite sprite)
         {
             image.sprite = sprite;
-            image.style.backgroundColor = Color.white;
         }
 
         public void ClearImageSprite(UnityEngine.UIElements.Image image)
