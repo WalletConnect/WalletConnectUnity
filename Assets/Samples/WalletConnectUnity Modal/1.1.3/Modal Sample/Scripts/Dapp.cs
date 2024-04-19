@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sentry;
 using UnityEngine;
 using UnityEngine.UI;
 using WalletConnectSharp.Sign.Models;
@@ -44,9 +43,9 @@ namespace WalletConnectUnity.Modal.Sample
             // Use WalletConnect client id as Sentry user id for internal testing
             var clientId = await WalletConnect.Instance.SignClient.Core.Crypto.GetClientId();
             if (!string.IsNullOrWhiteSpace(clientId))
-                SentrySdk.ConfigureScope(scope =>
+                Sentry.SentrySdk.ConfigureScope(scope =>
                 {
-                    scope.User = new User
+                    scope.User = new Sentry.SentryUser
                     {
                         Id = clientId
                     };
@@ -127,7 +126,12 @@ namespace WalletConnectUnity.Modal.Sample
         {
             var options = new WalletConnectModalOptions
             {
-                ConnectOptions = BuildConnectOptions()
+                ConnectOptions = BuildConnectOptions(),
+                ExcludedWalletIds = new[]
+                {
+                    // Exclude Coinbase wallet because it doesn't support WalletConnect protocol
+                    "fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa"
+                }
             };
 
             WalletConnectModal.Open(options);
