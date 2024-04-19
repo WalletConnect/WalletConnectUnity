@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sentry;
 using UnityEngine;
 using UnityEngine.UI;
 using WalletConnectSharp.Sign.Models;
@@ -42,15 +41,15 @@ namespace WalletConnectUnity.Modal.Sample
         private async void InitialiseDapp(bool connected)
         {
             // Use WalletConnect client id as Sentry user id for internal testing
-            var clientId = await WalletConnect.Instance.SignClient.Core.Crypto.GetClientId();
-            if (!string.IsNullOrWhiteSpace(clientId))
-                SentrySdk.ConfigureScope(scope =>
-                {
-                    scope.User = new User
-                    {
-                        Id = clientId
-                    };
-                });
+            // var clientId = await WalletConnect.Instance.SignClient.Core.Crypto.GetClientId();
+            // if (!string.IsNullOrWhiteSpace(clientId))
+            //     Sentry.SentrySdk.ConfigureScope(scope =>
+            //     {
+            //         scope.User = new Sentry.SentryUser
+            //         {
+            //             Id = clientId
+            //         };
+            //     });
 
             // SessionResumed is true if Modal resumed session from storage
             if (connected)
