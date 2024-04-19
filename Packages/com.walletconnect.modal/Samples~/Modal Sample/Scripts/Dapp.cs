@@ -126,7 +126,12 @@ namespace WalletConnectUnity.Modal.Sample
         {
             var options = new WalletConnectModalOptions
             {
-                ConnectOptions = BuildConnectOptions()
+                ConnectOptions = BuildConnectOptions(),
+                ExcludedWalletIds = new[]
+                {
+                    // Exclude Coinbase wallet because it doesn't support WalletConnect protocol
+                    "fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa"
+                }
             };
 
             WalletConnectModal.Open(options);
