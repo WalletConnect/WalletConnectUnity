@@ -83,6 +83,11 @@ namespace WalletConnectUnity.Core
         /// Invoked when the application is paused or resumed.
         /// </summary>
         public event Action<bool> ApplicationPause;
+        
+        /// <summary>
+        /// Invoked when the application gains or loses focus.
+        /// </summary>
+        public event Action<bool> ApplicationFocus;
 
         /// <summary>
         /// Invoked when the application is quitting.
@@ -101,6 +106,11 @@ namespace WalletConnectUnity.Core
         private void OnApplicationPause(bool pauseStatus)
         {
             ApplicationPause?.Invoke(pauseStatus);
+        }
+
+        private void OnApplicationFocus(bool hasFocus)
+        {
+            ApplicationFocus?.Invoke(hasFocus);
         }
 
         private void OnApplicationQuit()
