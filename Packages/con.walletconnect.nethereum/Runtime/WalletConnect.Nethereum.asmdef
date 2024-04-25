@@ -1,0 +1,16 @@
+{
+    "name": "WalletConnect.Nethereum",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4a34382dd43244a8f8e5cd6843ccb943"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
