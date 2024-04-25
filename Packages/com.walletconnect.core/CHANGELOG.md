@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `ApplicationFocus` event in UnityEventsDispatcher
 
+### Changed
+
+- Disable reference validation of external DLLs
+
 ## [3.1.4] - 2024-04-17
 
 ### Changed

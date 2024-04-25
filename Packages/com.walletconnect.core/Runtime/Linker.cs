@@ -180,8 +180,8 @@ namespace WalletConnectUnity.Core
         {
             if (disposed) return;
 
-            if (disposing) 
-_walletConnect.SignClient.Core.Relayer.Publisher.OnPublishedMessage -= OnPublisherPublishedMessage;
+            if (disposing)
+                _walletConnect.SignClient.Core.Relayer.Publisher.OnPublishedMessage -= OnPublisherPublishedMessage;
 
             disposed = true;
         }
