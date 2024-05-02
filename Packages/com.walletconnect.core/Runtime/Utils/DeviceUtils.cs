@@ -12,6 +12,8 @@ namespace WalletConnectUnity.Core.Utils
             return UnityEngine.iOS.Device.generation.ToString().Contains("iPad")
                 ? DeviceType.Tablet
                 : DeviceType.Phone;
+#elif UNITY_VISIONOS
+            return DeviceType.Tablet;
 #elif UNITY_ANDROID
             return DeviceType.Phone;
 #if !UNITY_EDITOR
@@ -51,6 +53,6 @@ namespace WalletConnectUnity.Core.Utils
         Desktop,
         Phone,
         Tablet,
-        Web,
+        Web
     }
 }
