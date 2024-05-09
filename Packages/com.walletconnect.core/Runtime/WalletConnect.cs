@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using WalletConnectSharp.Common.Logging;
+using WalletConnectSharp.Common.Model.Errors;
 using WalletConnectSharp.Sign;
 using WalletConnectSharp.Sign.Interfaces;
 using WalletConnectSharp.Sign.Models;
@@ -30,11 +31,17 @@ namespace WalletConnectUnity.Core
         public Linker Linker { get; private set; }
 
 
-        public SessionStruct ActiveSession => SignClient.AddressProvider.DefaultSession;
+        public SessionStruct ActiveSession
+        {
+            get => SignClient.AddressProvider.DefaultSession;
+        }
 
         public bool IsInitialized { get; private set; }
 
-        public bool IsConnected => !string.IsNullOrWhiteSpace(ActiveSession.Topic);
+        public bool IsConnected
+        {
+            get => !string.IsNullOrWhiteSpace(ActiveSession.Topic);
+        }
 
         private readonly SemaphoreSlim _initializationSemaphore = new(1, 1);
 
@@ -115,18 +122,22 @@ namespace WalletConnectUnity.Core
 
         public async Task<bool> TryResumeSessionAsync()
         {
-            var sessions = SignClient.Session.Values;
-            if (sessions.Length == 0)
+            await SignClient.AddressProvider.LoadDefaultsAsync();
+
+            var sessionTopic = SignClient.AddressProvider.DefaultSession.Topic;
+
+            if (string.IsNullOrWhiteSpace(sessionTopic))
                 return false;
 
-            var session = Array.Find(sessions, session => session.Acknowledged == true);
-
-            if (string.IsNullOrWhiteSpace(session.Topic))
+            try
+            {
+                await SignClient.Extend(sessionTopic);
+            }
+            catch (WalletConnectException)
+            {
+                SignClient.AddressProvider.DefaultSession = default;
                 return false;
-
-            SignClient.AddressProvider.DefaultSession = session;
-
-            await SignClient.Extend(session.Topic);
+            }
 
             return true;
         }
@@ -201,7 +212,7 @@ namespace WalletConnectUnity.Core
 
         private static async Task<IKeyValueStorage> BuildStorage()
         {
-#if UNITY_WEBGL
+#if UNITY_WEBGL && !UNITY_EDITOR
             var currentSyncContext = SynchronizationContext.Current;
             if (currentSyncContext.GetType().FullName != "UnityEngine.UnitySynchronizationContext")
                 throw new Exception(
