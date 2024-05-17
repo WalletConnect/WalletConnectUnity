@@ -1,0 +1,28 @@
+name: Test permissions
+
+on: workflow_dispatch
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make changes to pull request
+        run: date +%s > report.txt
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: Update report
+          signoff: false
+          branch: workflow-test
+          delete-branch: true
+          title: 'TEST'
+          body: |
+            TEST
+          draft: false
