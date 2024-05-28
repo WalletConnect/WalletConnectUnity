@@ -22,7 +22,7 @@ namespace WalletConnectUnity.Core.Evm
                 {
                     await walletConnect.RequestAsync<WalletAddEthereumChain, string>(request);
                 }
-                catch (WalletConnectException e)
+                catch (WalletConnectException)
                 {
                     // Wallet can decline if chain has already been added
                 }

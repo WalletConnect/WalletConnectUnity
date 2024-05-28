@@ -38,8 +38,7 @@ namespace WalletConnectUnity.Core
             // In editor we cannot open _mobile_ deep links, so we just log the uri
             Debug.Log($"[Linker] Requested to open mobile deep link. The uri: {uri}");
             return;
-#endif
-
+#else
             var link = Application.isMobilePlatform ? wallet.MobileLink : wallet.DesktopLink;
 
             if (string.IsNullOrWhiteSpace(link))
@@ -51,6 +50,7 @@ namespace WalletConnectUnity.Core
             WCLogger.Log($"[Linker] Opening URL {url}");
 
             Application.OpenURL(url);
+#endif
         }
 
         public static void OpenSessionRequestDeepLink(in SessionStruct session)
