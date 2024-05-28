@@ -54,7 +54,6 @@ namespace WalletConnectUnity.Core
 
         public event EventHandler<string> ActiveChainIdChanged;
 
-        private SessionStruct _activeSession;
         protected bool disposed;
 
         public async Task<IWalletConnect> InitializeAsync()

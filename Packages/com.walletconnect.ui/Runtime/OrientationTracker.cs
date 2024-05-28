@@ -11,7 +11,10 @@ namespace WalletConnectUnity.UI
 
         private static OrientationTracker _instance;
 
-        public static ScreenOrientation LastOrientation => _instance._lastOrientation;
+        public static ScreenOrientation LastOrientation
+        {
+            get => _instance._lastOrientation;
+        }
 
         private void Awake()
         {
@@ -36,7 +39,7 @@ namespace WalletConnectUnity.UI
             if (orientation != _lastOrientation)
             {
                 _lastOrientation = orientation;
-                OrientationChanged?.Invoke(this, orientation);
+                OrientationChanged?.Invoke(null, orientation);
             }
         }
 #endif

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace WalletConnectUnity.Core.Utils
 {
-    public class DeviceUtils
+    public static class DeviceUtils
     {
         public static DeviceType GetDeviceType()
         {
