@@ -55,7 +55,11 @@ namespace WalletConnectUnity.Nethereum
 
                 if (request.Method == ApiMethods.eth_signTypedData_v4.ToString())
                 {
-                    return await _walletConnectService.EthSignTypedDataV4Async((string)request.RawParameters[0]);
+                    // If parameter has only one element, it's a json data.
+                    // Otherwise, expect the data to be at index 1
+                    var dataIndex = request.RawParameters.Length > 1 ? 1 : 0;
+                    
+                    return await _walletConnectService.EthSignTypedDataV4Async((string)request.RawParameters[dataIndex]);
                 }
 
                 if (request.Method == ApiMethods.wallet_switchEthereumChain.ToString())
