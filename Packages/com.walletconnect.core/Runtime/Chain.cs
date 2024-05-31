@@ -264,7 +264,7 @@ namespace WalletConnectUnity.Core
                 "Polygon",
                 new Currency("Matic", "MATIC", 18),
                 new BlockExplorer("Polygon Explorer", "https://polygonscan.com"),
-                "https://rpc-mainnet.maticvigil.com",
+                "https://polygon-rpc.com",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Polygon]}",
                 "polygon"
