@@ -6,7 +6,7 @@ namespace WalletConnectUnity.Core.Utils
 {
     public class QRCode
     {
-        public static Texture2D EncodeTexture(string textForEncoding, int width = 1024, int height = 1024)
+        public static Texture2D EncodeTexture(string textForEncoding, int width = 512, int height = 512)
         {
             var pixels = EncodePixels(textForEncoding, width, height);
 
@@ -19,7 +19,7 @@ namespace WalletConnectUnity.Core.Utils
             return texture;
         }
 
-        public static Color32[] EncodePixels(string textForEncoding, int width = 1024, int height = 1024)
+        public static Color32[] EncodePixels(string textForEncoding, int width = 512, int height = 512)
         {
             var qrCodeEncodingOptions = new QrCodeEncodingOptions
             {
