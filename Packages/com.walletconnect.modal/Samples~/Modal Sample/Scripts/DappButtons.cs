@@ -41,8 +41,7 @@ namespace WalletConnectUnity.Modal.Sample
 
             var session = WalletConnect.Instance.ActiveSession;
             var sessionNamespace = session.Namespaces;
-            var address = WalletConnect.Instance.ActiveSession.CurrentAddress(sessionNamespace.Keys.FirstOrDefault())
-                .Address;
+            var address = WalletConnect.Instance.SignClient.AddressProvider.CurrentAddress().Address;
 
             var data = new PersonalSign("Hello world!", address);
 
@@ -69,8 +68,7 @@ namespace WalletConnectUnity.Modal.Sample
 
             var session = WalletConnect.Instance.ActiveSession;
             var sessionNamespace = session.Namespaces;
-            var address = WalletConnect.Instance.ActiveSession.CurrentAddress(sessionNamespace.Keys.FirstOrDefault())
-                .Address;
+            var address = WalletConnect.Instance.SignClient.AddressProvider.CurrentAddress().Address;
 
             var request = new EthSendTransaction(new Transaction
             {

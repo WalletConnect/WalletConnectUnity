@@ -19,12 +19,15 @@ namespace WalletConnectUnity.Modal
 
         [field: SerializeField] private bool ResumeSessionOnInit { get; set; } = true;
 
-        [field: SerializeField, Space] private WCModal Modal { get; set; }
+        [field: SerializeField] [field: Space] private WCModal Modal { get; set; }
 
         [field: SerializeField] private SerializableDictionary<ViewType, WCModalView> Views { get; set; } = new();
 
-        public static ISignClient SignClient => WalletConnect.Instance.SignClient;
-        
+        public static ISignClient SignClient
+        {
+            get => WalletConnect.Instance.SignClient;
+        }
+
         public static UnityWebRequestWalletsFactory WalletsRequestsFactory { get; private set; }
 
         internal static ConnectionController ConnectionController { get; private set; }
@@ -37,7 +40,7 @@ namespace WalletConnectUnity.Modal
 
         [Obsolete("Use WalletConnect.Instance.SessionConnected instead")]
         public static event EventHandler Connected;
-        
+
         // TODO: make ConnectionError generic
         public static event EventHandler ConnectionError;
         public static event EventHandler<ModalReadyEventArgs> Ready;
@@ -48,14 +51,14 @@ namespace WalletConnectUnity.Modal
         {
             if (!TryConfigureSingleton())
                 return;
-            
+
             if (InitializeOnAwake)
                 await InitializeAsync();
         }
 
         public static async Task InitializeAsync()
         {
-            UnityWebRequestExtensions.sdkVersion = "unity-wcm-v1.1.6"; // TODO: update this from CI
+            UnityWebRequestExtensions.sdkVersion = "unity-wcm-v1.1.7"; // TODO: update this from CI
 
             await WalletConnect.Instance.InitializeAsync();
 
@@ -161,7 +164,7 @@ namespace WalletConnectUnity.Modal
 
     public enum ViewType : sbyte
     {
-        Connect = 1,
+        Connect = 1
     }
 
     public class ModalReadyEventArgs : EventArgs
