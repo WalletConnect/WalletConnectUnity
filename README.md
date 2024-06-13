@@ -1,8 +1,28 @@
 
 # WalletConnectUnity
-This repository is a monorepo of packages that extend [WalletConnectSharp](https://github.com/WalletConnect/WalletConnectSharp) and brings WalletConnect to Unity.
+This repository is a monorepo of low-level packages that bring WalletConnect to Unity.
 
-## Packages
+### AppKit
+
+[WalletConenct AppKit](https://docs.walletconnect.com/appkit/unity/core/installation) offers a feature-rich and user-friendly solution for integrating Web3 with Unity-based apps. Use the `Modal` or `Core` packages from the `WalletConnectUnity` repository only when AppKit does not meet specific needs, such as integrations with non-EVM chains. Below is a feature matrix comparing WalletConnect Modal and AppKit.
+
+|                           	| WalletConnect Modal 	| AppKit (Web3Modal)                  	|
+|---------------------------	|---------------------	|-------------------------------------	|
+| WalletConnect             	| ✅                   	| ✅                                   	|
+| Network Switching         	| ❌                   	| ✅                                   	|
+| EVM Interaction API       	| ❌                   	| ✅                                   	|
+| Coinbase Wallet           	| ❌                   	| ✅ (WebGL only)                      	|
+| Browser Extension Wallets 	| ❌                   	| ✅ (WebGL only)                      	|
+| Fiat Onramp               	| ❌                   	| ✅ (WebGL only)                      	|
+| ENS Resolution            	| ❌                   	| ✅ in WebGL; 🔜 on native             	|
+| Email & Social Login      	| ❌                   	| 🔜                                   	|
+| UI Framework              	| uGUI                	| UI Toolkit in native, HTML in WebGL 	|
+| Supported Networks        	| Blockchain-agnostic 	| Only EVM                            	|
+
+- 📚 [AppKit Documentation](https://docs.walletconnect.com/appkit/unity/core/installation)
+- :octocat: [AppKit Repository](https://github.com/WalletConnect/Web3ModalUnity)
+
+## WalletConnectUnity Packages
 | Package | Description                                                                                                                                                                                                                                                                                                                                                                              | OpenUPM |
 |---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
 | Core | High-level, Unity-friendly extension of [WalletConnectSharp](https://github.com/WalletConnect/WalletConnectSharp)<br>- Automatic active session management<br>- Option to resume session from storage<br>- Deep linking support<br>- IL2CPP support<br>- Lightweight `IJsonRpcConnection` implementation<br>- QR Code generation utility<br>- API to load wallets data and visual assets | [![openupm](https://img.shields.io/npm/v/com.walletconnect.core?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.walletconnect.core/) |
