@@ -179,7 +179,7 @@ namespace WalletConnectUnity.Core
                 References.Ronin,
                 "Ronin",
                 new Currency("Ronin", "RON", 18),
-                new BlockExplorer("Ronin Explorer", "https://api-gateway.skymavis.com/rpc"),
+                new BlockExplorer("Ronin Explorer", "https://app.roninchain.com/"),
                 "https://api.roninchain.com/rpc",
                 false,
                 $"{ChainImageUrl}/{ImageIds[References.Ronin]}",
