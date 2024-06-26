@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.8] - 2024-06-26
+
+### Fixed
+
+- Incorrect Ronin chain explorer URL
+- Warming about unnecessary zxing asmdef file
+
 ## [3.1.7] - 2024-06-07
 
 ### Changed
@@ -13,11 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
- - `Unreachable code detected` warnings
- - `WalletConnectInterceptor` doesn't support `eth_signTypedData_v4` requests with more than 1 parameter
- - Deprecated Polygon RPC URL
- - Dependency collision with UniRx and Cysharp/R3
- - Generated QR code textures taking up too much memory
+- `Unreachable code detected` warnings
+- `WalletConnectInterceptor` doesn't support `eth_signTypedData_v4` requests with more than 1 parameter
+- Deprecated Polygon RPC URL
+- Dependency collision with UniRx and Cysharp/R3
+- Generated QR code textures taking up too much memory
 
 ## [3.1.6] - 2024-05-09
 

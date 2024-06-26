@@ -1,11 +1,8 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using WalletConnectSharp.Sign.Interfaces;
 using WalletConnectSharp.Sign.Models;
-using WalletConnectSharp.Sign.Models.Engine.Events;
-using WalletConnectSharp.Sign.Models.Engine.Methods;
 using WalletConnectUnity.Core;
 using WalletConnectUnity.Core.Networking;
 using WalletConnectUnity.Core.Utils;
@@ -58,7 +55,7 @@ namespace WalletConnectUnity.Modal
 
         public static async Task InitializeAsync()
         {
-            UnityWebRequestExtensions.sdkVersion = "unity-wcm-v1.1.7"; // TODO: update this from CI
+            SdkMetadata.Version = "unity-wcm-v1.1.8"; // TODO: update this from CI
 
             await WalletConnect.Instance.InitializeAsync();
 
