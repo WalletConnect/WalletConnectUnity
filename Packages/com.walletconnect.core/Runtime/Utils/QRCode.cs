@@ -8,7 +8,12 @@ namespace WalletConnectUnity.Core.Utils
     {
         public static Texture2D EncodeTexture(string textForEncoding, int width = 512, int height = 512)
         {
-            var pixels = EncodePixels(textForEncoding, width, height);
+            return EncodeTexture(textForEncoding, Color.black, Color.white, width, height);
+        }
+
+        public static Texture2D EncodeTexture(string textForEncoding, Color fgColor, Color bgColor, int width = 512, int height = 512)
+        {
+            var pixels = EncodePixels(textForEncoding, fgColor, bgColor, width, height);
 
             var texture = new Texture2D(width, height);
             texture.SetPixels32(pixels);
