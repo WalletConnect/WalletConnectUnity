@@ -14,7 +14,7 @@ This repository is a monorepo of low-level packages that bring WalletConnect to 
 | Coinbase Wallet           	| ❌                   	| ✅ (WebGL only)                      	|
 | Browser Extension Wallets 	| ❌                   	| ✅ (WebGL only)                      	|
 | Fiat Onramp               	| ❌                   	| ✅ (WebGL only)                      	|
-| ENS Resolution            	| ❌                   	| ✅ in WebGL; 🔜 on native             	|
+| ENS Resolution            	| ❌                   	| ✅              	                    |
 | Email & Social Login      	| ❌                   	| 🔜                                   	|
 | UI Framework              	| uGUI                	| UI Toolkit in native, HTML in WebGL 	|
 | Supported Networks        	| Blockchain-agnostic 	| Only EVM                            	|
