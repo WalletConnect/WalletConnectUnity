@@ -8,7 +8,12 @@ namespace WalletConnectUnity.Core.Utils
     {
         public static Texture2D EncodeTexture(string textForEncoding, int width = 512, int height = 512)
         {
-            var pixels = EncodePixels(textForEncoding, width, height);
+            return EncodeTexture(textForEncoding, Color.black, Color.white, width, height);
+        }
+
+        public static Texture2D EncodeTexture(string textForEncoding, Color fgColor, Color bgColor, int width = 512, int height = 512)
+        {
+            var pixels = EncodePixels(textForEncoding, fgColor, bgColor, width, height);
 
             var texture = new Texture2D(width, height);
             texture.SetPixels32(pixels);
@@ -21,6 +26,11 @@ namespace WalletConnectUnity.Core.Utils
 
         public static Color32[] EncodePixels(string textForEncoding, int width = 512, int height = 512)
         {
+            return EncodePixels(textForEncoding, Color.black, Color.white, width, height);
+        }
+
+        public static Color32[] EncodePixels(string textForEncoding, Color fgColor, Color bgColor, int width = 512, int height = 512)
+        {
             var qrCodeEncodingOptions = new QrCodeEncodingOptions
             {
                 Height = height,
@@ -32,7 +42,12 @@ namespace WalletConnectUnity.Core.Utils
             var writer = new BarcodeWriter
             {
                 Format = BarcodeFormat.QR_CODE,
-                Options = qrCodeEncodingOptions
+                Options = qrCodeEncodingOptions,
+                Renderer = new Color32Renderer
+                {
+                    Foreground = fgColor,
+                    Background = bgColor
+                }
             };
 
             return writer.Write(textForEncoding);
