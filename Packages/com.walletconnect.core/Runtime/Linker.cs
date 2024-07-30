@@ -57,21 +57,34 @@ namespace WalletConnectUnity.Core
             if (string.IsNullOrWhiteSpace(session.Topic))
                 throw new Exception("[Linker] No session topic found in provided session. Cannot open deep link.");
 
-            if (session.Peer.Metadata != null)
-            {
-                var redirectNative = session.Peer.Metadata.Redirect.Native;
+            if (session.Peer.Metadata == null)
+                return;
 
-                if (string.IsNullOrWhiteSpace(redirectNative) && WalletUtils.TryGetRecentWallet(out var recentWallet))
-                {
-                    WCLogger.LogError(
-                        $"[Linker] No redirect found for {session.Peer.Metadata.Name}. Using deep link from the Recent Wallet.");
-                    Application.OpenURL(Application.isMobilePlatform ? recentWallet.MobileLink : recentWallet.DesktopLink);
-                }
-                else
-                {
-                    WCLogger.Log($"[Linker] Open native deep link: {redirectNative}");
-                    Application.OpenURL(redirectNative);
-                }
+            var redirectNative = session.Peer.Metadata.Redirect?.Native;
+
+            if (string.IsNullOrWhiteSpace(redirectNative))
+            {
+                if (!WalletUtils.TryGetRecentWallet(out var recentWallet))
+                    return;
+
+                Debug.LogWarning(
+                    $"[Linker] No redirect found for {session.Peer.Metadata.Name}. Using deep link from the Recent Wallet."
+                );
+
+                redirectNative = Application.isMobilePlatform ? recentWallet.MobileLink : recentWallet.DesktopLink;
+                if (!redirectNative.EndsWith("://"))
+                    redirectNative = $"{redirectNative}://";
+
+                Application.OpenURL(redirectNative);
+            }
+            else
+            {
+                WCLogger.Log($"[Linker] Open native deep link: {redirectNative}");
+
+                if (!redirectNative.EndsWith("://"))
+                    redirectNative = $"{redirectNative}://";
+
+                Application.OpenURL(redirectNative);
             }
         }
 
