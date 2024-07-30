@@ -18,8 +18,8 @@ namespace WalletConnectUnity.Core.Utils
             var texture = new Texture2D(width, height);
             texture.SetPixels32(pixels);
             texture.filterMode = FilterMode.Point;
-            texture.Compress(true);
             texture.Apply();
+            texture.Compress(true);
 
             return texture;
         }
