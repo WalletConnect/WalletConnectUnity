@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.10] - 2024-07-31
+
+### Changed
+
+- Upgraded WalletConnectSharp to [v2.4.1](https://github.com/WalletConnect/WalletConnectSharp/releases/tag/v2.4.1)
+
+### Fixed
+
+- Occasionally a grey texture would appear instead of a QR code
+- Deep linking didn't work with some wallets on mobile
+
 ## [3.1.10] - 2024-07-16
 
 - Upgraded WalletConnectSharp to [v2.4.0](https://github.com/WalletConnect/WalletConnectSharp/releases/tag/v2.4.0)
