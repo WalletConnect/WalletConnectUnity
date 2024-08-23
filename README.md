@@ -15,6 +15,7 @@ This repository is a monorepo of low-level packages that bring WalletConnect to 
 | Browser Extension Wallets 	| ❌                   	| ✅ (WebGL only)                      	|
 | Fiat Onramp               	| ❌                   	| ✅ (WebGL only)                      	|
 | ENS Resolution            	| ❌                   	| ✅              	                    |
+| Swaps            	          | ❌                   	| ✅ (WebGL only)             	        |
 | Email & Social Login      	| ❌                   	| 🔜                                   	|
 | UI Framework              	| uGUI                	| UI Toolkit in native, HTML in WebGL 	|
 | Supported Networks        	| Blockchain-agnostic 	| Only EVM                            	|
