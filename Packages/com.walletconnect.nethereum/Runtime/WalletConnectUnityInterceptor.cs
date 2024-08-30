@@ -30,8 +30,18 @@ namespace WalletConnectUnity.Nethereum
             var result = WalletConnectInterceptor.InterceptSendRequestAsync(interceptedSendRequestAsync, request, route);
 
 #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
-            var activeSessionTopic = WalletConnectInstance.ActiveSession.Topic;
-            WalletConnectInstance.Linker.OpenSessionRequestDeepLinkAfterMessageFromSession(activeSessionTopic);
+            try
+            {
+                if (WalletConnectInterceptor.SignMethods.Contains(request.Method))
+                {
+                    var activeSessionTopic = WalletConnectInstance.ActiveSession.Topic;
+                    WalletConnectInstance.Linker.OpenSessionRequestDeepLinkAfterMessageFromSession(activeSessionTopic);
+                }
+            }
+            catch (Exception e)
+            {
+                WCLogger.LogError(e);
+            }
 #endif
 
             return result;
@@ -45,8 +55,18 @@ namespace WalletConnectUnity.Nethereum
             var result = WalletConnectInterceptor.InterceptSendRequestAsync(interceptedSendRequestAsync, method, route, paramList);
 
 #if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
-            var activeSessionTopic = WalletConnectInstance.ActiveSession.Topic;
-            WalletConnectInstance.Linker.OpenSessionRequestDeepLinkAfterMessageFromSession(activeSessionTopic);
+            try
+            {
+                if (WalletConnectInterceptor.SignMethods.Contains(method))
+                {
+                    var activeSessionTopic = WalletConnectInstance.ActiveSession.Topic;
+                    WalletConnectInstance.Linker.OpenSessionRequestDeepLinkAfterMessageFromSession(activeSessionTopic);
+                }
+            }
+            catch (Exception e)
+            {
+                WCLogger.LogError(e);
+            }
 #endif
 
             return result;

@@ -74,4 +74,18 @@ namespace WalletConnectUnity.Core.Evm
         {
         }
     }
+    
+    [RpcMethod("eth_sendRawTransaction")]
+    [RpcRequestOptions(Clock.ONE_MINUTE, 99996)]
+    public class EthSendRawTransaction : List<string>
+    {
+        public EthSendRawTransaction(string transaction) : base(new[] { transaction })
+        {
+        }
+
+        [Preserve]
+        public EthSendRawTransaction()
+        {
+        }
+    }
 }
