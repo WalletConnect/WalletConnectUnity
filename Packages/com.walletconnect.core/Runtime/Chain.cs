@@ -262,7 +262,7 @@ namespace WalletConnectUnity.Core
                 Namespaces.Evm,
                 "137",
                 "Polygon",
-                new Currency("Matic", "MATIC", 18),
+                new Currency("Polygon Ecosystem Token", "POL", 18),
                 new BlockExplorer("Polygon Explorer", "https://polygonscan.com"),
                 "https://polygon-rpc.com",
                 false,
