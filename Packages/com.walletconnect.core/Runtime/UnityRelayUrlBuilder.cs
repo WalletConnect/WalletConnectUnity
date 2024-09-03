@@ -11,37 +11,44 @@ namespace WalletConnectUnity.Core
 
         public override (string name, string version) GetOsInfo()
         {
+            try
+            {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            var splitOS = SystemInfo.operatingSystem.Split(' ');
-            return ("android", splitOS[2]);
+                var splitOS = SystemInfo.operatingSystem.Split(' ');
+                return ("android", splitOS[2]);
 #elif UNITY_IOS && !UNITY_EDITOR
-            var splitOS = SystemInfo.operatingSystem.Split(' ');
-            // var platform = splitOS[0].ToLower();
-            var version = splitOS[1];
-            return ("ios", version);
+                var splitOS = SystemInfo.operatingSystem.Split(' ');
+                // var platform = splitOS[0].ToLower();
+                var version = splitOS[1];
+                return ("ios", version);
 #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-            var osString = SystemInfo.operatingSystem;
-            var startIndex = osString.IndexOf("OS X", StringComparison.Ordinal) + 5;
-            var version = osString.Substring(startIndex);
-            return ("macos", version);
+                var osString = SystemInfo.operatingSystem;
+                var startIndex = osString.IndexOf("OS X", StringComparison.Ordinal) + 5;
+                var version = osString.Substring(startIndex);
+                return ("macos", version);
 #elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-            var splitOS = SystemInfo.operatingSystem.Split(' ');
-            var version = splitOS[1]; // e.g. Vista or 11
-            var architecture = splitOS[^1]; // e.g. 64bit
-            return ("windows", $"{version}-{architecture}");
+                var splitOS = SystemInfo.operatingSystem.Split(' ');
+                var version = splitOS[1]; // e.g. Vista or 11
+                var architecture = splitOS[^1]; // e.g. 64bit
+                return ("windows", $"{version}-{architecture}");
 #elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
-            var splitOS = SystemInfo.operatingSystem.Split(' ');
-            if (splitOS.Length < 5)
-                return ("linux", "unknown");
+                var splitOS = SystemInfo.operatingSystem.Split(' ');
+                if (splitOS.Length < 5)
+                    return ("linux", "unknown");
 
-            var kernelVersion = splitOS[1];
-            var distribution = splitOS[2];
-            var architecture = splitOS[splitOS.Length - 1];
-            
-            return ("linux", $"{distribution}-{kernelVersion}-{architecture}");
+                var kernelVersion = splitOS[1];
+                var distribution = splitOS[2];
+                var architecture = splitOS[splitOS.Length - 1];
+                
+                return ("linux", $"{distribution}-{kernelVersion}-{architecture}");
 #else
-            return base.GetOsInfo();
+                return base.GetOsInfo();
 #endif
+            }
+            catch (UnityException)
+            {
+                return base.GetOsInfo();
+            }
         }
 
         public override (string name, string version) GetSdkInfo()
@@ -51,12 +58,19 @@ namespace WalletConnectUnity.Core
 
         protected override bool TryGetOrigin(out string origin)
         {
+            try
+            {
 #if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
-            origin = Application.identifier;
-            return true;
+                origin = Application.identifier;
+                return true;
 #else
-            return base.TryGetOrigin(out origin);
+                return base.TryGetOrigin(out origin);
 #endif
+            }
+            catch (UnityException)
+            {
+                return base.TryGetOrigin(out origin);
+            }
         }
     }
 }
