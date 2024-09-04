@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 using WalletConnectUnity.Core.Utils;
@@ -24,6 +25,9 @@ namespace WalletConnectUnity.Core.Evm
 
         [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
         public string data = "0x";
+        
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        public string type;
 
         [Preserve]
         public Transaction()

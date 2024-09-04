@@ -176,6 +176,9 @@ namespace WalletConnectUnity.Core
             if (sessionEvent.ChainId == "eip155:0")
                 return;
 
+            // Wait for the session to be updated before changing the default chain id
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            
             try
             {
                 await Instance.SignClient.AddressProvider.SetDefaultChainIdAsync(sessionEvent.ChainId);
