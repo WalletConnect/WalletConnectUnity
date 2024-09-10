@@ -12,13 +12,17 @@ namespace WalletConnectUnity.Core.Evm
             if (ethereumChain == null)
                 throw new ArgumentNullException(nameof(ethereumChain));
             
-            var tcs = new TaskCompletionSource<bool>();
-            walletConnect.ActiveChainIdChanged += OnChainChanged;
             
-            var ciap2ChainId = $"eip155:{ethereumChain.chainIdDecimal}";
-            if (!walletConnect.ActiveSession.Namespaces.TryGetValue("eip155", out var @namespace)
-                || !@namespace.Chains.Contains(ciap2ChainId))
+            if (!walletConnect.ActiveSession.Namespaces.TryGetValue("eip155", out var @namespace))
+                throw new InvalidOperationException("EIP-155 namespace not found");
+            
+            var caip2ChainId = $"eip155:{ethereumChain.chainIdDecimal}";
+            
+            if (!@namespace.Chains.Contains(caip2ChainId))
             {
+                var tcs = new TaskCompletionSource<bool>();
+                walletConnect.ActiveChainIdChanged += OnChainChanged;
+                
                 var request = new WalletAddEthereumChain(ethereumChain);
 
                 try
@@ -43,14 +47,18 @@ namespace WalletConnectUnity.Core.Evm
                 {
                     // Wallet can decline if chain has already been added
                 }
+                
+                void OnChainChanged(object sender, string chainId)
+                {
+                    if (chainId != $"eip155:{ethereumChain.chainIdDecimal}")
+                        return;
+
+                    tcs.SetResult(true);
+                }
             }
-
-            void OnChainChanged(object sender, string chainId)
+            else
             {
-                if (chainId != $"eip155:{ethereumChain.chainIdDecimal}")
-                    return;
-
-                tcs.SetResult(true);
+                await walletConnect.SignClient.AddressProvider.SetDefaultChainIdAsync(caip2ChainId);
             }
         }
     }
