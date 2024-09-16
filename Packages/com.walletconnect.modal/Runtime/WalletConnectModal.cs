@@ -55,7 +55,7 @@ namespace WalletConnectUnity.Modal
 
         public static async Task InitializeAsync()
         {
-            SdkMetadata.Version = "unity-wcm-v1.1.11"; // TODO: update this from CI
+            SdkMetadata.Version = "unity-wcm-v1.1.12"; // TODO: update this from CI
 
             await WalletConnect.Instance.InitializeAsync();
 
