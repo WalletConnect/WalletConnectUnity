@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Nethereum.JsonRpc.Client;
+using WalletConnectSharp.Common.Logging;
 using WalletConnectUnity.Core;
 
 namespace WalletConnectUnity.Nethereum
