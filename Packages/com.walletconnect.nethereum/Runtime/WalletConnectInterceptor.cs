@@ -12,7 +12,7 @@ namespace WalletConnectUnity.Nethereum
     {
         private readonly WalletConnectService _walletConnectService;
 
-        private readonly HashSet<string> _signMethods = new()
+        public readonly HashSet<string> SignMethods = new()
         {
             ApiMethods.eth_sendTransaction.ToString(),
             ApiMethods.personal_sign.ToString(),
@@ -31,7 +31,7 @@ namespace WalletConnectUnity.Nethereum
             RpcRequest request,
             string route = null)
         {
-            if (!_signMethods.Contains(request.Method))
+            if (!SignMethods.Contains(request.Method))
             {
                 return await base
                     .InterceptSendRequestAsync(interceptedSendRequestAsync, request, route)
@@ -86,7 +86,7 @@ namespace WalletConnectUnity.Nethereum
             string route = null,
             params object[] paramList)
         {
-            if (!_signMethods.Contains(method))
+            if (!SignMethods.Contains(method))
             {
                 return await base
                     .InterceptSendRequestAsync(interceptedSendRequestAsync, method, route, paramList)
