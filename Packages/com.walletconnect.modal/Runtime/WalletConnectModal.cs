@@ -10,6 +10,7 @@ using WalletConnectUnity.UI;
 
 namespace WalletConnectUnity.Modal
 {
+    [Obsolete("WalletConnect Modal is now considered deprecated and will reach End-of-Life on February 17th 2025. For more details, including migration guides please see: https://docs.reown.com")]
     public sealed class WalletConnectModal : MonoBehaviour
     {
         [field: SerializeField] private bool InitializeOnAwake { get; set; } = true;
@@ -55,7 +56,7 @@ namespace WalletConnectUnity.Modal
 
         public static async Task InitializeAsync()
         {
-            SdkMetadata.Version = "unity-wcm-v1.1.12"; // TODO: update this from CI
+            SdkMetadata.Version = "unity-wcm-v1.1.13"; // TODO: update this from CI
 
             await WalletConnect.Instance.InitializeAsync();
 
